@@ -12,18 +12,24 @@ test("los planes se presentan sin precios inventados", async ({ page }) => {
   expect(await cards.allInnerTexts()).not.toContainEqual(expect.stringContaining("₡"));
 });
 
-test("se cotiza un plan de una vez, sin cuenta y sin salir de la página", async ({ page }) => {
+test("Servicios ya no tiene formulario de cotización", async ({ page }) => {
+  await page.goto("/servicios");
+  await expect(page.locator("main form")).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Solicita tu cotización" })).toHaveCount(0);
+  await expect(page.locator("#cotizar")).toHaveCount(0);
+});
+
+test("el botón del plan lleva a Contacto con el plan elegido, sin pedir cuenta", async ({ page }) => {
   const name = `Plan ${Date.now()}`;
   await page.goto("/servicios");
   await page.getByRole("link", { name: "Solicitar cotización del Plan Crecimiento" }).click();
-  await expect(page).toHaveURL(/\/servicios#cotizar$/);
+  await expect(page).toHaveURL(/\/contacto\?servicio=plan-crecimiento#cotizacion$/);
   await expect(page.getByLabel("Servicio de interés")).toHaveValue("plan-crecimiento");
-  await expect(page.getByLabel("Nombre")).toBeFocused();
 
   await page.getByLabel("Nombre").fill(name);
   await page.getByLabel("Correo o teléfono").fill("6336 0450");
   await page.getByLabel(/Autorizo/).check();
-  await page.getByRole("button", { name: "Solicitar cotización" }).click();
+  await page.locator("main form").getByRole("button", { name: "Solicitar cotización" }).click();
   await expect(page.getByText("¡Recibimos tu solicitud!")).toBeVisible();
 
   await loginAsAdmin(page);
@@ -31,19 +37,21 @@ test("se cotiza un plan de una vez, sin cuenta y sin salir de la página", async
   await expect(page.getByRole("row", { name: new RegExp(name) }).getByText("Plan Crecimiento")).toBeVisible();
 });
 
-test("cambiar de plan actualiza el formulario sin borrar lo escrito", async ({ page }) => {
+test("el botón final de Servicios también lleva al formulario de Contacto", async ({ page }) => {
   await page.goto("/servicios");
-  await page.getByLabel("Nombre").fill("Ana Pérez");
-  await page.getByRole("link", { name: "Solicitar cotización del Plan Completo" }).click();
-  await expect(page.getByLabel("Servicio de interés")).toHaveValue("plan-completo");
-  await expect(page.getByLabel("Nombre")).toHaveValue("Ana Pérez");
+  const link = page.locator("main").getByRole("link", { name: "Solicitar cotización", exact: true });
+  await expect(link).toHaveAttribute("href", "/contacto#cotizacion");
 });
 
-test("sin JavaScript el botón del plan lleva al formulario", async ({ browser }) => {
+test("un plan inventado en la dirección no se preselecciona", async ({ page }) => {
+  await page.goto("/contacto?servicio=plan-falso");
+  await expect(page.getByLabel("Servicio de interés")).not.toHaveValue("plan-falso");
+});
+
+test("sin JavaScript el botón del plan sigue llevando a Contacto", async ({ browser }) => {
   const ctx = await browser.newContext({ javaScriptEnabled: false });
   const page = await ctx.newPage();
   await page.goto("/servicios");
-  await expect(page.getByRole("link", { name: "Solicitar cotización del Plan Inicio" })).toHaveAttribute("href", /#cotizar$/);
-  await expect(page.locator("#cotizar form")).toBeAttached();
+  await expect(page.getByRole("link", { name: "Solicitar cotización del Plan Inicio" })).toHaveAttribute("href", "/contacto?servicio=plan-inicio#cotizacion");
   await ctx.close();
 });

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getContent } from "@/server/content";
 import { formTokens } from "@/server/security";
 import { getServiceBySlug, SERVICES } from "@/lib/services/catalog";
+import { isQuotePlan, QUOTE_PLAN_IDS } from "@/lib/quotes/plans";
 import { ContactSection } from "@/components/site/ContactSection";
 import { QuoteForm } from "@/components/site/QuoteForm";
 import { Container } from "@/components/ui/Container";
@@ -11,8 +12,9 @@ export const dynamic = "force-dynamic";
 
 export default async function ContactPage({ searchParams }: { searchParams: Promise<{ servicio?: string }> }) {
   const { servicio } = await searchParams;
-  const [contact, social, formToken] = await Promise.all([getContent("contact"), getContent("social"), formTokens.issueFormToken()]);
-  const initial = servicio && getServiceBySlug(servicio) ? servicio : SERVICES[0].slug;
+  const [contact, social, services, formToken] = await Promise.all([getContent("contact"), getContent("social"), getContent("services"), formTokens.issueFormToken()]);
+  const initial = servicio && (getServiceBySlug(servicio) || isQuotePlan(servicio)) ? servicio : SERVICES[0].slug;
+  const plans = services.plans.map((p, i) => ({ id: QUOTE_PLAN_IDS[i], name: p.name }));
 
   return (
     <main>
@@ -23,7 +25,7 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
             Solicitar cotización
           </h2>
           <div className="mt-6">
-            <QuoteForm formToken={formToken} initialService={initial} />
+            <QuoteForm formToken={formToken} initialService={initial} plans={plans} />
           </div>
         </section>
       </Container>

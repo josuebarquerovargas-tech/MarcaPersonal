@@ -49,11 +49,10 @@ test("Contenido se marca activo también dentro de un video o un artículo", asy
   await expect(link).toHaveAttribute("aria-current", "page");
 });
 
-test("Servicios incluye los planes con su cotización", async ({ page }) => {
+test("Servicios incluye los planes", async ({ page }) => {
   await page.goto("/servicios");
   await expect(page.getByRole("heading", { level: 2, name: "Planes para tu marca" })).toBeVisible();
   await expect(page.locator("[data-quote-plan]")).toHaveCount(3);
-  await expect(page.locator("#cotizar form")).toBeAttached();
 });
 
 for (const [from, to] of [
