@@ -4,6 +4,7 @@ import { storage } from "@/lib/storage/storage";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { Process } from "@/components/site/Process";
+import { Audience } from "@/components/site/Audience";
 import { LinkButton } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
@@ -34,14 +35,9 @@ export default async function AboutPage() {
                   <p key={p}>{p}</p>
                 ))}
               </div>
-              <dl className="mt-10 grid gap-px overflow-hidden rounded-[16px] border border-line bg-line sm:grid-cols-2">
-                {about.facts.map((f) => (
-                  <div key={f.label} className="bg-surface p-6">
-                    <dt className="font-display text-2xl">{f.label}</dt>
-                    <dd className="mt-2 text-sm leading-relaxed text-muted">{f.value}</dd>
-                  </div>
-                ))}
-              </dl>
+              <div className="mt-10">
+                <Audience items={about.facts} />
+              </div>
               <div className="mt-10 flex flex-wrap gap-3">
                 <LinkButton href="/servicios">Ver servicios</LinkButton>
                 <LinkButton href="/contacto" variant="secondary">

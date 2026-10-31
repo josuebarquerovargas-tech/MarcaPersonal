@@ -46,7 +46,7 @@ export default async function AdminSettingsPage() {
           Modo demostración
         </h2>
         <p className="mt-2">
-          Los pagos usan una pasarela simulada y no se realizan cobros reales. Si olvidás la contraseña, el administrador del servidor puede
+          Los pagos usan una pasarela simulada y no se realizan cobros reales. Si olvidas la contraseña, el administrador del servidor puede
           restablecerla con <code className="rounded bg-surface-2 px-1.5 py-0.5 text-ink">npm run admin:reset-password</code>.
         </p>
       </section>

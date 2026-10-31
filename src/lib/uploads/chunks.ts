@@ -59,7 +59,7 @@ export function createChunkUploads(
       mime: string;
     }): Promise<UploadSession> {
       const ext = VIDEO_MIME_TO_EXT[input.mime];
-      if (!ext) throw new Error("Formato no permitido. Usá MP4, WebM o MOV.");
+      if (!ext) throw new Error("Formato no permitido. Usa MP4, WebM o MOV.");
       if (!Number.isInteger(input.size) || input.size <= 0) throw new Error("Tamaño inválido");
       if (input.size > maxBytes) throw new Error("El video supera el límite de 500 MB.");
       const session: UploadSession = {

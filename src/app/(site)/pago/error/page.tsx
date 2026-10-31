@@ -24,7 +24,7 @@ export default async function CheckoutErrorPage({
           </span>
           <h1 className="font-display mt-6 text-5xl sm:text-6xl">No pudimos procesar el pago</h1>
           <p className="mt-4 text-lg text-muted">{motivo || "La transacción no fue aprobada."}</p>
-          <p className="mt-2 text-sm text-muted">No se hizo ningún cargo. Podés intentar con otro método.</p>
+          <p className="mt-2 text-sm text-muted">No se hizo ningún cargo. Puedes intentar con otro método.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <LinkButton href={`/pago?plan=${plan === "YEARLY" ? "YEARLY" : "MONTHLY"}`}>Intentar de nuevo</LinkButton>
             <LinkButton href="/cuenta" variant="secondary">

@@ -18,7 +18,7 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
   if (await getMember()) redirect(target ?? "/cuenta");
   const formToken = await formTokens.issueFormToken();
   return (
-    <AuthShell eyebrow="Cuenta" title="Crear cuenta" text="Con tu cuenta podés activar la membresía y ver el contenido exclusivo.">
+    <AuthShell eyebrow="Cuenta" title="Crear cuenta" text="Con tu cuenta puedes activar la membresía y ver el contenido exclusivo.">
       <AuthForm mode="register" action={registerMember} next={target} formToken={formToken} />
     </AuthShell>
   );

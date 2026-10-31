@@ -6,9 +6,9 @@ export const cardSchema = z
     number: z
       .string()
       .transform((s) => s.replace(/\s+/g, ""))
-      .refine((s) => /^\d{13,19}$/.test(s), "Ingresá un número de tarjeta válido")
+      .refine((s) => /^\d{13,19}$/.test(s), "Ingresa un número de tarjeta válido")
       .refine(luhnValid, "El número de tarjeta no es válido"),
-    name: z.string().trim().min(3, "Ingresá el nombre como aparece en la tarjeta").max(80),
+    name: z.string().trim().min(3, "Ingresa el nombre como aparece en la tarjeta").max(80),
     expMonth: z.coerce.number().int().min(1, "Mes inválido").max(12, "Mes inválido"),
     expYear: z.coerce.number().int().min(2000).max(2100),
     cvv: z.string().regex(/^\d{3,4}$/, "El CVV tiene 3 o 4 dígitos"),
@@ -26,7 +26,7 @@ export const sinpeSchema = z.object({
   phone: z
     .string()
     .transform((s) => s.replace(/[\s-]+/g, ""))
-    .refine((s) => /^\d{8}$/.test(s), "Ingresá un número SINPE Móvil de 8 dígitos"),
+    .refine((s) => /^\d{8}$/.test(s), "Ingresa un número SINPE Móvil de 8 dígitos"),
 });
 
 export type Card = z.infer<typeof cardSchema>;

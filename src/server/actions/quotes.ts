@@ -20,20 +20,20 @@ export async function submitQuote(_prev: QuoteFormState, fd: FormData): Promise<
     message: fd.get("message") ?? "",
     consent: fd.get("consent") ?? undefined,
   });
-  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Revisá los datos del formulario." };
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Revisa los datos del formulario." };
 
   const sourceKey = hashSource(await clientIp(), process.env.SESSION_SECRET ?? "");
   const recent = await db.quoteRequest.count({
     where: { sourceKey, createdAt: { gte: new Date(Date.now() - QUOTE_WINDOW_MS) } },
   });
   if (!quoteAllowed(recent, sourceKey)) {
-    return { error: "Recibimos muchas solicitudes en poco tiempo. Intentá más tarde o escribinos por WhatsApp." };
+    return { error: "Recibimos muchas solicitudes en poco tiempo. Intenta más tarde o escríbenos por WhatsApp." };
   }
 
   // Spent only after validation, so correcting an error never blocks the retry.
   const token = fd.get(FORM_TOKEN_FIELD);
   if (typeof token !== "string" || !(await formTokens.consumeFormToken(token))) {
-    return { error: "Este formulario venció o ya se envió. Copiá tu mensaje, recargá la página e intentá de nuevo." };
+    return { error: "Este formulario venció o ya se envió. Copia tu mensaje, recarga la página e intenta de nuevo." };
   }
 
   const { consent: _consent, ...data } = parsed.data;

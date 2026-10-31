@@ -51,7 +51,7 @@ test("la franja no provoca scroll horizontal en móvil", async ({ page }) => {
 test("la indicación de desplazamiento lleva a los servicios", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
-  await page.getByRole("link", { name: "Seguí bajando" }).click();
+  await page.getByRole("link", { name: "Sigue bajando" }).click();
   await expect(page).toHaveURL(/#servicios$/);
-  await expect(page.getByRole("heading", { name: "Soluciones para mostrar y hacer crecer tu marca" })).toBeInViewport();
+  await expect(page.getByRole("heading", { name: "Creamos una estrategia a tu medida y a tu presupuesto" })).toBeInViewport();
 });

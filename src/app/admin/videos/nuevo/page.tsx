@@ -14,7 +14,7 @@ export default async function NewVideoPage() {
   const formToken = await formTokens.issueFormToken();
   return (
     <>
-      <AdminPageHeader title="Nuevo video" description="Subí un archivo o pegá un enlace." />
+      <AdminPageHeader title="Nuevo video" description="Sube un archivo o pega un enlace." />
       <div className="mt-8">
         <VideoForm action={createVideo} formToken={formToken} showAccess={await isMembershipEnabled()} />
       </div>

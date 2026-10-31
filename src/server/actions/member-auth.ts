@@ -13,8 +13,8 @@ import { safeNext } from "@/lib/safe-next";
 export type MemberAuthState = { error?: string };
 
 const registerSchema = z.object({
-  name: z.string().trim().min(2, "Ingresá tu nombre").max(80),
-  email: z.string().trim().toLowerCase().email("Ingresá un correo válido"),
+  name: z.string().trim().min(2, "Ingresa tu nombre").max(80),
+  email: z.string().trim().toLowerCase().email("Ingresa un correo válido"),
   password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres").max(200),
 });
 
@@ -32,7 +32,7 @@ export async function registerMember(_prev: MemberAuthState, fd: FormData): Prom
 
   const token = fd.get(FORM_TOKEN_FIELD);
   if (typeof token !== "string" || !(await formTokens.consumeFormToken(token))) {
-    return { error: "El formulario expiró. Recargá la página e intentá de nuevo." };
+    return { error: "El formulario expiró. Recarga la página e intenta de nuevo." };
   }
 
   const member = await db.member.create({
@@ -47,8 +47,8 @@ export async function registerMember(_prev: MemberAuthState, fd: FormData): Prom
 }
 
 const loginSchema = z.object({
-  email: z.string().trim().toLowerCase().email("Ingresá un correo válido"),
-  password: z.string().min(1, "Ingresá tu contraseña"),
+  email: z.string().trim().toLowerCase().email("Ingresa un correo válido"),
+  password: z.string().min(1, "Ingresa tu contraseña"),
 });
 
 export async function loginMember(_prev: MemberAuthState, fd: FormData): Promise<MemberAuthState> {
@@ -59,14 +59,14 @@ export async function loginMember(_prev: MemberAuthState, fd: FormData): Promise
   const ip = await clientIp();
   const allowed = await loginLimiter.checkLoginAllowed(ip);
   if (!allowed.allowed) {
-    return { error: "Demasiados intentos. Esperá unos minutos e intentá de nuevo." };
+    return { error: "Demasiados intentos. Espera unos minutos e intenta de nuevo." };
   }
 
   const member = await db.member.findUnique({ where: { email: parsed.data.email } });
   const ok = member ? await verifyPassword(parsed.data.password, member.passwordHash) : false;
   await loginLimiter.recordLoginAttempt(ip, ok);
   if (!member || !ok) return { error: "Correo o contraseña incorrectos" };
-  if (member.status === "SUSPENDED") return { error: "Tu cuenta está suspendida. Escribinos para más información." };
+  if (member.status === "SUSPENDED") return { error: "Tu cuenta está suspendida. Escríbenos para más información." };
 
   await setMemberSession(member);
   redirect(safeNext(fd.get("next")) ?? "/cuenta");

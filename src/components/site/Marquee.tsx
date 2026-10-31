@@ -1,4 +1,4 @@
-const ITEMS = ["Sitios web", "Redes sociales", "Contenido que vende", "Anuncios digitales", "Inteligencia artificial", "Automatizaciones"];
+const ITEMS = ["Sitios web", "Redes sociales", "Contenido que vende", "Anuncios digitales", "Inteligencia artificial", "Automatizaciones", "Más visibilidad", "Más clientes", "Más ventas"];
 
 function Group() {
   return (

@@ -23,7 +23,7 @@ export function SubscriptionControls({ status }: { status: "ACTIVE" | "CANCELED"
         Cancelar membresía
       </Button>
       <Dialog open={confirm} onClose={() => setConfirm(false)} title="¿Cancelar la membresía?">
-        <p className="text-sm text-muted">Conservás el acceso hasta el final del período que ya pagaste. Podés reactivarla cuando quieras.</p>
+        <p className="text-sm text-muted">Conservas el acceso hasta el final del período que ya pagaste. Puedes reactivarla cuando quieras.</p>
         <div className="mt-6 flex justify-end gap-2">
           <Button variant="secondary" onClick={() => setConfirm(false)}>
             Volver

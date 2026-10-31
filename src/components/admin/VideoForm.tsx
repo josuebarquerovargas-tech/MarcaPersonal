@@ -78,7 +78,7 @@ export function VideoForm({ action, video, formToken, thumbnailUrl, showAccess =
           <Field
             label="Enlace del video"
             htmlFor="sourceUrl"
-            hint="Pegá el enlace de TikTok, Instagram o YouTube."
+            hint="Pega el enlace de TikTok, Instagram o YouTube."
             error={sourceUrl && !parsedEmbed ? "No reconozco ese enlace." : undefined}
           >
             <Input
@@ -165,7 +165,7 @@ export function VideoForm({ action, video, formToken, thumbnailUrl, showAccess =
         Destacar en la portada
       </label>
 
-      <Field label="Miniatura" htmlFor="thumbnail" hint={editing ? "Subí una imagen para reemplazar la actual." : "Opcional. Si no la subís, se usa la captura automática."}>
+      <Field label="Miniatura" htmlFor="thumbnail" hint={editing ? "Sube una imagen para reemplazar la actual." : "Opcional. Si no la subes, se usa la captura automática."}>
         <Input id="thumbnail" name="thumbnail" type="file" accept="image/jpeg,image/png,image/webp" />
       </Field>
 
@@ -177,7 +177,7 @@ export function VideoForm({ action, video, formToken, thumbnailUrl, showAccess =
         </Button>
         {!canSubmit && !editing && (
           <span className="text-sm text-muted">
-            {kind === "FILE" ? "Primero subí el archivo." : "Pegá un enlace válido."}
+            {kind === "FILE" ? "Primero sube el archivo." : "Pega un enlace válido."}
           </span>
         )}
       </div>

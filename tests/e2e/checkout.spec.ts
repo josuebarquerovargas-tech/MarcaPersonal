@@ -58,7 +58,7 @@ test("la membresía lleva al pago y una tarjeta 4242 activa la suscripción", as
   await fillCard(page, "4242 4242 4242 4242");
   await page.getByRole("button", { name: /Pagar/ }).click();
   await expect(page).toHaveURL(/\/pago\/exito/);
-  await expect(page.getByText("¡Ya sos miembro!")).toBeVisible();
+  await expect(page.getByText("¡Ya eres miembro!")).toBeVisible();
 
   await page.goto("/cuenta");
   await expect(page.getByText(/Activa hasta/)).toBeVisible();

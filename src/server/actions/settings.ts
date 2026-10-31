@@ -15,7 +15,7 @@ export type SettingsState = { error?: string; ok?: string };
 export async function uploadPortrait(_prev: SettingsState, fd: FormData): Promise<SettingsState> {
   await requireAdmin();
   const file = fd.get("portrait");
-  if (!(file instanceof File) || file.size === 0) return { error: "Elegí una imagen." };
+  if (!(file instanceof File) || file.size === 0) return { error: "Elige una imagen." };
   if (!IMAGE_MIMES.has(file.type)) return { error: "El retrato debe ser JPEG, PNG o WebP." };
   if (file.size > MAX_IMAGE_BYTES) return { error: "El retrato supera los 8 MB." };
 
@@ -48,7 +48,7 @@ export async function removePortrait(): Promise<void> {
 
 const passwordSchema = z
   .object({
-    current: z.string().min(1, "Ingresá tu contraseña actual"),
+    current: z.string().min(1, "Ingresa tu contraseña actual"),
     next: z
       .string()
       .min(10, "La nueva contraseña debe tener al menos 10 caracteres")

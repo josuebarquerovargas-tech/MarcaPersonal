@@ -46,7 +46,7 @@ test("un error de validación conserva lo escrito y permite reintentar", async (
   await page.goto("/contacto");
   await fill(page, name, "hola");
   await page.getByRole("button", { name: "Solicitar cotización" }).click();
-  await expect(page.getByText("Ingresá un correo o un teléfono válido")).toBeVisible();
+  await expect(page.getByText("Ingresa un correo o un teléfono válido")).toBeVisible();
   await expect(page.getByLabel("Nombre")).toHaveValue(name);
   await page.getByLabel("Correo o teléfono").fill("6336 0450");
   await page.getByRole("button", { name: "Solicitar cotización" }).click();

@@ -143,7 +143,7 @@ export function CheckoutForm({ action, planCode, amountCRC, formToken }: Props) 
       <div className="rounded-[12px] border border-dashed border-accent/50 bg-accent/5 px-4 py-3 text-sm">
         <p className="font-medium text-ink">Modo demostración: no se realizan cobros reales.</p>
         <p className="mt-1 text-muted">
-          Probá con{" "}
+          Prueba con{" "}
           {DEMO_CARD_RULES.map((r, i) => (
             <span key={r.ending}>
               {i > 0 && ", "}
@@ -157,7 +157,7 @@ export function CheckoutForm({ action, planCode, amountCRC, formToken }: Props) 
       <Button type="submit" size="lg" pending={pending} pendingLabel="Procesando…" className="w-full">
         Pagar <Money amount={amountCRC} />
       </Button>
-      <p className="text-center text-xs text-muted">Al pagar aceptás que la membresía se renueva por el período elegido y que podés cancelarla cuando querás.</p>
+      <p className="text-center text-xs text-muted">Al pagar aceptas que la membresía se renueva por el período elegido y que puedes cancelarla cuando quieras.</p>
     </form>
   );
 }

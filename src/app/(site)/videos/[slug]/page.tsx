@@ -89,7 +89,7 @@ export default async function VideoPage({ params }: Params) {
         {related.length > 0 && (
           <section className="mt-20" aria-labelledby="related">
             <h2 id="related" className="font-display text-3xl">
-              Seguí viendo
+              Sigue viendo
             </h2>
             <div className="mt-8">
               <VideoGrid videos={related} />

@@ -52,7 +52,7 @@ export async function payAndSubscribe(_prev: CheckoutState, fd: FormData): Promi
   // The one-time token is spent only once the input is valid, right before the charge,
   // so a validation error never locks the user out of retrying.
   if (!(await formTokens.consumeFormToken(str(fd, FORM_TOKEN_FIELD)))) {
-    return { error: "Este pago ya fue enviado. Revisá tu cuenta antes de intentar de nuevo." };
+    return { error: "Este pago ya fue enviado. Revisa tu cuenta antes de intentar de nuevo." };
   }
   const charge = await gateway.charge(input);
 

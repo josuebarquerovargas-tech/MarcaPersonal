@@ -34,9 +34,9 @@ export default async function MembershipPage() {
 
         {membership.active ? (
           <Reveal className="mt-10 rounded-[16px] border border-accent/40 bg-accent/5 p-6">
-            <p className="font-display text-2xl">Ya sos miembro</p>
+            <p className="font-display text-2xl">Ya eres miembro</p>
             <p className="mt-2 text-muted">
-              Gracias por apoyar. Administrá tu membresía desde{" "}
+              Gracias por apoyar. Administra tu membresía desde{" "}
               <Link href="/cuenta" className="text-ink underline underline-offset-4">
                 tu cuenta
               </Link>

@@ -87,7 +87,7 @@ export function VideoTable({ videos }: { videos: Row[] }) {
           />
         </table>
         {videos.length === 0 && (
-          <p className="px-4 py-10 text-center text-muted">Todavía no hay videos. Subí el primero.</p>
+          <p className="px-4 py-10 text-center text-muted">Todavía no hay videos. Sube el primero.</p>
         )}
       </div>
 

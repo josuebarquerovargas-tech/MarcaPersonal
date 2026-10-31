@@ -26,7 +26,7 @@ export function LockedPlayer({ poster, title, signedIn, slug }: Props) {
         <div>
           <p className="font-display text-2xl sm:text-3xl">Contenido exclusivo para miembros</p>
           <p className="mt-1 text-sm text-muted">
-            {signedIn ? `Activá tu membresía para ver “${title}”.` : `Unite para ver “${title}” y todo el contenido exclusivo.`}
+            {signedIn ? `Activa tu membresía para ver “${title}”.` : `Únete para ver “${title}” y todo el contenido exclusivo.`}
           </p>
         </div>
         <div className="flex flex-wrap justify-center gap-2">

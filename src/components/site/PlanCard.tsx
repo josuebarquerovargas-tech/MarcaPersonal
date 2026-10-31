@@ -16,12 +16,12 @@ export function PlanCard({ plan, monthlyPrice, href, cta, highlight }: Props) {
     >
       {highlight && saved > 0 && (
         <span className="absolute -top-3 left-6 rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-ink">
-          Ahorrás {saved} {saved === 1 ? "mes" : "meses"}
+          Ahorras {saved} {saved === 1 ? "mes" : "meses"}
         </span>
       )}
       <p className="text-sm uppercase tracking-[0.15em] text-muted">{plan.name}</p>
       <p className="font-display mt-3 text-5xl"><Money amount={plan.priceCRC} /></p>
-      <p className="mt-1 text-sm text-muted">{yearly ? "al año" : "al mes"} · cancelás cuando querás</p>
+      <p className="mt-1 text-sm text-muted">{yearly ? "al año" : "al mes"} · cancelas cuando quieras</p>
       {yearly && monthlyPrice && (
         <p className="mt-1 text-sm text-muted">Equivale a <Money amount={Math.round(plan.priceCRC / 12)} /> al mes</p>
       )}

@@ -128,7 +128,7 @@ export function VideoUploader({ onComplete, onReset }: Props) {
           dragging ? "border-accent bg-accent/5" : "border-line hover:border-ink/40"
         } ${state === "uploading" ? "pointer-events-none opacity-70" : ""}`}
       >
-        <span className="text-[15px] font-medium">Arrastrá el video aquí o hacé clic para elegirlo</span>
+        <span className="text-[15px] font-medium">Arrastra el video aquí o haz clic para elegirlo</span>
         <span className="text-sm text-muted">MP4, WebM o MOV · hasta 500 MB</span>
         <input
           ref={inputRef}

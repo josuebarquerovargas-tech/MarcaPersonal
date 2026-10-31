@@ -51,7 +51,7 @@ export function QuoteForm({ formToken, initialService }: { formToken: string; in
           <option value="otro">Todavía no lo sé</option>
         </Select>
       </Field>
-      <Field label="Mensaje" htmlFor="q-message" hint="Opcional. Contame sobre tu marca o negocio.">
+      <Field label="Mensaje" htmlFor="q-message" hint="Opcional. Cuéntame sobre tu marca o negocio.">
         <Textarea id="q-message" name="message" value={values.message} onChange={set("message")} maxLength={2000} />
       </Field>
       <label className="flex items-start gap-3 text-sm text-muted">

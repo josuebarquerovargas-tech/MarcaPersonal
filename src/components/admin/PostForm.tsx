@@ -41,7 +41,7 @@ export function PostForm({ action, post, formToken, coverUrl }: Props) {
       <Field
         label="Contenido"
         htmlFor="body"
-        hint="Separá párrafos con una línea en blanco. Formato: ## subtítulo, **negrita**, *cursiva*, - lista, > cita, [texto](https://enlace)."
+        hint="Separa párrafos con una línea en blanco. Formato: ## subtítulo, **negrita**, *cursiva*, - lista, > cita, [texto](https://enlace)."
       >
         {/* Stays mounted during preview so its value is always submitted. */}
         <Textarea id="body" name="body" value={values.body} onChange={set("body")} className={`min-h-96 ${preview ? "hidden" : ""}`} required />
@@ -63,7 +63,7 @@ export function PostForm({ action, post, formToken, coverUrl }: Props) {
             <option value="PUBLISHED">Publicado</option>
           </Select>
         </Field>
-        <Field label="Imagen de portada" htmlFor="cover" hint={coverUrl ? "Subí una imagen para reemplazar la actual." : "Opcional. JPEG, PNG o WebP, hasta 8 MB."}>
+        <Field label="Imagen de portada" htmlFor="cover" hint={coverUrl ? "Sube una imagen para reemplazar la actual." : "Opcional. JPEG, PNG o WebP, hasta 8 MB."}>
           <Input id="cover" name="cover" type="file" accept="image/jpeg,image/png,image/webp" />
         </Field>
       </div>

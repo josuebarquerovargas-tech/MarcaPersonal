@@ -20,7 +20,7 @@ export default async function AdminVideosPage() {
     <>
       <AdminPageHeader
         title="Videos"
-        description="Arrastrá para cambiar el orden. Los destacados aparecen primero en la portada."
+        description="Arrastra para cambiar el orden. Los destacados aparecen primero en la portada."
         actions={<LinkButton href="/admin/videos/nuevo">Nuevo video</LinkButton>}
       />
       <div className="mt-6">

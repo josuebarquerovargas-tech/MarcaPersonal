@@ -133,7 +133,7 @@ export async function createVideo(_prev: VideoFormState, fd: FormData): Promise<
   }
 
   if (!(await formTokens.consumeFormToken(str(fd, FORM_TOKEN_FIELD) ?? ""))) {
-    return { error: "Este formulario ya fue enviado. Revisá la lista de videos." };
+    return { error: "Este formulario ya fue enviado. Revisa la lista de videos." };
   }
   await db.$transaction(async (tx) => {
     await tx.video.updateMany({ data: { sortOrder: { increment: 1 } } });

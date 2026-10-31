@@ -26,7 +26,7 @@ export function PhotoUploadForm({ formToken }: { formToken: string }) {
 
   function check(files: FileList | null) {
     if (!files || files.length === 0) return setClientError(null);
-    if (files.length > MAX_FILES) return setClientError(`Podés subir hasta ${MAX_FILES} fotos por vez.`);
+    if (files.length > MAX_FILES) return setClientError(`Puedes subir hasta ${MAX_FILES} fotos por vez.`);
     const big = Array.from(files).find((f) => f.size > MAX_BYTES);
     if (big) return setClientError(`“${big.name}” supera los 8 MB.`);
     setClientError(null);

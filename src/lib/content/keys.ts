@@ -13,7 +13,7 @@ export const contentSchemas = {
   about: z.object({
     heading: text.max(80),
     paragraphs: z.array(text.max(800)).min(1).max(5),
-    facts: z.array(z.object({ label: text.max(40), value: text.max(160) })).max(6),
+    facts: z.array(z.object({ label: text.max(40), value: text.max(160) })).max(8),
   }),
   services: z.object({
     heading: text.max(80),

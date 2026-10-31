@@ -53,5 +53,5 @@ test("los textos por defecto no copian el sitio anterior", () => {
   expect(all).not.toMatch(/perro|canin|24\/7|garantiz/i);
   expect(defaults.services.items).toHaveLength(5);
   expect(defaults.process.items).toHaveLength(5);
-  expect(defaults.about.facts).toHaveLength(4);
+  expect(defaults.about.facts).toHaveLength(7);
 });

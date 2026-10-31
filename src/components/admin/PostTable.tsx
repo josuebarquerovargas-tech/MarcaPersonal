@@ -56,7 +56,7 @@ export function PostTable({ posts }: { posts: Post[] }) {
             ))}
           </tbody>
         </table>
-        {posts.length === 0 && <p className="px-4 py-10 text-center text-muted">Todavía no hay artículos. Escribí el primero.</p>}
+        {posts.length === 0 && <p className="px-4 py-10 text-center text-muted">Todavía no hay artículos. Escribe el primero.</p>}
       </div>
       <Dialog open={!!toDelete} onClose={() => setToDelete(null)} title="Eliminar artículo">
         <p className="text-sm text-muted">

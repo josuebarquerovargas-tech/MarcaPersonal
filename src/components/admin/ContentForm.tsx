@@ -90,7 +90,7 @@ function FieldRenderer({ def, value }: { def: FieldDef; value: unknown }) {
       })}
       {!def.fixed && (
         <p className="text-xs text-muted">
-          Para quitar un elemento, dejá sus dos campos vacíos y guardá.
+          Para quitar un elemento, deja sus dos campos vacíos y guarda.
         </p>
       )}
     </fieldset>

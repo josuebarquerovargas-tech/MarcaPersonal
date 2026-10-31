@@ -6,7 +6,7 @@ import { ContactSection } from "@/components/site/ContactSection";
 import { QuoteForm } from "@/components/site/QuoteForm";
 import { Container } from "@/components/ui/Container";
 
-export const metadata: Metadata = { title: "Contacto", description: "Solicitá una cotización o hablá por WhatsApp con Rubén Rodríguez." };
+export const metadata: Metadata = { title: "Contacto", description: "Solicita una cotización o habla por WhatsApp con Rubén Rodríguez." };
 export const dynamic = "force-dynamic";
 
 export default async function ContactPage({ searchParams }: { searchParams: Promise<{ servicio?: string }> }) {

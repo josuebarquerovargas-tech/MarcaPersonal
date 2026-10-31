@@ -14,7 +14,7 @@ export default async function AdminGalleryPage() {
   const [photos, formToken] = await Promise.all([listPhotos(), formTokens.issueFormToken()]);
   return (
     <>
-      <AdminPageHeader title="Galería" description="Las fotos se convierten a WebP. Arrastrá para ordenarlas." />
+      <AdminPageHeader title="Galería" description="Las fotos se convierten a WebP. Arrastra para ordenarlas." />
       <div className="mt-6">
         <PhotoUploadForm formToken={formToken} />
       </div>

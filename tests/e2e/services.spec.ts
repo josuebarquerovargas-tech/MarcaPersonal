@@ -6,7 +6,7 @@ test("la portada explica la oferta y lleva a servicios y cotización", async ({ 
   await expect(page.getByRole("heading", { level: 1, name: "Rubén Rodríguez" })).toBeVisible();
   await expect(page.getByRole("main").getByRole("link", { name: "Ver servicios" }).first()).toHaveAttribute("href", "/servicios");
   await expect(page.getByRole("main").getByRole("link", { name: "Solicitar cotización" }).first()).toHaveAttribute("href", "/contacto#cotizacion");
-  for (const title of ["Sitios web", "Manejo de redes sociales", "Contenido que vende", "Herramientas tecnológicas para vender", "Asesoría y acompañamiento"]) {
+  for (const title of ["Sitios web", "Manejo de redes sociales", "Contenido que vende", "Herramientas tecnológicas para vender", "Asesoría personal"]) {
     await expect(page.getByRole("heading", { name: title })).toBeVisible();
   }
   for (const step of ["Análisis del mercado", "Conexión con el mercado", "Campañas estratégicas", "Resultados medibles", "Confianza y acompañamiento"]) {

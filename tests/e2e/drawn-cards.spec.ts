@@ -55,3 +55,20 @@ test("sin JavaScript el icono se ve completo", async ({ browser }) => {
   expect(await first.evaluate((el) => parseFloat(getComputedStyle(el).strokeDashoffset))).toBe(0);
   await ctx.close();
 });
+
+test("cada servicio tiene su propia ilustración de color, como en el anuncio", async ({ page }) => {
+  await page.goto("/");
+  const svgs = page.locator("#servicios svg.drawn-illustration");
+  await expect(svgs).toHaveCount(5);
+  const colors = await svgs.evaluateAll((els) => els.map((el) => getComputedStyle(el).stroke));
+  expect(new Set(colors).size).toBe(5);
+  const strokes = await svgs.first().evaluate((el) => el.children.length);
+  expect(strokes).toBeGreaterThan(3);
+});
+
+test("los resúmenes siguen el anuncio pero sin prometer atención 24/7", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByText("Creamos tu página web profesional para mostrar tu marca, productos y servicios.")).toBeVisible();
+  await expect(page.getByText("Implementamos IA, automatización, anuncios digitales y estrategias modernas para aumentar tus ventas.")).toBeVisible();
+  expect(await page.locator("#servicios").innerText()).not.toMatch(/24\/7/);
+});

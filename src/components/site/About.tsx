@@ -2,6 +2,7 @@ import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { LinkButton } from "@/components/ui/Button";
 import { SectionHeading } from "./SectionHeading";
+import { Audience } from "./Audience";
 
 type Props = {
   heading: string;
@@ -31,16 +32,7 @@ export function About({ heading, paragraphs, facts, compact = false }: Props) {
               </div>
             )}
           </Reveal>
-          <Reveal delay={0.1}>
-            <dl className="grid gap-px overflow-hidden rounded-[16px] border border-line bg-line sm:grid-cols-2">
-              {facts.map((f) => (
-                <div key={f.label} className="bg-surface p-6">
-                  <dt className="font-display text-2xl">{f.label}</dt>
-                  <dd className="mt-2 text-sm leading-relaxed text-muted">{f.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
+          <Audience items={facts} />
         </div>
       </Container>
     </section>

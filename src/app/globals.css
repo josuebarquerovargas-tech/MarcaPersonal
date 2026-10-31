@@ -242,6 +242,58 @@ body {
   }
 }
 
+/* Ilustración de cada servicio: un color por tarjeta, como en el anuncio de Rubén. */
+.illustration-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 1rem;
+  background: color-mix(in oklab, var(--tone) 9%, var(--surface));
+  border-bottom: 1px solid color-mix(in oklab, var(--tone) 22%, var(--line));
+}
+.drawn-illustration {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  stroke: var(--tone);
+  transition: transform 240ms var(--ease-out);
+}
+.tone-web {
+  --tone: #1d5fd1;
+}
+.tone-social {
+  --tone: #8a2bd4;
+}
+.tone-video {
+  --tone: #d9560b;
+}
+.tone-tools {
+  --tone: #12873f;
+}
+.tone-chat {
+  --tone: #cf2a2a;
+}
+:root[data-theme="dark"] .tone-web {
+  --tone: #6ea2ff;
+}
+:root[data-theme="dark"] .tone-social {
+  --tone: #c084fc;
+}
+:root[data-theme="dark"] .tone-video {
+  --tone: #fb923c;
+}
+:root[data-theme="dark"] .tone-tools {
+  --tone: #4ade80;
+}
+:root[data-theme="dark"] .tone-chat {
+  --tone: #f87171;
+}
+@media (hover: hover) and (pointer: fine) {
+  .raised-card:hover .drawn-illustration {
+    transform: scale(1.04);
+  }
+}
+
 /* Icono que se dibuja. Los trazos usan pathLength=1 y solo se ocultan dentro de la
    animación, así que sin JavaScript o con movimiento reducido se ven completos. */
 .drawn-icon > * {
@@ -256,6 +308,21 @@ body {
 }
 .drawn-icon > :nth-child(4) {
   --stroke: 3;
+}
+.drawn-icon > :nth-child(5) {
+  --stroke: 4;
+}
+.drawn-icon > :nth-child(6) {
+  --stroke: 5;
+}
+.drawn-icon > :nth-child(7) {
+  --stroke: 6;
+}
+.drawn-icon > :nth-child(8) {
+  --stroke: 7;
+}
+.drawn-icon > :nth-child(n + 9) {
+  --stroke: 8;
 }
 .drawn-icon.is-drawing > * {
   animation: draw-stroke 900ms var(--ease-in-out) both;

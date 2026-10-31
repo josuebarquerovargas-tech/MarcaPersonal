@@ -73,7 +73,7 @@ export function Hero({ eyebrow, title, subtitle, ctaPrimary, ctaSecondary, portr
             <span aria-hidden="true" className="relative block h-10 w-px overflow-hidden bg-line">
               <span className="scroll-cue-line absolute inset-0 block bg-accent" />
             </span>
-            Seguí bajando
+            Sigue bajando
           </a>
         </div>
 

@@ -16,7 +16,7 @@ const DEMO_VIDEOS = [
   {
     slug: "demo-como-mostrar-tu-marca",
     title: "Demo: cómo mostrar tu marca",
-    description: "Contenido de muestra para la demostración. Reemplazalo por un video real desde el panel.",
+    description: "Contenido de muestra para la demostración. Reemplázalo por un video real desde el panel.",
     access: "FREE" as const,
     featured: false,
     file: "demo-1",
@@ -25,7 +25,7 @@ const DEMO_VIDEOS = [
   {
     slug: "demo-primeros-pasos-en-redes-sociales",
     title: "Demo: primeros pasos en redes sociales",
-    description: "Contenido de muestra para la demostración. Reemplazalo por un video real desde el panel.",
+    description: "Contenido de muestra para la demostración. Reemplázalo por un video real desde el panel.",
     access: "FREE" as const,
     featured: false,
     file: "demo-2",
@@ -34,7 +34,7 @@ const DEMO_VIDEOS = [
   {
     slug: "demo-contenido-exclusivo",
     title: "Demo: contenido exclusivo para hacer crecer tu marca",
-    description: "Contenido de muestra para demostrar la membresía. Reemplazalo por un video real desde el panel.",
+    description: "Contenido de muestra para demostrar la membresía. Reemplázalo por un video real desde el panel.",
     access: "MEMBERS" as const,
     featured: true,
     file: "demo-3",

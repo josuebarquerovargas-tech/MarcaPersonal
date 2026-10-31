@@ -57,7 +57,7 @@ export async function createPost(_prev: PostFormState, fd: FormData): Promise<Po
 
   const token = fd.get(FORM_TOKEN_FIELD);
   if (typeof token !== "string" || !(await formTokens.consumeFormToken(token))) {
-    return { error: "Este formulario ya fue enviado. Revisá la lista de artículos." };
+    return { error: "Este formulario ya fue enviado. Revisa la lista de artículos." };
   }
 
   const slug = await uniqueSlug(slugify(parsed.data.title), async (s) => !!(await db.post.findUnique({ where: { slug: s } })));

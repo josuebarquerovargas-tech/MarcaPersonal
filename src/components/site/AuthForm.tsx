@@ -55,16 +55,16 @@ export function AuthForm({ mode, action, next, formToken }: Props) {
       <p className="text-center text-sm text-muted">
         {register ? (
           <>
-            ¿Ya tenés cuenta?{" "}
+            ¿Ya tienes cuenta?{" "}
             <Link href={`/ingresar${nextQuery}`} className="text-ink underline underline-offset-4">
-              Ingresá
+              Ingresa
             </Link>
           </>
         ) : (
           <>
-            ¿Todavía no tenés cuenta?{" "}
+            ¿Todavía no tienes cuenta?{" "}
             <Link href={`/registro${nextQuery}`} className="text-ink underline underline-offset-4">
-              Registrate
+              Regístrate
             </Link>
           </>
         )}

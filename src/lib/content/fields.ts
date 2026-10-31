@@ -39,10 +39,10 @@ export const contentFields: Record<ContentKey, FieldDef[]> = {
     { name: "paragraphs", label: "Párrafos", kind: "lines", hint: "Un párrafo por línea." },
     {
       name: "facts",
-      label: "Datos destacados",
+      label: "A quién servimos",
       kind: "pairs",
       keys: ["label", "value"],
-      labels: ["Etiqueta", "Detalle"],
+      labels: ["Público", "Detalle (opcional)"],
     },
   ],
   services: [

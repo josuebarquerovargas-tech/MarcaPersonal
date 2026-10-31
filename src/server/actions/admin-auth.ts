@@ -10,8 +10,8 @@ import { clientIp, loginLimiter } from "@/server/security";
 export type AdminLoginState = { error?: string };
 
 const schema = z.object({
-  email: z.string().trim().email("Ingresá un correo válido"),
-  password: z.string().min(1, "Ingresá tu contraseña"),
+  email: z.string().trim().email("Ingresa un correo válido"),
+  password: z.string().min(1, "Ingresa tu contraseña"),
 });
 
 export async function adminLogin(
@@ -30,7 +30,7 @@ export async function adminLogin(
   const allowed = await loginLimiter.checkLoginAllowed(ip);
   if (!allowed.allowed) {
     const min = Math.ceil((allowed.retryAfterSec ?? 900) / 60);
-    return { error: `Demasiados intentos. Esperá ${min} minutos e intentá de nuevo.` };
+    return { error: `Demasiados intentos. Espera ${min} minutos e intenta de nuevo.` };
   }
 
   const admin = await db.adminUser.findUnique({

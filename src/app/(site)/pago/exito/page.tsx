@@ -18,9 +18,9 @@ export default async function CheckoutSuccessPage({ searchParams }: { searchPara
               <path d="M5 13l4 4L19 7" />
             </svg>
           </span>
-          <h1 className="font-display mt-6 text-5xl sm:text-6xl">¡Ya sos miembro!</h1>
+          <h1 className="font-display mt-6 text-5xl sm:text-6xl">¡Ya eres miembro!</h1>
           <p className="mt-4 text-lg text-muted">
-            Tu membresía quedó activa. Ya podés ver todo el contenido exclusivo.
+            Tu membresía quedó activa. Ya puedes ver todo el contenido exclusivo.
           </p>
           {ref && <p className="mt-2 text-sm text-muted">Referencia: <span className="tabular-nums">{ref}</span></p>}
           <div className="mt-8 flex flex-wrap justify-center gap-3">

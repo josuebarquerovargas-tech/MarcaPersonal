@@ -18,9 +18,9 @@ const MAX_PHOTOS_PER_UPLOAD = 12;
 export async function uploadPhotos(_prev: PhotoFormState, fd: FormData): Promise<PhotoFormState> {
   await requireAdmin();
   const files = fd.getAll("photos").filter((f): f is File => f instanceof File && f.size > 0);
-  if (files.length === 0) return { error: "Elegí al menos una foto." };
+  if (files.length === 0) return { error: "Elige al menos una foto." };
   if (files.length > MAX_PHOTOS_PER_UPLOAD) {
-    return { error: `Podés subir hasta ${MAX_PHOTOS_PER_UPLOAD} fotos por vez.` };
+    return { error: `Puedes subir hasta ${MAX_PHOTOS_PER_UPLOAD} fotos por vez.` };
   }
   const caption = z.string().trim().max(200).parse(fd.get("caption") ?? "");
   for (const f of files) {
@@ -32,7 +32,7 @@ export async function uploadPhotos(_prev: PhotoFormState, fd: FormData): Promise
   // (image processing) outside of the database transaction.
   const token = fd.get(FORM_TOKEN_FIELD);
   if (typeof token !== "string" || !(await formTokens.consumeFormToken(token))) {
-    return { error: "El formulario ya fue enviado. Recargá la página para subir más fotos." };
+    return { error: "El formulario ya fue enviado. Recarga la página para subir más fotos." };
   }
 
   const stored: { key: string; width: number; height: number }[] = [];

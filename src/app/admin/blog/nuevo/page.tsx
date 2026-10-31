@@ -13,7 +13,7 @@ export default async function NewPostPage() {
   const formToken = await formTokens.issueFormToken();
   return (
     <>
-      <AdminPageHeader title="Nuevo artículo" description="Guardalo como borrador o publicalo de una vez." />
+      <AdminPageHeader title="Nuevo artículo" description="Guárdalo como borrador o publícalo de una vez." />
       <div className="mt-8">
         <PostForm action={createPost} formToken={formToken} />
       </div>

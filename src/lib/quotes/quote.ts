@@ -9,15 +9,15 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE = /^\+?[\d\s()-]{8,20}$/;
 
 export const quoteSchema = z.object({
-  name: z.string().trim().min(2, "Ingresá tu nombre").max(80, "El nombre es demasiado largo"),
+  name: z.string().trim().min(2, "Ingresa tu nombre").max(80, "El nombre es demasiado largo"),
   contact: z
     .string()
     .trim()
     .max(120, "El contacto es demasiado largo")
-    .refine((v) => EMAIL.test(v) || PHONE.test(v), "Ingresá un correo o un teléfono válido"),
+    .refine((v) => EMAIL.test(v) || PHONE.test(v), "Ingresa un correo o un teléfono válido"),
   service: z
     .string()
-    .refine((v) => v === QUOTE_OTHER || !!getServiceBySlug(v), "Elegí un servicio de la lista"),
+    .refine((v) => v === QUOTE_OTHER || !!getServiceBySlug(v), "Elige un servicio de la lista"),
   message: z.string().trim().max(2000, "El mensaje admite hasta 2000 caracteres"),
   consent: z.literal("on", { message: "Necesitamos tu autorización para responderte" }),
 });
