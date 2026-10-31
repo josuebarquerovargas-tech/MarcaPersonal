@@ -1,7 +1,7 @@
 # Evidencia de QA · 2026-10-30
 
 Capturas tomadas contra el build de producción (`next build` + servidor standalone) con el
-contenido de demostración del seed. Tema claro y oscuro, escritorio (1280 px) y móvil (360 px).
+contenido de demostración del seed, antes de los arreglos de la revisión final. Tema claro y oscuro, escritorio (1280 px) y móvil (360 px).
 
 | Archivo | Qué muestra |
 | --- | --- |
@@ -17,6 +17,8 @@ contenido de demostración del seed. Tema claro y oscuro, escritorio (1280 px) y
 | `10` a `16` | Panel: resumen, videos (escritorio y móvil), nuevo video, contenido, pagos, ajustes |
 
 ## Lighthouse (móvil, build de producción, Chromium de Playwright)
+
+Medido antes de los arreglos de la revisión final; no se repitió después.
 
 | Página | Rendimiento | Accesibilidad | Buenas prácticas | SEO | FCP | LCP | TBT |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -44,7 +46,7 @@ Ajustes de rendimiento aplicados a partir de la primera medición (82 / 92 / 82)
 ## Revisión final de código
 
 Un revisor con contexto fresco revisó toda la rama (sin críticos, nueve importantes). Los nueve se
-corrigieron con prueba previa: token de un solo uso consumido tras validar, redirección segura
+corrigieron; Docker se verificó ejecutándolo y el resto con pruebas automatizadas: token de un solo uso consumido tras validar, redirección segura
 tras ingresar, límite de intentos que no confía en `X-Forwarded-For` sin `TRUST_PROXY`, CSV sin
 inyección de fórmulas, galería con límite de cuerpo real y proceso fuera de la transacción, sitio
 legible sin JavaScript, Docker verificado en ejecución (migraciones, seed y servidor), subida por
@@ -54,4 +56,8 @@ partes que valida tamaños, y planes con precio editable desde el panel.
 
 `docker build -t ruben-demo .` y `docker run` contra la base local: migraciones aplicadas al
 arrancar, `/` y `/videos` 200, `/no-existe` 404, stream exclusivo sin sesión 403, `dist/scripts/seed.cjs`
-y `dist/scripts/reset-admin-password.cjs` funcionando dentro del contenedor. Imagen de 1,2 GB.
+y `dist/scripts/reset-admin-password.cjs` ejecutados dentro del contenedor, video gratis servido completo (51 845 bytes). No se ejecutó
+`docker-compose.prod.yml`. Imagen de 1,2 GB.
+
+La suite e2e se corrió por grupos en primer plano, no en una sola corrida, porque la máquina se quedó
+sin memoria con la corrida completa. Informe del QA de navegador: `qa-only-informe.md`.

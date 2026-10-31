@@ -46,8 +46,10 @@ test("el stream de un video gratis responde completo y por rangos", async ({ req
   expect(full.status()).toBe(200);
   expect(full.headers()["accept-ranges"]).toBe("bytes");
   expect(full.headers()["content-type"]).toBe("video/mp4");
+  expect((await full.body()).length).toBeGreaterThan(1000);
   const partial = await request.get(`/api/stream/${freeId}`, { headers: { Range: "bytes=0-99" } });
   expect(partial.status()).toBe(206);
+  expect((await partial.body()).length).toBe(100);
   expect(partial.headers()["content-range"]).toMatch(/^bytes 0-99\//);
 });
 

@@ -122,5 +122,7 @@ docker compose -f docker-compose.prod.yml exec -e ADMIN_EMAIL=... -e ADMIN_PASSW
 ```
 
 El contenedor aplica las migraciones al arrancar y guarda los archivos en el volumen
-`uploads` (`/data/uploads`). Detrás de un proxy, pasá `X-Forwarded-For` para que el límite de
-intentos de login funcione por IP y permití cuerpos de al menos 6 MB (partes de subida).
+`uploads` (`/data/uploads`). Detrás de un proxy, pasá `X-Forwarded-For` y definí `TRUST_PROXY=true`
+para que el límite de intentos de login funcione por IP. Sin eso, todos los intentos comparten un
+solo contador: 5 fallos bloquean el ingreso de todos durante 15 minutos. Permití en el proxy cuerpos
+de hasta 100 MB (subida de fotos).
