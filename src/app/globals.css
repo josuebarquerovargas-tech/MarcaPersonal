@@ -241,54 +241,24 @@ body {
   }
 }
 
-/* Ilustración de cada servicio: un color por tarjeta, como en el anuncio de Rubén. */
-.illustration-panel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.25rem 1rem;
-  background: color-mix(in oklab, var(--tone) 9%, var(--surface));
-  border-bottom: 1px solid color-mix(in oklab, var(--tone) 22%, var(--line));
-}
-.drawn-illustration {
-  width: 100%;
-  max-width: 180px;
-  height: auto;
-  stroke: var(--tone);
+/* Foto de cada servicio: se asienta al entrar en pantalla. Solo se mueve dentro de la
+   animación, así que sin JavaScript o con movimiento reducido se ve quieta y completa. */
+.service-photo {
   transition: transform 240ms var(--ease-out);
 }
-.tone-web {
-  --tone: #1d5fd1;
+.service-photo.is-revealed {
+  animation: photo-settle 900ms var(--ease-out);
 }
-.tone-social {
-  --tone: #8a2bd4;
-}
-.tone-video {
-  --tone: #d9560b;
-}
-.tone-tools {
-  --tone: #12873f;
-}
-.tone-chat {
-  --tone: #cf2a2a;
-}
-:root[data-theme="dark"] .tone-web {
-  --tone: #6ea2ff;
-}
-:root[data-theme="dark"] .tone-social {
-  --tone: #c084fc;
-}
-:root[data-theme="dark"] .tone-video {
-  --tone: #fb923c;
-}
-:root[data-theme="dark"] .tone-tools {
-  --tone: #4ade80;
-}
-:root[data-theme="dark"] .tone-chat {
-  --tone: #f87171;
+@keyframes photo-settle {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 @media (hover: hover) and (pointer: fine) {
-  .raised-card:hover .drawn-illustration {
+  .raised-card:hover .service-photo {
     transform: scale(1.04);
   }
 }

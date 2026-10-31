@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SERVICES } from "@/lib/services/catalog";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
-import { ServiceIllustration } from "./ServiceIllustration";
+import { ServicePhoto } from "./ServicePhoto";
 import { SectionHeading } from "./SectionHeading";
 
 type Props = { heading: string; intro: string; items: { title: string; text: string }[]; standalone?: boolean };
@@ -20,7 +20,7 @@ export function ServicesGrid({ heading, intro, items, standalone = false }: Prop
             return (
               <Reveal as="li" key={s.slug} delay={i * 0.08}>
                 <Link href={`/servicios/${s.slug}`} className="raised-card group flex h-full flex-col overflow-hidden">
-                  <ServiceIllustration name={s.icon} />
+                  <ServicePhoto name={s.icon} />
                   <div className="flex flex-1 flex-col p-5">
                     <h3 className="font-display text-xl leading-snug">{copy.title}</h3>
                     <p className="mt-2 flex-1 text-[15px] leading-relaxed text-muted">{copy.text}</p>

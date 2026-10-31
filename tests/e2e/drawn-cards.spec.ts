@@ -1,8 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-const icons = "#servicios .drawn-icon";
+const icons = "#proceso .drawn-icon";
+const photos = "#servicios img.service-photo";
 
-test("el icono de cada servicio se dibuja al entrar en pantalla", async ({ page }) => {
+test("el icono de cada paso se dibuja al entrar en pantalla", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(icons)).toHaveCount(5);
   await expect(page.locator(`${icons}.is-drawing`)).toHaveCount(0);
@@ -10,14 +11,6 @@ test("el icono de cada servicio se dibuja al entrar en pantalla", async ({ page 
   await expect(page.locator(icons).first()).toHaveClass(/is-drawing/);
   const name = await page.locator(`${icons} > *`).first().evaluate((el) => getComputedStyle(el).animationName);
   expect(name).toBe("draw-stroke");
-});
-
-test("los pasos del proceso también se dibujan", async ({ page }) => {
-  await page.goto("/");
-  const stepIcons = page.locator("#proceso .drawn-icon");
-  await expect(stepIcons).toHaveCount(5);
-  await stepIcons.first().scrollIntoViewIfNeeded();
-  await expect(stepIcons.first()).toHaveClass(/is-drawing/);
 });
 
 test("el trazo termina completo", async ({ page }) => {
@@ -56,14 +49,45 @@ test("sin JavaScript el icono se ve completo", async ({ browser }) => {
   await ctx.close();
 });
 
-test("cada servicio tiene su propia ilustración de color, como en el anuncio", async ({ page }) => {
+test("cada servicio muestra su propia foto realista, ya cargada", async ({ page }) => {
   await page.goto("/");
-  const svgs = page.locator("#servicios svg.drawn-illustration");
-  await expect(svgs).toHaveCount(5);
-  const colors = await svgs.evaluateAll((els) => els.map((el) => getComputedStyle(el).stroke));
-  expect(new Set(colors).size).toBe(5);
-  const strokes = await svgs.first().evaluate((el) => el.children.length);
-  expect(strokes).toBeGreaterThan(3);
+  const imgs = page.locator(photos);
+  await expect(imgs).toHaveCount(5);
+  await expect(page.locator("#servicios svg.drawn-illustration")).toHaveCount(0);
+  const sources = await imgs.evaluateAll((els) => els.map((el) => (el as HTMLImageElement).currentSrc || (el as HTMLImageElement).src));
+  expect(new Set(sources).size).toBe(5);
+  for (let i = 0; i < 5; i++) {
+    const img = imgs.nth(i);
+    await img.scrollIntoViewIfNeeded();
+    await expect.poll(() => img.evaluate((el) => (el as HTMLImageElement).naturalWidth), { timeout: 15000 }).toBeGreaterThan(100);
+  }
+});
+
+test("la foto hace su entrada al aparecer en pantalla", async ({ page }) => {
+  await page.goto("/");
+  const img = page.locator(photos).first();
+  await img.scrollIntoViewIfNeeded();
+  await expect(img).toHaveClass(/is-revealed/);
+  expect(await img.evaluate((el) => getComputedStyle(el).animationName)).toBe("photo-settle");
+});
+
+test("con movimiento reducido la foto aparece sin animar", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const img = page.locator(photos).first();
+  await img.scrollIntoViewIfNeeded();
+  await expect(img).toBeVisible();
+  expect(await img.evaluate((el) => getComputedStyle(el).animationName)).toBe("none");
+});
+
+test("sin JavaScript la foto se ve", async ({ browser }) => {
+  const ctx = await browser.newContext({ javaScriptEnabled: false });
+  const page = await ctx.newPage();
+  await page.goto("/");
+  const img = page.locator(photos).first();
+  await img.scrollIntoViewIfNeeded();
+  await expect(img).toBeVisible();
+  await ctx.close();
 });
 
 test("los resúmenes siguen el anuncio pero sin prometer atención 24/7", async ({ page }) => {
