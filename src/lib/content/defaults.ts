@@ -77,7 +77,7 @@ export const defaults: Content = {
     email: "rr@rubenrodriguezoficial.com",
   },
   social: {
-    tiktok: "",
+    tiktok: "https://www.tiktok.com/@rubenrodriguezofficial",
     instagram: "https://www.instagram.com/rubenrodriguezoficialdog",
     youtube: "",
     facebook: "https://www.facebook.com/emprendedorconproyeccionsocial",

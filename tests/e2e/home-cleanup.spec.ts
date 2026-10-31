@@ -29,3 +29,13 @@ test("hay dos artículos de relleno, gratis y sin texto", async ({ page }) => {
   await expect(page.getByText(/min de lectura/)).toHaveCount(0);
   await expect(page.getByText("Artículo exclusivo para miembros")).toHaveCount(0);
 });
+
+test("el TikTok de Rubén aparece en la portada y en el pie, con su color", async ({ page }) => {
+  await page.goto("/");
+  const links = page.getByRole("link", { name: "TikTok", exact: true });
+  await expect(links).toHaveCount(2);
+  for (const link of await links.all()) {
+    await expect(link).toHaveAttribute("href", "https://www.tiktok.com/@rubenrodriguezofficial");
+    await expect(link).toHaveCSS("background-color", "rgb(0, 0, 0)");
+  }
+});
