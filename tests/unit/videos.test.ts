@@ -47,7 +47,7 @@ describe("parseEmbedUrl", () => {
     expect(parseEmbedUrl("https://www.tiktok.com/@rubenrodriguezoficialdog/video/7434961888640781624")).toEqual({
       platform: "TIKTOK",
       externalId: "7434961888640781624",
-      embedUrl: "https://www.tiktok.com/embed/v2/7434961888640781624",
+      embedUrl: "https://www.tiktok.com/player/v1/7434961888640781624",
     });
   });
   test("Instagram reel y post", () => {

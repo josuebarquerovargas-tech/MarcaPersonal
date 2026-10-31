@@ -38,7 +38,7 @@ export function parseEmbedUrl(input: string): ParsedEmbed | null {
     return {
       platform: "TIKTOK",
       externalId: id,
-      embedUrl: `https://www.tiktok.com/embed/v2/${id}`,
+      embedUrl: `https://www.tiktok.com/player/v1/${id}`,
     };
   }
 

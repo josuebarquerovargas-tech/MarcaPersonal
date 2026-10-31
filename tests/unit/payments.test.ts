@@ -30,8 +30,8 @@ describe("cardSchema", () => {
   });
   test("rechaza una fecha de vencimiento pasada", () => {
     expect(cardSchema.safeParse({ ...valid, expYear: year - 1 }).success).toBe(false);
-    const lastMonth = new Date();
-    lastMonth.setMonth(lastMonth.getMonth() - 1);
+    const today = new Date();
+    const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
     expect(
       cardSchema.safeParse({ ...valid, expMonth: lastMonth.getMonth() + 1, expYear: lastMonth.getFullYear() }).success,
     ).toBe(false);

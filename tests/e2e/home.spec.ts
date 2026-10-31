@@ -62,6 +62,6 @@ test("sin JavaScript el contenido y las miniaturas se ven", async ({ browser }) 
   const card = page.locator("[data-reveal]").first();
   await expect(card).toBeVisible();
   expect(await card.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
-  await expect(page.getByRole("heading", { name: "Demo: rutina de paseo" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Lanzamiento de la Federación Canina de Costa Rica" })).toBeVisible();
   await ctx.close();
 });
