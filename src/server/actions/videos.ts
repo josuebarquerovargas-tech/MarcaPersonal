@@ -12,7 +12,7 @@ import { deleteVideoFiles } from "@/server/videos";
 import { storage } from "@/lib/storage/storage";
 import { IMAGE_MIMES } from "@/lib/storage/mime";
 import { MAX_IMAGE_BYTES } from "@/lib/images";
-import { parseEmbedUrl } from "@/lib/videos/embed";
+import { isShortTikTokLink, parseEmbedUrl, resolveShortTikTokLink } from "@/lib/videos/embed";
 import { slugify, uniqueSlug } from "@/lib/videos/slug";
 import { FORM_TOKEN_FIELD } from "@/lib/form-token";
 
@@ -112,21 +112,23 @@ export async function createVideo(_prev: VideoFormState, fd: FormData): Promise<
   try {
     if (d.kind === "FILE") {
       if (!d.fileKey.startsWith("videos/") || !(await storage.stat(d.fileKey))) {
-        return { error: "El archivo de video no se encontró. Subilo de nuevo." };
+        return { error: "El archivo de video no se encontró. Súbelo de nuevo." };
       }
       data.filePath = d.fileKey;
       data.thumbnailPath = await thumbnailFromForm(fd);
     } else {
-      const parsedUrl = parseEmbedUrl(d.sourceUrl);
+      const sourceUrl = isShortTikTokLink(d.sourceUrl) ? await resolveShortTikTokLink(d.sourceUrl) : d.sourceUrl;
+      if (!sourceUrl) return { error: "No pudimos abrir ese enlace corto de TikTok. Revísalo o pega el enlace completo." };
+      const parsedUrl = parseEmbedUrl(sourceUrl);
       if (!parsedUrl) return { error: "El enlace debe ser de TikTok, Instagram o YouTube." };
-      if (await db.video.findUnique({ where: { sourceUrl: d.sourceUrl } })) {
+      if (await db.video.findUnique({ where: { sourceUrl } })) {
         return { error: "Ese enlace ya está en la lista de videos." };
       }
-      data.sourceUrl = d.sourceUrl;
+      data.sourceUrl = sourceUrl;
       data.platform = parsedUrl.platform;
       data.thumbnailPath =
         (await thumbnailFromForm(fd)) ??
-        (await embedThumbnail(parsedUrl.platform, parsedUrl.externalId, d.sourceUrl));
+        (await embedThumbnail(parsedUrl.platform, parsedUrl.externalId, sourceUrl));
     }
   } catch (e) {
     return { error: (e as Error).message };

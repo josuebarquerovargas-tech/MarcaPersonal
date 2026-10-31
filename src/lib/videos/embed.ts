@@ -58,6 +58,32 @@ export function parseEmbedUrl(input: string): ParsedEmbed | null {
   return null;
 }
 
+const TIKTOK_SHORT_HOSTS = new Set(["vt.tiktok.com", "vm.tiktok.com"]);
+
+export function isShortTikTokLink(input: string): boolean {
+  try {
+    const url = new URL(input.trim());
+    return url.protocol === "https:" && TIKTOK_SHORT_HOSTS.has(url.hostname);
+  } catch {
+    return false;
+  }
+}
+
+/** Follows one redirect of a TikTok short link. Any other host is never requested. */
+export async function resolveShortTikTokLink(input: string, fetcher: typeof fetch = fetch): Promise<string | null> {
+  if (!isShortTikTokLink(input)) return null;
+  try {
+    const res = await fetcher(input.trim(), { redirect: "manual", signal: AbortSignal.timeout(6000) });
+    const location = res.headers.get("location");
+    if (!location) return null;
+    const target = new URL(location);
+    if (target.protocol !== "https:" || parseEmbedUrl(location)?.platform !== "TIKTOK") return null;
+    return target.origin + target.pathname;
+  } catch {
+    return null;
+  }
+}
+
 export const PLATFORM_LABEL: Record<EmbedPlatform, string> = {
   TIKTOK: "TikTok",
   INSTAGRAM: "Instagram",

@@ -3,7 +3,7 @@
 import { useActionState, useState } from "react";
 import type { Video } from "@prisma/client";
 import type { VideoFormState } from "@/server/actions/videos";
-import { parseEmbedUrl, PLATFORM_LABEL } from "@/lib/videos/embed";
+import { isShortTikTokLink, parseEmbedUrl, PLATFORM_LABEL } from "@/lib/videos/embed";
 import { FORM_TOKEN_FIELD } from "@/lib/form-token";
 import { Button } from "@/components/ui/Button";
 import { Field, FormMessage } from "@/components/ui/Field";
@@ -32,7 +32,8 @@ export function VideoForm({ action, video, formToken, thumbnailUrl, showAccess =
   const [description, setDescription] = useState(video?.description ?? "");
   const parsedEmbed = kind === "EMBED" && sourceUrl ? parseEmbedUrl(sourceUrl) : null;
 
-  const canSubmit = editing || (kind === "FILE" ? !!upload : !!parsedEmbed);
+  const shortLink = kind === "EMBED" && isShortTikTokLink(sourceUrl);
+  const canSubmit = editing || (kind === "FILE" ? !!upload : !!parsedEmbed || shortLink);
 
   return (
     <form action={formAction} className="flex max-w-2xl flex-col gap-6" noValidate>
@@ -78,8 +79,8 @@ export function VideoForm({ action, video, formToken, thumbnailUrl, showAccess =
           <Field
             label="Enlace del video"
             htmlFor="sourceUrl"
-            hint="Pega el enlace de TikTok, Instagram o YouTube."
-            error={sourceUrl && !parsedEmbed ? "No reconozco ese enlace." : undefined}
+            hint={shortLink ? "Enlace corto de TikTok: se completa al guardar." : "Pega el enlace de TikTok, Instagram o YouTube."}
+            error={sourceUrl && !parsedEmbed && !shortLink ? "No reconozco ese enlace." : undefined}
           >
             <Input
               id="sourceUrl"

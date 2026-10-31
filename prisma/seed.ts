@@ -67,6 +67,46 @@ async function seedAdminAndPlans() {
   });
 }
 
+/** Rubén's own videos on social networks, linked rather than copied. */
+const SOCIAL_VIDEOS = [
+  { slug: "instagram-momento-de-facturar", title: "Llegó el momento de facturar", platform: "INSTAGRAM", sourceUrl: "https://www.instagram.com/reel/DfKsYMsv2y0/", daysAgo: 0, featured: true },
+  { slug: "instagram-golden-tours-nicaragua", title: "Golden Tours Nicaragua: ¿listos para descubrir Nicaragua?", platform: "INSTAGRAM", sourceUrl: "https://www.instagram.com/reel/DfKj_JexdNo/", daysAgo: 1, featured: false },
+  { slug: "tiktok-weltex-promos", title: "Weltex Costa Rica: aproveche las promos", platform: "TIKTOK", sourceUrl: "https://www.tiktok.com/@patriotico83/video/7702526944138530049", daysAgo: 2, featured: false },
+  { slug: "tiktok-que-empiece-la-accion", title: "Que empiece la acción", platform: "TIKTOK", sourceUrl: "https://www.tiktok.com/@patriotico83/video/7702832461750816020", daysAgo: 3, featured: false },
+  { slug: "tiktok-leo-sus-comentarios", title: "Leo todos sus comentarios", platform: "TIKTOK", sourceUrl: "https://www.tiktok.com/@patriotico83/video/7702516471984868629", daysAgo: 4, featured: false },
+  { slug: "instagram-esto-me-molesta", title: "Esto me molesta mucho", platform: "INSTAGRAM", sourceUrl: "https://www.instagram.com/reel/DfKxyfBvA3r/", daysAgo: 5, featured: false },
+  { slug: "instagram-cierre-tec-limon", title: "¿Cierre del TEC en Limón?", platform: "INSTAGRAM", sourceUrl: "https://www.instagram.com/reel/DfKv7rEPrsL/", daysAgo: 6, featured: false },
+  { slug: "tiktok-boanerges-miranda", title: "Boanerges Miranda apoyó a mi hermano", platform: "TIKTOK", sourceUrl: "https://www.tiktok.com/@patriotico83/video/7702520781128944917", daysAgo: 7, featured: false },
+] as const;
+
+async function seedSocialVideos() {
+  await mkdir(path.join(uploadsDir, "thumbs"), { recursive: true });
+  const now = Date.now();
+  let i = 0;
+  for (const v of SOCIAL_VIDEOS) {
+    const thumbnailPath = `thumbs/${v.slug}.jpg`;
+    await copyFile(path.join(demoDir, "social", `${v.slug}.jpg`), path.join(uploadsDir, thumbnailPath));
+    await db.video.upsert({
+      where: { slug: v.slug },
+      // Lo que se edite en el panel no se pisa al volver a sembrar.
+      update: {},
+      create: {
+        slug: v.slug,
+        title: v.title,
+        kind: "EMBED",
+        platform: v.platform,
+        sourceUrl: v.sourceUrl,
+        thumbnailPath,
+        access: "FREE",
+        status: "PUBLISHED",
+        featured: v.featured,
+        sortOrder: i++,
+        publishedAt: new Date(now - v.daysAgo * 86_400_000),
+      },
+    });
+  }
+}
+
 async function seedDemoVideos() {
   await db.video.deleteMany({ where: { slug: { in: OLD_DEMO_SLUGS } } });
   await mkdir(path.join(uploadsDir, "videos"), { recursive: true });
@@ -132,6 +172,7 @@ async function main() {
   await seedAdminAndPlans();
   if (process.env.SEED_DEMO !== "false") {
     await seedDemoVideos();
+    await seedSocialVideos();
     await seedDemoMember();
   }
   console.log("Seed listo: administrador, planes y contenido de demostración.");
