@@ -17,7 +17,6 @@ import { Process } from "@/components/site/Process";
 import { ServicesGrid } from "@/components/site/ServicesGrid";
 import { isMembershipEnabled } from "@/server/features";
 import { MembershipCta } from "@/components/site/MembershipCta";
-import { ContactSection } from "@/components/site/ContactSection";
 import { JsonLd } from "@/components/site/JsonLd";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
@@ -121,7 +120,6 @@ export default async function Home() {
           </Container>
         </section>
       )}
-      <ContactSection {...contact} social={social} />
     </main>
   );
 }

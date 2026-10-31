@@ -57,7 +57,7 @@ export default async function PostPage({ params }: Params) {
           <h1 className="font-display mt-6 text-4xl leading-[1.05] sm:text-6xl">{post.title}</h1>
           <p className="mt-4 text-sm text-muted">
             {post.publishedAt && formatLongDate(post.publishedAt)}
-            {body !== null && ` · ${readingMinutes(body)} min de lectura`}
+            {body?.trim() && ` · ${readingMinutes(body)} min de lectura`}
           </p>
           {post.excerpt && <p className="mt-6 text-xl leading-relaxed text-muted">{post.excerpt}</p>}
           {post.coverPath && (

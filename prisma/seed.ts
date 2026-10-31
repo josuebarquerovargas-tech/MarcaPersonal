@@ -123,6 +123,24 @@ async function seedDemoPost() {
   });
 }
 
+/** Filler with no text, so the articles section does not look empty in the demo. */
+async function seedFillerPosts() {
+  const now = Date.now();
+  for (const n of [1, 2]) {
+    await db.post.upsert({
+      where: { slug: `articulo-de-ejemplo-${n}` },
+      update: {},
+      create: {
+        slug: `articulo-de-ejemplo-${n}`,
+        title: `Artículo de ejemplo ${n}`,
+        body: "",
+        status: "PUBLISHED",
+        publishedAt: new Date(now - n * 86_400_000),
+      },
+    });
+  }
+}
+
 async function seedDemoVideos() {
   await db.video.deleteMany({ where: { slug: { in: OLD_DEMO_SLUGS } } });
   await mkdir(path.join(uploadsDir, "videos"), { recursive: true });
@@ -190,6 +208,7 @@ async function main() {
     await seedDemoVideos();
     await seedSocialVideos();
     await seedDemoPost();
+    await seedFillerPosts();
     await seedDemoMember();
   }
   console.log("Seed listo: administrador, planes y contenido de demostración.");

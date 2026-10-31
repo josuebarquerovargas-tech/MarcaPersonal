@@ -28,7 +28,8 @@ export function PostCard({ post, index = 0 }: { post: PostCardData; index?: numb
           )}
         </div>
         <p className="mt-4 text-sm text-muted">
-          {post.publishedAt && formatDate(post.publishedAt)} · {post.minutes} min de lectura
+          {post.publishedAt && formatDate(post.publishedAt)}
+          {post.minutes > 0 && ` · ${post.minutes} min de lectura`}
         </p>
         <h3 className="font-display mt-1 text-2xl leading-snug group-hover:underline group-hover:decoration-accent group-hover:underline-offset-4">{post.title}</h3>
         {post.excerpt && <p className="mt-2 line-clamp-3 text-muted">{post.excerpt}</p>}

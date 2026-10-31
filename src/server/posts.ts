@@ -20,7 +20,7 @@ export async function listPublishedPosts(opts: { take?: number; access?: "FREE" 
   if (!on && opts.access === "MEMBERS") return [];
   const access = on ? opts.access : "FREE";
   const posts = await db.post.findMany({ where: { status: "PUBLISHED", ...(access ? { access } : {}) }, orderBy: { publishedAt: "desc" }, take: opts.take });
-  return posts.map(({ body, ...post }) => ({ ...post, minutes: readingMinutes(body) }));
+  return posts.map(({ body, ...post }) => ({ ...post, minutes: body.trim() ? readingMinutes(body) : 0 }));
 }
 
 export function getPostById(id: string): Promise<Post | null> {

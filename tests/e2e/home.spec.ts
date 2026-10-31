@@ -6,7 +6,6 @@ test("la portada muestra el nombre, el apodo y los llamados a la acción", async
   await expect(page.getByText("¿Estás listo a mostrar tu marca?").first()).toBeVisible();
   await expect(page.getByRole("link", { name: "Ver servicios" }).first()).toHaveAttribute("href", "/servicios");
   await expect(page.getByRole("link", { name: "Solicitar cotización" }).first()).toHaveAttribute("href", "/contacto#cotizacion");
-    await expect(page.getByRole("heading", { name: "¿Quieres cotizar?" })).toBeVisible();
 });
 
 test("en móvil no hay scroll horizontal", async ({ page }) => {
