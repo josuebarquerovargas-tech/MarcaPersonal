@@ -357,3 +357,13 @@ body {
 .whatsapp-in {
   animation: whatsapp-in 350ms var(--ease-out) 400ms backwards;
 }
+
+/* Logo: al pasar el cursor, la figura sube un poco. */
+.logo-rise {
+  transition: transform 200ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .logo-link:hover .logo-rise {
+    transform: translateY(-1.5px);
+  }
+}

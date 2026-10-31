@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { buttonClasses } from "@/components/ui/Button";
+import { BrandLogo } from "./BrandLogo";
 
 
 type NavProps = { brand: string; memberName: string | null };
@@ -48,8 +49,8 @@ export function Nav({ brand, memberName }: NavProps) {
   return (
     <header className="sticky top-0 z-40 border-b border-line/60 bg-bg/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 w-full max-w-[1200px] items-center justify-between px-4 sm:px-8">
-        <Link href="/" className="font-display text-xl tracking-tight">
-          {brand}
+        <Link href="/" aria-label={brand} title={brand} className="logo-link flex size-11 items-center justify-center rounded-[12px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+          <BrandLogo className="size-10" />
         </Link>
 
         <nav aria-label="Principal" className="hidden items-center gap-7 md:flex">
