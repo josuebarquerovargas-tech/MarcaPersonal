@@ -64,9 +64,9 @@ test("sin JavaScript el contenido y las miniaturas se ven", async ({ browser }) 
   await ctx.close();
 });
 
-test("el sitio no enlaza las cuentas de TikTok y YouTube que ya no existen", async ({ page }) => {
+test("el sitio no enlaza la cuenta vieja de TikTok ni el YouTube que ya no existe", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator('a[href*="tiktok.com"]')).toHaveCount(0);
+  await expect(page.locator('a[href*="tiktok.com/@rubenrodriguezoficialdog"]')).toHaveCount(0);
   await expect(page.locator('a[href*="rubenrodriguez-lx1gr"]')).toHaveCount(0);
 });
 
