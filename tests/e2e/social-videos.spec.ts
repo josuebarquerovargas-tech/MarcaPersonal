@@ -33,3 +33,9 @@ test("un video de TikTok se reproduce con su enlace", async ({ page }) => {
   await page.getByRole("button", { name: "Reproducir Que empiece la acción" }).click();
   await expect(page.locator('iframe[src*="tiktok.com/player/v1/7702832461750816020"]')).toBeAttached();
 });
+
+test("la portada vertical se ve completa en la tarjeta, sin cortes", async ({ page }) => {
+  await page.goto("/videos");
+  const cover = page.getByRole("link", { name: "Que empiece la acción" }).locator("[data-video-cover]");
+  await expect(cover).toHaveCSS("object-fit", "contain");
+});

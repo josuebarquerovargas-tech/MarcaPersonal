@@ -12,6 +12,7 @@ export type VideoCardData = Pick<
 export function VideoCard({ video, index = 0 }: { video: VideoCardData; index?: number }) {
   const chip = video.kind === "FILE" ? "Video" : video.platform ? PLATFORM_LABEL[video.platform] : "Enlace";
   const duration = formatDuration(video.durationSec);
+  const vertical = video.platform === "TIKTOK" || video.platform === "INSTAGRAM";
 
   return (
     <Reveal as="li" delay={Math.min(index, 5) * 0.06} className="group">
@@ -20,13 +21,21 @@ export function VideoCard({ video, index = 0 }: { video: VideoCardData; index?: 
           className={`relative overflow-hidden rounded-[14px] bg-surface-2 shadow-soft transition-transform duration-300 group-hover:-translate-y-1 group-focus-visible:ring-2 group-focus-visible:ring-accent aspect-video`}
         >
           {video.thumbUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={video.thumbUrl}
-              alt=""
-              loading="lazy"
-              className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-            />
+            <>
+              {vertical && (
+                // A blurred copy fills the sides, so a vertical cover fits whole in a wide card.
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={video.thumbUrl} alt="" aria-hidden="true" loading="lazy" className="absolute inset-0 size-full scale-110 object-cover opacity-60 blur-xl" />
+              )}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={video.thumbUrl}
+                alt=""
+                loading="lazy"
+                data-video-cover
+                className={`relative size-full transition-transform duration-500 group-hover:scale-[1.03] ${vertical ? "object-contain" : "object-cover"}`}
+              />
+            </>
           ) : (
             <div className="flex size-full items-center justify-center bg-[radial-gradient(circle_at_30%_30%,color-mix(in_oklab,var(--accent)_30%,transparent),transparent_60%)]">
               <span className="font-display text-5xl text-ink/20">RR</span>
