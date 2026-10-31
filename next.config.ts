@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ["sharp"],
   experimental: {
     serverActions: { bodySizeLimit: "100mb" },
+    // El middleware clona el cuerpo y lo corta a 10 MB por defecto, aunque la acción admita más.
+    middlewareClientMaxBodySize: "100mb",
   },
   async redirects() {
     // URLs del sitio Joomla anterior.

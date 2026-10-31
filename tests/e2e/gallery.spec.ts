@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import path from "node:path";
+import sharp from "sharp";
 import { loginAsAdmin } from "./helpers";
 
 const fixture = path.join(__dirname, "fixtures", "thumb.jpg");
@@ -16,7 +17,7 @@ test.describe.serial("galería", () => {
     await page.getByLabel("Fotos").setInputFiles(fixture);
     await page.getByLabel("Pie de foto").fill("Foto de prueba E2E");
     await page.getByRole("button", { name: "Subir" }).click();
-    await expect(page.getByText("Fotos subidas")).toBeVisible();
+    await expect(page.getByText("Fotos subidas", { exact: true })).toBeVisible();
     await expect(page.locator("input[name=caption][value=\"Foto de prueba E2E\"]")).toBeVisible();
     const img = page.locator("img[src^='/media/images/']").first();
     await expect(img).toBeVisible();
@@ -40,12 +41,22 @@ test.describe.serial("galería", () => {
   });
 });
 
-test("subir varias fotos a la vez crea una fila por foto", async ({ page }) => {
+test("subir varias fotos pesadas que juntas superan 10 MB crea una fila por foto", async ({ page }) => {
+  test.setTimeout(120_000);
+  const heavy = await sharp({
+    create: { width: 2600, height: 2600, channels: 3, background: { r: 120, g: 90, b: 60 }, noise: { type: "gaussian", mean: 128, sigma: 40 } },
+  })
+    .jpeg({ quality: 95 })
+    .toBuffer();
+  expect(heavy.length).toBeGreaterThan(4 * 1024 * 1024);
+  expect(heavy.length).toBeLessThan(8 * 1024 * 1024);
   await loginAsAdmin(page);
   await page.goto("/admin/galeria");
-  await page.getByLabel("Fotos").setInputFiles([fixture, fixture, fixture]);
+  await page.getByLabel("Fotos").setInputFiles(
+    [1, 2, 3].map((n) => ({ name: `pesada-${n}.jpg`, mimeType: "image/jpeg", buffer: heavy })),
+  );
   await page.getByLabel("Pie de foto").fill("Lote E2E");
   await page.getByRole("button", { name: "Subir" }).click();
-  await expect(page.getByText("Fotos subidas")).toBeVisible();
-  await expect(page.locator("input[name=caption][value=\"Lote E2E\"]")).toHaveCount(3);
+  await expect(page.getByText("Fotos subidas", { exact: true })).toBeVisible({ timeout: 60_000 });
+  await expect(page.locator('input[name=caption][value="Lote E2E"]')).toHaveCount(3);
 });
