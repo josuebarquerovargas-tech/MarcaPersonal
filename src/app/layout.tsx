@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import { THEME_INIT_SCRIPT } from "@/lib/theme";
+import { getContent } from "@/server/content";
+import { storage } from "@/lib/storage/storage";
 import "./globals.css";
 
 const inter = Inter({
@@ -16,11 +18,25 @@ const fraunces = Fraunces({
   axes: ["opsz", "SOFT"],
 });
 
-export const metadata: Metadata = {
-  title: "Rubén Rodríguez",
-  description:
-    "Defensor del bienestar animal, juez internacional canino y creador de contenido en Costa Rica.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const [seo, portrait] = await Promise.all([getContent("seo"), getContent("portrait")]);
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const image = portrait.key ? storage.publicUrl(portrait.key) : undefined;
+  return {
+    metadataBase: new URL(base),
+    title: { default: seo.title, template: `%s · Rubén Rodríguez` },
+    description: seo.description,
+    openGraph: {
+      type: "website",
+      locale: "es_CR",
+      siteName: "Rubén Rodríguez",
+      title: seo.title,
+      description: seo.description,
+      images: image ? [{ url: image }] : undefined,
+    },
+    twitter: { card: image ? "summary_large_image" : "summary", title: seo.title, description: seo.description },
+  };
+}
 
 export default function RootLayout({
   children,
