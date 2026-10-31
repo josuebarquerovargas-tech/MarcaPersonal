@@ -39,10 +39,10 @@ export const SERVICES: Service[] = [
   {
     slug: "contenido",
     title: "Contenido que vende",
-    summary: "Videos, reels, fotografías y contenido estratégico para presentar lo que ofreces.",
+    summary: "Videos, reels, fotografías y contenido estratégico para presentar lo que ofrecés.",
     includes: ["Producción de videos y reels", "Fotografías", "Contenido estratégico para presentar productos o servicios"],
     forWhom: "Marcas de productos o servicios que necesitan mostrar mejor lo que ofrecen.",
-    howItWorks: "Definimos qué quieres comunicar y producimos el contenido pensando en apoyar tus ventas.",
+    howItWorks: "Definimos qué querés comunicar y producimos el contenido pensando en apoyar tus ventas.",
   },
   {
     slug: "herramientas-tecnologicas",

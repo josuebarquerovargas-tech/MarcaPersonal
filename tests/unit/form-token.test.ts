@@ -44,3 +44,11 @@ test("expired token is rejected", async () => {
   expect(rows.get(token)!.expiresAt).toEqual(new Date("2026-01-01T01:00:00Z"));
   expect(await ft.consumeFormToken(token, new Date("2026-01-01T02:00:00Z"))).toBe(false);
 });
+
+test("emitir un token limpia los vencidos para que las visitas no inflen la tabla", async () => {
+  const purged: Date[] = [];
+  const { deps } = fakeStore();
+  const ft = createFormTokens({ ...deps, purge: async (before) => void purged.push(before) });
+  await ft.issueFormToken(new Date("2026-01-01T02:00:00Z"));
+  expect(purged).toEqual([new Date("2026-01-01T01:00:00Z")]);
+});

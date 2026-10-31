@@ -33,7 +33,7 @@ export async function submitQuote(_prev: QuoteFormState, fd: FormData): Promise<
   // Spent only after validation, so correcting an error never blocks the retry.
   const token = fd.get(FORM_TOKEN_FIELD);
   if (typeof token !== "string" || !(await formTokens.consumeFormToken(token))) {
-    return { error: "Este formulario ya fue enviado. Recargá la página si necesitás enviar otra solicitud." };
+    return { error: "Este formulario venció o ya se envió. Copiá tu mensaje, recargá la página e intentá de nuevo." };
   }
 
   const { consent: _consent, ...data } = parsed.data;

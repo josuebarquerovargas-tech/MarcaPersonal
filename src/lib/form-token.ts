@@ -21,6 +21,7 @@ export function createFormTokens(deps: FormTokenDeps) {
         usedAt: null,
         expiresAt: new Date(now.getTime() + FORM_TOKEN_TTL_MS),
       });
+      void deps.purge(new Date(now.getTime() - FORM_TOKEN_TTL_MS)).catch(() => {});
       return token;
     },
     async consumeFormToken(token: string, now: Date = new Date()): Promise<boolean> {

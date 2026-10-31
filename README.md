@@ -1,11 +1,13 @@
-# Rubén Rodríguez · plataforma de marca personal (demo)
+# Rubén Rodríguez · marca personal y servicios digitales (demo)
 
-Sitio público y panel administrativo para un creador de contenido: videos propios y embebidos,
-membresía con pasarela de pago **simulada**, galería, tema claro/oscuro y textos editables.
+Sitio de marca personal con cinco servicios, proceso de trabajo, cotizaciones y WhatsApp, videos, blog,
+galería y panel administrativo. El contexto de negocio está en `docs/contexto-negocio.md`.
 
-> Es una demostración: los pagos no son reales y el video se sirve desde el disco del servidor.
-> La pasarela (`FakeGateway`) y el almacenamiento (`DiskStorage`) están detrás de interfaces
-> pensadas para reemplazarse por servicios reales (ONVO Pay / Tilopay, Cloudflare Stream / R2).
+> Es una demostración. Textos, fotos, enlaces y dominio están por confirmar con Rubén. Las páginas legales son borradores.
+> La membresía con pago simulado está apagada: se activa en Panel → Ajustes → Módulos cuando se confirmen planes y precios.
+> No hay cobros reales. La pasarela (`FakeGateway`) y el almacenamiento (`DiskStorage`) están detrás de interfaces reemplazables.
+
+**Aviso:** `npm run test:e2e` vacía la base definida en `DATABASE_URL`. No la corras contra una base con contenido real.
 
 ## Stack
 
@@ -76,7 +78,7 @@ SINPE Móvil: un número terminado en `0000` se rechaza; el resto se aprueba.
 ## Estructura
 
 ```
-prisma/            esquema, migraciones, seed y clips de demostración
+prisma/            esquema, migraciones, seed y clips de demostración (ocultos)
 src/app/(site)     sitio público (portada, videos, membresía, pago, cuenta, galería…)
 src/app/admin      panel (resumen, videos, blog, miembros, pagos, contenido, galería, ajustes)
 src/app/api        subida por partes y stream de video con control de acceso

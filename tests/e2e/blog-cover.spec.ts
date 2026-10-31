@@ -1,8 +1,15 @@
 import { expect, test } from "@playwright/test";
 import path from "node:path";
+import { PrismaClient } from "@prisma/client";
 import { loginAsAdmin } from "./helpers";
 
 const fixture = path.join(__dirname, "fixtures", "thumb.jpg");
+
+test.afterAll(async () => {
+  const db = new PrismaClient();
+  await db.post.deleteMany({ where: { title: { startsWith: "Portada E2E" } } });
+  await db.$disconnect();
+});
 
 test("la imagen de portada se guarda y se ve en el artículo publicado", async ({ page }) => {
   const title = `Portada E2E ${Date.now()}`;
