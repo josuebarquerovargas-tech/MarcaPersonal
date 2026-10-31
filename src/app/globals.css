@@ -2,6 +2,8 @@
 
 /* ---------- Tokens: tema claro (por defecto) ---------- */
 :root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --bg: #fafaf7;
   --surface: #ffffff;
   --surface-2: #f1f0eb;
@@ -95,7 +97,7 @@ body {
   }
 }
 .hero-in {
-  animation: hero-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: hero-in 0.7s var(--ease-out) both;
   animation-delay: calc(0.1s + var(--i, 0) * 0.08s);
 }
 @keyframes hero-portrait-in {
@@ -109,7 +111,121 @@ body {
   }
 }
 .hero-portrait-in {
-  animation: hero-portrait-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+  animation: hero-portrait-in 0.9s var(--ease-out) 0.25s both;
+}
+
+/* Título: cada línea sube desde detrás de una máscara. El relleno inferior
+   evita recortar los descendentes (la "g" de Rodríguez). */
+.hero-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.hero-line-inner {
+  display: block;
+  animation: hero-line-up 0.9s var(--ease-out) both;
+  animation-delay: calc(0.1s + var(--i, 0) * 0.09s);
+}
+@keyframes hero-line-up {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Movimiento ambiental: lento y solo con transform. */
+@keyframes drift-a {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-14px, 18px);
+  }
+}
+@keyframes drift-b {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(10px, -10px) rotate(2deg);
+  }
+}
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 1;
+  }
+}
+.drift-a,
+.drift-b {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.drift-a {
+  animation: drift-a 11s var(--ease-in-out) infinite;
+}
+.drift-b {
+  animation: drift-b 14s var(--ease-in-out) infinite;
+}
+.breathe {
+  animation: breathe 8s var(--ease-in-out) infinite;
+}
+
+/* Franja continua. Dos copias idénticas: al llegar a -50% el salto no se nota. */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee 48s linear infinite;
+}
+@media (hover: hover) and (pointer: fine) {
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+/* Indicación de desplazamiento. */
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+.scroll-cue-line {
+  animation: scroll-cue 2.2s var(--ease-in-out) infinite;
+}
+
+/* Progreso de lectura ligado al scroll, sin JavaScript. Sin soporte no se muestra. */
+.scroll-progress {
+  display: none;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    display: block;
+    animation: scroll-progress linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes scroll-progress {
+  to {
+    transform: scaleX(1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -121,5 +237,8 @@ body {
   *::after {
     animation: none !important;
     transition: none !important;
+  }
+  .scroll-progress {
+    display: none;
   }
 }

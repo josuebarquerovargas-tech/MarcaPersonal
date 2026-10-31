@@ -49,7 +49,7 @@ export function Nav({ brand, memberName }: { brand: string; memberName: string |
               key={l.href}
               href={l.href}
               aria-current={pathname.startsWith(l.href) ? "page" : undefined}
-              className="text-[15px] text-muted transition-colors hover:text-ink aria-[current=page]:text-ink"
+              className="relative text-[15px] text-muted transition-colors duration-200 after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-200 after:ease-[var(--ease-out)] hover:text-ink hover:after:scale-x-100 aria-[current=page]:text-ink aria-[current=page]:after:scale-x-100"
             >
               {l.label}
             </Link>

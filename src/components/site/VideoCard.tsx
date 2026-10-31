@@ -35,6 +35,13 @@ export function VideoCard({ video, index = 0 }: { video: VideoCardData; index?: 
               <span className="font-display text-5xl text-ink/20">RR</span>
             </div>
           )}
+          <span aria-hidden="true" className="absolute inset-0 flex items-center justify-center">
+            <span className="flex size-14 scale-90 items-center justify-center rounded-full bg-white/90 text-black opacity-0 transition-[opacity,transform] duration-200 ease-[var(--ease-out)] group-hover:scale-100 group-hover:opacity-100">
+              <svg viewBox="0 0 24 24" className="ml-0.5 size-6" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </span>
+          </span>
           <div className="absolute left-3 top-3 flex gap-1.5">
             <span className="rounded-full bg-black/60 px-2.5 py-0.5 text-xs font-medium text-white backdrop-blur-sm">{chip}</span>
             {video.access === "MEMBERS" && (

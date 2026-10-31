@@ -11,7 +11,7 @@ export function MembershipCta({ title, text, benefits, monthlyPriceCRC, isMember
       <Container>
         <Reveal>
           <div className="relative overflow-hidden rounded-[24px] bg-ink px-6 py-14 text-bg sm:px-12 sm:py-20">
-            <div aria-hidden="true" className="absolute -right-24 -top-24 size-96 rounded-full bg-accent/30 blur-3xl" />
+            <div aria-hidden="true" className="breathe absolute -right-24 -top-24 size-96 rounded-full bg-accent/30 blur-3xl" />
             <div className="relative grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
               <div>
                 <p className="text-xs uppercase tracking-[0.25em] text-accent">Membresía</p>

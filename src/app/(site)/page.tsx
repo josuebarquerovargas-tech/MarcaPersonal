@@ -8,6 +8,7 @@ import { PostGrid } from "@/components/site/PostCard";
 import { listPlans } from "@/server/plans";
 import { storage } from "@/lib/storage/storage";
 import { Hero } from "@/components/site/Hero";
+import { Marquee } from "@/components/site/Marquee";
 import { LatestVideos } from "@/components/site/LatestVideos";
 import { About } from "@/components/site/About";
 import { Pillars } from "@/components/site/Pillars";
@@ -54,6 +55,7 @@ export default async function Home() {
         image={portraitUrl ? `${siteUrl}${portraitUrl}` : null}
       />
       <Hero {...hero} portraitUrl={portraitUrl} social={social} />
+      <Marquee />
       <LatestVideos
         videos={videos.map((v) => ({ ...v, thumbUrl: v.thumbnailPath ? storage.publicUrl(v.thumbnailPath) : null }))}
       />

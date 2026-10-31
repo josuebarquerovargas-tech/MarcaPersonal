@@ -30,15 +30,19 @@ export function Hero({ eyebrow, title, subtitle, ctaPrimary, ctaSecondary, portr
           </p>
           <h1
             id="hero-title"
-            className="hero-in font-display mt-5 text-[clamp(44px,9vw,112px)] leading-[0.95] tracking-[-0.02em]"
-            style={step(1)}
+            className="font-display mt-5 text-[clamp(44px,9vw,112px)] leading-[0.95] tracking-[-0.02em]"
           >
-            {first}
+            <span className="hero-line">
+              <span className="hero-line-inner" style={step(1)}>
+                {first}
+              </span>
+            </span>{" "}
             {rest.length > 0 && (
-              <>
-                <br />
-                <span className="text-ink/80">{rest.join(" ")}</span>
-              </>
+              <span className="hero-line">
+                <span className="hero-line-inner text-ink/80" style={step(2)}>
+                  {rest.join(" ")}
+                </span>
+              </span>
             )}
           </h1>
           <p className="hero-in mt-7 max-w-xl text-lg leading-relaxed text-muted sm:text-xl" style={step(2)}>
@@ -61,6 +65,16 @@ export function Hero({ eyebrow, title, subtitle, ctaPrimary, ctaSecondary, portr
               </a>
             ))}
           </div>
+          <a
+            href="#videos"
+            className="hero-in group mt-12 hidden items-center gap-3 text-xs uppercase tracking-[0.2em] text-muted transition-colors duration-200 hover:text-ink lg:inline-flex"
+            style={step(5)}
+          >
+            <span aria-hidden="true" className="relative block h-10 w-px overflow-hidden bg-line">
+              <span className="scroll-cue-line absolute inset-0 block bg-accent" />
+            </span>
+            Seguí bajando
+          </a>
         </div>
 
         <div className="hero-portrait-in relative mx-auto w-full max-w-md lg:max-w-none">
@@ -72,7 +86,7 @@ export function Hero({ eyebrow, title, subtitle, ctaPrimary, ctaSecondary, portr
               <Monogram initials={title.split(" ").map((w) => w[0]).join("").slice(0, 2)} />
             )}
           </div>
-          <div aria-hidden="true" className="absolute -right-6 -top-6 -z-10 size-40 rounded-full bg-accent/20 blur-3xl" />
+          <div aria-hidden="true" className="breathe absolute -right-6 -top-6 -z-10 size-40 rounded-full bg-accent/20 blur-3xl" />
         </div>
       </div>
     </section>
@@ -89,8 +103,8 @@ function Monogram({ initials }: { initials: string }) {
             <stop offset="1" stopColor="var(--accent)" stopOpacity="0.05" />
           </linearGradient>
         </defs>
-        <path d="M60 420 C 40 300, 120 220, 200 240 S 360 330, 340 420 Z" fill="url(#hero-grad)" />
-        <circle cx="290" cy="130" r="70" fill="var(--accent)" opacity="0.18" />
+        <path className="drift-b" d="M60 420 C 40 300, 120 220, 200 240 S 360 330, 340 420 Z" fill="url(#hero-grad)" />
+        <circle className="drift-a" cx="290" cy="130" r="70" fill="var(--accent)" opacity="0.18" />
         <path d="M40 80 Q 200 20 360 90" stroke="var(--line)" strokeWidth="1.5" fill="none" />
       </svg>
       <span className="font-display relative text-[clamp(96px,22vw,180px)] leading-none tracking-[-0.06em] text-ink/85">{initials}</span>

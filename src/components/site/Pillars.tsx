@@ -19,7 +19,7 @@ export function Pillars({ heading, intro, items }: { heading: string; intro: str
         <ol className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((it, i) => (
             <Reveal as="li" key={it.title} delay={i * 0.08} className="group rounded-[16px] border border-line bg-surface p-6 transition-transform duration-300 hover:-translate-y-1">
-              <span className="flex size-11 items-center justify-center rounded-full bg-accent/10 text-accent">
+              <span className="flex size-11 items-center justify-center rounded-full bg-accent/10 text-accent transition-transform duration-200 ease-[var(--ease-out)] group-hover:scale-110">
                 <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   {icons[i % icons.length]}
                 </svg>
