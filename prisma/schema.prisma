@@ -168,6 +168,27 @@ model Photo {
   createdAt DateTime @default(now())
 }
 
+enum QuoteStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+model QuoteRequest {
+  id        String      @id @default(cuid())
+  name      String
+  contact   String
+  service   String
+  message   String      @default("")
+  status    QuoteStatus @default(NEW)
+  sourceKey String
+  consentAt DateTime
+  createdAt DateTime    @default(now())
+
+  @@index([status, createdAt])
+  @@index([sourceKey, createdAt])
+}
+
 enum PostStatus {
   DRAFT
   PUBLISHED
