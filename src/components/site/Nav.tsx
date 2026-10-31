@@ -50,7 +50,7 @@ export function Nav({ brand, memberName }: NavProps) {
     <header className="sticky top-0 z-40 border-b border-line/60 bg-bg/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 w-full max-w-[1200px] items-center justify-between px-4 sm:px-8">
         <Link href="/" aria-label={brand} title={brand} className="logo-link flex h-11 items-center rounded-[12px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
-          <BrandLogo className="h-9 w-auto" />
+          <BrandLogo className="logo-rise h-10 w-auto" />
         </Link>
 
         <nav aria-label="Principal" className="hidden items-center gap-7 md:flex">
