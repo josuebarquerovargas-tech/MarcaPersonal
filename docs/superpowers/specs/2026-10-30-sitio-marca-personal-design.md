@@ -67,7 +67,7 @@ desde el panel; la demo arranca con contenido de muestra claramente marcado como
 **No objetivos**
 
 - Cobro real. Transcodificación o CDN de video. Correo transaccional real.
-- Blog, comentarios, chat, tienda de productos físicos.
+- Comentarios, chat, tienda de productos físicos. El blog se agregó después a pedido de Josue: artículos públicos con borradores, portada y formato Markdown simple.
 - Varios administradores con roles.
 
 **Anti objetivos**

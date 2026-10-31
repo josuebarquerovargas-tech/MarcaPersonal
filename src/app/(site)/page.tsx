@@ -3,6 +3,8 @@ import { getMembership } from "@/server/members";
 import { getContent } from "@/server/content";
 import { listPublishedVideos } from "@/server/videos";
 import { listPhotos } from "@/server/photos";
+import { listPublishedPosts } from "@/server/posts";
+import { PostGrid } from "@/components/site/PostCard";
 import { listPlans } from "@/server/plans";
 import { storage } from "@/lib/storage/storage";
 import { Hero } from "@/components/site/Hero";
@@ -21,7 +23,7 @@ import { PhotoMosaic } from "@/components/site/PhotoMosaic";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [hero, about, pillars, membership, contact, social, seo, portrait, videos, photos, plans, member] =
+  const [hero, about, pillars, membership, contact, social, seo, portrait, videos, photos, plans, member, posts] =
     await Promise.all([
       getContent("hero"),
       getContent("about"),
@@ -35,6 +37,7 @@ export default async function Home() {
       listPhotos(),
       listPlans(),
       getMember(),
+      listPublishedPosts(3),
     ]);
   const { active: isMember } = await getMembership(member);
   const portraitUrl = portrait.key ? storage.publicUrl(portrait.key) : null;
@@ -63,6 +66,26 @@ export default async function Home() {
         monthlyPriceCRC={monthly}
         isMember={isMember}
       />
+      {posts.length > 0 && (
+        <section className="py-10 sm:py-16" aria-labelledby="blog-title">
+          <Container>
+            <Reveal>
+              <SectionHeading
+                eyebrow="Blog"
+                title="Para leer con calma"
+                action={
+                  <LinkButton href="/blog" variant="secondary">
+                    Ver todos los artículos
+                  </LinkButton>
+                }
+              />
+            </Reveal>
+            <div className="mt-10">
+              <PostGrid posts={posts} />
+            </div>
+          </Container>
+        </section>
+      )}
       {photos.length > 0 && (
         <section className="py-10 sm:py-16" aria-labelledby="gallery-title">
           <Container>

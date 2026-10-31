@@ -9,14 +9,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     where: { status: "PUBLISHED", access: "FREE" },
     select: { slug: true, updatedAt: true },
   });
+  const posts = await db.post.findMany({ where: { status: "PUBLISHED" }, select: { slug: true, updatedAt: true } });
   const now = new Date();
   return [
     { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: `${base}/videos`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
+    { url: `${base}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${base}/membresia`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/sobre-mi`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/galeria`, lastModified: now, changeFrequency: "weekly", priority: 0.5 },
     { url: `${base}/contacto`, lastModified: now, changeFrequency: "yearly", priority: 0.5 },
+    ...posts.map((p) => ({ url: `${base}/blog/${p.slug}`, lastModified: p.updatedAt, changeFrequency: "monthly" as const, priority: 0.6 })),
     ...videos.map((v) => ({ url: `${base}/videos/${v.slug}`, lastModified: v.updatedAt, changeFrequency: "monthly" as const, priority: 0.6 })),
   ];
 }

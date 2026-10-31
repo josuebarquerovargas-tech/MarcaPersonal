@@ -78,7 +78,7 @@ SINPE Móvil: un número terminado en `0000` se rechaza; el resto se aprueba.
 ```
 prisma/            esquema, migraciones, seed y clips de demostración
 src/app/(site)     sitio público (portada, videos, membresía, pago, cuenta, galería…)
-src/app/admin      panel (resumen, videos, miembros, pagos, contenido, galería, ajustes)
+src/app/admin      panel (resumen, videos, blog, miembros, pagos, contenido, galería, ajustes)
 src/app/api        subida por partes y stream de video con control de acceso
 src/components     ui/ (base), site/ (público), admin/ (panel)
 src/lib            lógica pura y probada: auth, storage, uploads, videos, payments, membership, content

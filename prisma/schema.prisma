@@ -168,6 +168,26 @@ model Photo {
   createdAt DateTime @default(now())
 }
 
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Post {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  title       String
+  excerpt     String     @default("")
+  body        String
+  coverPath   String?
+  status      PostStatus @default(DRAFT)
+  publishedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([status, publishedAt])
+}
+
 model SiteContent {
   key       String   @id
   value     Json

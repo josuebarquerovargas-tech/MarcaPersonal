@@ -126,11 +126,58 @@ async function seedDemoMember() {
   });
 }
 
+const DEMO_POSTS = [
+  {
+    slug: "demo-como-empezar-a-adiestrar-a-tu-perro",
+    title: "Demo: cómo empezar a adiestrar a tu perro",
+    excerpt: "Contenido de muestra para la demostración. Sesiones cortas, señales claras y mucha paciencia.",
+    body: `*Contenido de muestra para la demostración: este texto no fue escrito por Rubén.*
+
+## Empezá con poco
+
+Las sesiones cortas funcionan mejor que las largas. Elegí un lugar tranquilo y una sola señal por vez.
+
+## Tres hábitos que ayudan
+
+- Premiá justo en el momento correcto
+- Usá siempre la misma palabra
+- Terminá la sesión antes de que se canse
+
+> La constancia pesa más que la intensidad.`,
+    daysAgo: 3,
+  },
+  {
+    slug: "demo-preguntas-antes-de-adoptar",
+    title: "Demo: preguntas antes de adoptar",
+    excerpt: "Contenido de muestra para la demostración. Lo que conviene pensar antes de llevar un perro a casa.",
+    body: `*Contenido de muestra para la demostración: este texto no fue escrito por Rubén.*
+
+Adoptar es un compromiso de muchos años. Antes de decidir, conversá estas preguntas con quienes viven en tu casa.
+
+1. ¿Quién se encarga de los paseos todos los días?
+2. ¿Hay espacio y presupuesto para el veterinario?
+3. ¿Qué pasa con el perro durante los viajes?`,
+    daysAgo: 12,
+  },
+];
+
+async function seedDemoPosts() {
+  const now = Date.now();
+  for (const { daysAgo, ...p } of DEMO_POSTS) {
+    await db.post.upsert({
+      where: { slug: p.slug },
+      update: {},
+      create: { ...p, status: "PUBLISHED", publishedAt: new Date(now - daysAgo * 86_400_000) },
+    });
+  }
+}
+
 async function main() {
   await seedAdminAndPlans();
   if (process.env.SEED_DEMO !== "false") {
     await seedDemoVideos();
     await seedDemoMember();
+    await seedDemoPosts();
   }
   console.log("Seed listo: administrador, planes y contenido de demostración.");
 }

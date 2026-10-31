@@ -8,6 +8,7 @@ import { buttonClasses } from "@/components/ui/Button";
 
 const links = [
   { href: "/videos", label: "Videos" },
+  { href: "/blog", label: "Blog" },
   { href: "/membresia", label: "Membresía" },
   { href: "/sobre-mi", label: "Sobre mí" },
   { href: "/contacto", label: "Contacto" },
