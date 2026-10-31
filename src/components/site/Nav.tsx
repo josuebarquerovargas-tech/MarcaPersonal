@@ -84,7 +84,7 @@ export function Nav({ brand, memberName, showMembership, showBlog }: NavProps) {
 
       <div
         id="mobile-nav"
-        className={`fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col bg-bg px-4 pt-6 pb-8 md:hidden ${open ? "flex" : "hidden"}`}
+        className={`fixed inset-x-0 top-16 z-40 h-[calc(100dvh-4rem)] flex-col overflow-y-auto bg-bg px-4 pt-6 pb-8 md:hidden ${open ? "flex" : "hidden"}`}
       >
         <nav aria-label="Principal móvil" className="flex flex-col">
           {links.map((l) => (
