@@ -3,7 +3,7 @@ import { Reveal } from "@/components/ui/Reveal";
 /** "Estamos para servirte": who the services are for, as listed in Rubén's advertising. */
 export function Audience({ items }: { items: { label: string; value: string }[] }) {
   return (
-    <Reveal delay={0.1} className="raised-card p-6 sm:p-8">
+    <Reveal delay={0.1} className="raised-card self-start p-6 sm:p-8">
       <h3 className="font-display text-2xl">Estamos para servirte</h3>
       <ul className="mt-5 grid gap-3 sm:grid-cols-2">
         {items.map((f) => (

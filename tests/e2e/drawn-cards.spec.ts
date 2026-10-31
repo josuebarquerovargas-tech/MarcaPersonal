@@ -72,3 +72,12 @@ test("los resúmenes siguen el anuncio pero sin prometer atención 24/7", async 
   await expect(page.getByText("Implementamos IA, automatización, anuncios digitales y estrategias modernas para aumentar tus ventas.")).toBeVisible();
   expect(await page.locator("#servicios").innerText()).not.toMatch(/24\/7/);
 });
+
+test("los pies de las tarjetas de servicio quedan alineados", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const links = page.locator("#servicios a").filter({ hasText: "Ver más" });
+  await expect(links).toHaveCount(5);
+  const bottoms = await page.getByText("Ver más").evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().bottom)));
+  expect(new Set(bottoms).size).toBe(1);
+});

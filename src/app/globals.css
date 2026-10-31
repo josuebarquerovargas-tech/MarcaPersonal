@@ -195,7 +195,6 @@ body {
 
 /* Tarjeta elevada: sombra suave en capas y borde de luz arriba. */
 .raised-card {
-  display: block;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: var(--surface);

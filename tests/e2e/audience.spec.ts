@@ -35,3 +35,12 @@ test("el panel nombra esa lista por lo que es", async ({ page }) => {
   await expect(page.getByText("A quién servimos")).toBeVisible();
   await expect(page.getByLabel("Público 1")).toHaveValue("Empresas grandes y medianas");
 });
+
+test("la tarjeta de públicos no se estira con espacio vacío", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const card = page.locator("#sobre-mi .raised-card");
+  const list = page.locator("#sobre-mi .raised-card ul");
+  const [c, l] = await Promise.all([card.boundingBox(), list.boundingBox()]);
+  expect(c!.y + c!.height - (l!.y + l!.height)).toBeLessThan(48);
+});
