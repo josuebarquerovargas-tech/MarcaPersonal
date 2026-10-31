@@ -20,7 +20,8 @@ test.describe.serial("cuentas de miembro", () => {
     await page.getByLabel("Correo").fill(email);
     await page.getByLabel("Contraseña", { exact: true }).fill(password);
     await page.getByRole("button", { name: "Crear cuenta" }).click();
-    await expect(page).toHaveURL(/\/membresia$/);
+    await expect(page).toHaveURL(/\/contenido\?ver=membresia$/);
+    await expect(page.locator("#membresia")).toBeInViewport();
     await expect(page.getByRole("link", { name: "Mi cuenta" }).first()).toBeVisible();
   });
 
@@ -66,7 +67,7 @@ test("tras un correo duplicado, corregirlo permite registrarse sin recargar", as
   await page.getByLabel("Correo").fill(dup);
   await page.getByLabel("Contraseña", { exact: true }).fill(password);
   await page.getByRole("button", { name: "Crear cuenta" }).click();
-  await expect(page).toHaveURL(/\/membresia$/);
+  await expect(page).toHaveURL(/\/contenido\?ver=membresia$/);
   await page.goto("/cuenta");
   await page.getByRole("button", { name: "Cerrar sesión" }).click();
   await expect(page.getByRole("link", { name: "Hazte miembro" }).first()).toBeVisible();
@@ -79,7 +80,7 @@ test("tras un correo duplicado, corregirlo permite registrarse sin recargar", as
   await expect(page.getByText("Ya existe una cuenta con ese correo")).toBeVisible();
   await page.getByLabel("Correo").fill(`otro-${Date.now()}@demo.cr`);
   await page.getByRole("button", { name: "Crear cuenta" }).click();
-  await expect(page).toHaveURL(/\/membresia$/);
+  await expect(page).toHaveURL(/\/contenido\?ver=membresia$/);
 });
 
 test("un next malicioso no saca al usuario del sitio", async ({ page }) => {

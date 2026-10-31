@@ -89,7 +89,7 @@ export default async function Home() {
                 eyebrow="Blog"
                 title="Ideas para tu marca"
                 action={
-                  <LinkButton href="/blog" variant="secondary">
+                  <LinkButton href="/contenido#articulos" variant="secondary">
                     Ver todos los artículos
                   </LinkButton>
                 }

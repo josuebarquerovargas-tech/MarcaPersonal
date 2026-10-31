@@ -22,7 +22,7 @@ test("la imagen de portada se guarda y se ve en el artículo publicado", async (
   await page.getByRole("button", { name: "Guardar" }).click();
   await expect(page).toHaveURL(/\/admin\/blog$/);
 
-  await page.goto("/blog");
+  await page.goto("/contenido");
   await page.getByRole("heading", { name: title }).click();
   const cover = page.locator('article img[src^="/media/images/"]');
   await expect(cover).toBeVisible();

@@ -1,15 +1,23 @@
 import type { Metadata } from "next";
 import { listPublishedVideos } from "@/server/videos";
+import { getMember } from "@/server/auth";
+import { getContent } from "@/server/content";
 import { isMembershipEnabled } from "@/server/features";
+import { getMembership } from "@/server/members";
+import { listPlans } from "@/server/plans";
+import { listPublishedPosts } from "@/server/posts";
 import { storage } from "@/lib/storage/storage";
 import { Container } from "@/components/ui/Container";
 import { VideoGrid } from "@/components/site/VideoGrid";
 import { SectionHeading } from "@/components/site/SectionHeading";
+import { MembershipSection } from "@/components/site/MembershipSection";
+import { PostGrid } from "@/components/site/PostCard";
+import { ScrollToSection } from "@/components/site/ScrollToSection";
 import { Input } from "@/components/ui/Input";
 
 export const metadata: Metadata = {
-  title: "Videos",
-  description: "Videos de Rubén Rodríguez sobre marca personal, redes sociales y crecimiento de negocios.",
+  title: "Contenido",
+  description: "Videos y artículos de Rubén Rodríguez sobre marca personal, redes sociales y crecimiento de negocios.",
 };
 
 const accessOptions = [
@@ -26,9 +34,9 @@ const platformOptions = [
   { value: "YOUTUBE", label: "YouTube" },
 ] as const;
 
-type Search = { acceso?: string; plataforma?: string; q?: string };
+type Search = { acceso?: string; plataforma?: string; q?: string; ver?: string };
 
-export default async function VideosPage({ searchParams }: { searchParams: Promise<Search> }) {
+export default async function ContentPage({ searchParams }: { searchParams: Promise<Search> }) {
   const sp = await searchParams;
   const membershipOn = await isMembershipEnabled();
   const shownAccess = accessOptions.filter((o) => membershipOn || o.value !== "miembros");
@@ -38,23 +46,32 @@ export default async function VideosPage({ searchParams }: { searchParams: Promi
     : undefined;
   const q = sp.q?.trim() || undefined;
 
-  const videos = await listPublishedVideos({ access, platform, q });
+  const filtered = !!(access || platform || q);
+  const [videos, posts, content, plans, member] = await Promise.all([
+    listPublishedVideos({ access, platform, q }),
+    // The filters only apply to videos, so articles stay out of a filtered list.
+    filtered ? [] : listPublishedPosts(),
+    getContent("membership"),
+    listPlans(),
+    getMember(),
+  ]);
+  const { active: isMember } = await getMembership(member);
   const cards = videos.map((v) => ({ ...v, thumbUrl: v.thumbnailPath ? storage.publicUrl(v.thumbnailPath) : null }));
 
   function href(next: Partial<Search>) {
     const params = new URLSearchParams();
-    const merged = { ...sp, ...next };
+    const merged = { ...sp, ver: undefined, ...next };
     for (const [k, v] of Object.entries(merged)) if (v) params.set(k, v);
     const s = params.toString();
-    return s ? `/videos?${s}` : "/videos";
+    return s ? `/contenido?${s}` : "/contenido";
   }
 
   return (
     <main className="py-12 sm:py-16">
       <Container>
-        <SectionHeading eyebrow="Videos" title="Todo el contenido" text={membershipOn ? "Videos para hacer crecer tu marca. Lo exclusivo lleva candado." : "Videos para conocer mejor cómo mostrar y hacer crecer tu marca."} />
+        <SectionHeading level={1} eyebrow="Contenido" title="Todo el contenido" text={membershipOn ? "Videos y artículos para hacer crecer tu marca. Lo exclusivo lleva candado." : "Videos para conocer mejor cómo mostrar y hacer crecer tu marca."} />
 
-        <form method="get" action="/videos" className="mt-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <form method="get" action="/contenido" className="mt-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrar por acceso">
             {shownAccess.map((o) => {
               const active = (sp.acceso ?? "") === o.value;
@@ -96,6 +113,20 @@ export default async function VideosPage({ searchParams }: { searchParams: Promi
         <div className="mt-10">
           <VideoGrid videos={cards} emptyText={videos.length === 0 && !q && !sp.plataforma && !sp.acceso ? "Pronto habrá videos aquí." : "No hay videos que coincidan con ese filtro."} />
         </div>
+
+        {posts.length > 0 && (
+          <section id="articulos" aria-labelledby="articulos-title" className="mt-24 scroll-mt-24">
+            <h2 id="articulos-title" className="font-display text-3xl sm:text-4xl">
+              Artículos
+            </h2>
+            <div className="mt-8">
+              <PostGrid posts={posts} />
+            </div>
+          </section>
+        )}
+
+        {membershipOn && !filtered && <MembershipSection content={content} plans={plans} signedIn={!!member} isMember={isMember} />}
+        {membershipOn && !filtered && sp.ver === "membresia" && <ScrollToSection id="membresia" />}
       </Container>
     </main>
   );

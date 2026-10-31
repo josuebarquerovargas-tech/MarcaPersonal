@@ -7,21 +7,24 @@ import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { buttonClasses } from "@/components/ui/Button";
 
 
-type NavProps = { brand: string; memberName: string | null; showMembership: boolean; showBlog: boolean };
+type NavProps = { brand: string; memberName: string | null };
 
-export function Nav({ brand, memberName, showMembership, showBlog }: NavProps) {
+export function Nav({ brand, memberName }: NavProps) {
   const links = [
     { href: "/", label: "Inicio" },
     { href: "/servicios", label: "Servicios" },
-    { href: "/videos", label: "Videos" },
-    ...(showBlog ? [{ href: "/blog", label: "Blog" }] : []),
-    ...(showMembership ? [{ href: "/membresia", label: "Membresía" }] : []),
+    { href: "/contenido", label: "Contenido" },
     { href: "/sobre-mi", label: "Sobre Rubén" },
     { href: "/contacto", label: "Contacto" },
   ];
   const pathname = usePathname();
   // "/" prefixes every path, so the home link only counts on the home page itself.
-  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    // Articles keep their /blog address but belong to the content section.
+    if (href === "/contenido" && pathname.startsWith("/blog")) return true;
+    return pathname.startsWith(href);
+  };
   const [open, setOpen] = useState(false);
 
   useEffect(() => setOpen(false), [pathname]);

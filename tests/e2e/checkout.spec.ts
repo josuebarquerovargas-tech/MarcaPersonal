@@ -23,7 +23,7 @@ async function register(page: Page, email: string, name = "Pago E2E") {
   await page.getByLabel("Correo").fill(email);
   await page.getByLabel("Contraseña", { exact: true }).fill(password);
   await page.getByRole("button", { name: "Crear cuenta" }).click();
-  await expect(page).toHaveURL(/\/membresia$/);
+  await expect(page).toHaveURL(/\/contenido\?ver=membresia$/);
 }
 
 async function fillCard(page: Page, number: string) {
@@ -63,7 +63,7 @@ test("la membresía lleva al pago y una tarjeta 4242 activa la suscripción", as
   await page.goto("/cuenta");
   await expect(page.getByText(/Activa hasta/)).toBeVisible();
 
-  await page.goto("/videos/e2e-checkout-exclusivo");
+  await page.goto("/contenido/e2e-checkout-exclusivo");
   await expect(page.locator("video")).toHaveCount(1);
   await expect(page.getByText("Contenido exclusivo para miembros")).toHaveCount(0);
 

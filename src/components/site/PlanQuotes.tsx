@@ -26,7 +26,7 @@ export function PlanQuotes({ plans, formToken }: { plans: Plan[]; formToken: str
         {plans.map((plan, i) => (
           <Reveal as="li" key={QUOTE_PLAN_IDS[i]} delay={i * 0.08}>
             <div data-quote-plan={QUOTE_PLAN_IDS[i]} className="raised-card flex h-full flex-col p-6 sm:p-8">
-              <h2 className="font-display text-3xl">{plan.name}</h2>
+              <h3 className="font-display text-3xl">{plan.name}</h3>
               <p className="mt-2 text-sm font-medium text-accent">Precio según cotización</p>
               <ul className="mt-6 flex flex-1 flex-col gap-3">
                 {plan.includes

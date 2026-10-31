@@ -39,7 +39,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: Pro
             <h1 className="font-display mt-2 text-4xl sm:text-5xl">Activar membresía</h1>
             <p className="mt-2 text-muted">
               Hola, {member.name}. Elegiste el plan {plan.name.toLowerCase()}.{" "}
-              <Link href="/membresia" className="text-ink underline underline-offset-4">
+              <Link href="/contenido#membresia" className="text-ink underline underline-offset-4">
                 Cambiar plan
               </Link>
             </p>

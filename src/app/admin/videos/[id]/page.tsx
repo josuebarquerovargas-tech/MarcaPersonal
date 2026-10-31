@@ -25,7 +25,7 @@ export default async function EditVideoPage({ params }: { params: Promise<{ id: 
         description={video.title}
         actions={
           video.status === "PUBLISHED" ? (
-            <LinkButton href={`/videos/${video.slug}`} variant="secondary" size="sm">
+            <LinkButton href={`/contenido/${video.slug}`} variant="secondary" size="sm">
               Ver en el sitio ↗
             </LinkButton>
           ) : null

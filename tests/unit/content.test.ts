@@ -56,12 +56,12 @@ test("los textos por defecto no copian el sitio anterior", () => {
   expect(defaults.about.facts).toHaveLength(7);
 });
 
-test("la membresía define exactamente tres planes, cada uno con su contenido", () => {
-  expect(defaults.membership.plans).toHaveLength(3);
-  for (const plan of defaults.membership.plans) {
+test("servicios define exactamente tres planes, cada uno con su contenido", () => {
+  expect(defaults.services.plans).toHaveLength(3);
+  for (const plan of defaults.services.plans) {
     expect(plan.name).not.toBe("");
     expect(plan.includes.split("\n").length).toBeGreaterThan(1);
   }
-  const twoPlans = { ...defaults.membership, plans: defaults.membership.plans.slice(0, 2) };
-  expect(contentSchemas.membership.safeParse(twoPlans).success).toBe(false);
+  const twoPlans = { ...defaults.services, plans: defaults.services.plans.slice(0, 2) };
+  expect(contentSchemas.services.safeParse(twoPlans).success).toBe(false);
 });

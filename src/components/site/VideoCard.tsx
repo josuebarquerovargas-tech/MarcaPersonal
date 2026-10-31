@@ -16,7 +16,7 @@ export function VideoCard({ video, index = 0 }: { video: VideoCardData; index?: 
 
   return (
     <Reveal as="li" delay={Math.min(index, 5) * 0.06} className="group">
-      <Link href={`/videos/${video.slug}`} className="block focus-visible:outline-none">
+      <Link href={`/contenido/${video.slug}`} className="block focus-visible:outline-none">
         <div
           className={`relative overflow-hidden rounded-[14px] bg-surface-2 shadow-soft transition-transform duration-300 group-hover:-translate-y-1 group-focus-visible:ring-2 group-focus-visible:ring-accent aspect-video`}
         >

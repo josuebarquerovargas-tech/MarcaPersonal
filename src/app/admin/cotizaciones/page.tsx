@@ -18,7 +18,7 @@ const TONE = { NEW: "accent", CONTACTED: "success", CLOSED: "neutral" } as const
 
 export default async function AdminQuotesPage() {
   await requireAdmin();
-  const [quotes, membership] = await Promise.all([db.quoteRequest.findMany({ orderBy: { createdAt: "desc" } }), getContent("membership")]);
+  const [quotes, services] = await Promise.all([db.quoteRequest.findMany({ orderBy: { createdAt: "desc" } }), getContent("services")]);
   return (
     <>
       <AdminPageHeader title="Cotizaciones" description="Solicitudes recibidas desde el formulario de contacto." />
@@ -40,7 +40,7 @@ export default async function AdminQuotesPage() {
                 </div>
               ),
             },
-            { key: "servicio", header: "Servicio", render: (q) => getServiceBySlug(q.service)?.title ?? quotePlanName(q.service, membership.plans) ?? "Todavía no lo sabe" },
+            { key: "servicio", header: "Servicio", render: (q) => getServiceBySlug(q.service)?.title ?? quotePlanName(q.service, services.plans) ?? "Todavía no lo sabe" },
             { key: "mensaje", header: "Mensaje", render: (q) => <p className="max-w-xs whitespace-pre-line text-muted">{q.message || "—"}</p> },
             { key: "estado", header: "Estado", render: (q) => <Badge tone={TONE[q.status]}>{QUOTE_STATUS_LABEL[q.status]}</Badge> },
             { key: "acciones", header: "Acciones", align: "right", render: (q) => <QuoteActions id={q.id} status={q.status} name={q.name} /> },

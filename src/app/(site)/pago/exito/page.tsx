@@ -24,7 +24,7 @@ export default async function CheckoutSuccessPage({ searchParams }: { searchPara
           </p>
           {ref && <p className="mt-2 text-sm text-muted">Referencia: <span className="tabular-nums">{ref}</span></p>}
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <LinkButton href="/videos?acceso=miembros">Ver contenido exclusivo</LinkButton>
+            <LinkButton href="/contenido?acceso=miembros">Ver contenido exclusivo</LinkButton>
             <LinkButton href="/cuenta" variant="secondary">
               Mi cuenta
             </LinkButton>

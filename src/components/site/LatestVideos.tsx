@@ -11,12 +11,12 @@ export function LatestVideos({ videos }: { videos: VideoCardData[] }) {
       <Container>
         <Reveal>
           <SectionHeading
-            eyebrow="Videos"
-            title="Lo último en video"
+            eyebrow="Contenido"
+            title="Lo último"
             text="Contenido para conocer mejor cómo mostrar y hacer crecer tu marca."
             action={
-              <LinkButton href="/videos" variant="secondary">
-                Ver todos los videos
+              <LinkButton href="/contenido" variant="secondary">
+                Ver todo el contenido
               </LinkButton>
             }
           />

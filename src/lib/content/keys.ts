@@ -19,6 +19,9 @@ export const contentSchemas = {
     heading: text.max(80),
     intro: text.max(240),
     items: z.array(z.object({ title: text.max(80), text: text.max(300) })).length(5),
+    plansTitle: text.max(80),
+    plansText: text.max(300),
+    plans: z.array(z.object({ name: text.min(1).max(40), includes: text.min(1).max(500) })).length(3),
   }),
   process: z.object({
     heading: text.max(80),
@@ -30,9 +33,6 @@ export const contentSchemas = {
     text: text.max(400),
     benefits: z.array(text.max(120)).min(1).max(8),
     faq: z.array(z.object({ q: text.max(160), a: text.max(500) })).max(8),
-    plansTitle: text.max(80),
-    plansText: text.max(300),
-    plans: z.array(z.object({ name: text.min(1).max(40), includes: text.min(1).max(500) })).length(3),
   }),
   contact: z.object({
     title: text.max(80),

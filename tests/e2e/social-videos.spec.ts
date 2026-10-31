@@ -12,7 +12,7 @@ const TITLES = [
 ];
 
 test("los videos de Rubén en redes aparecen en la sección de Videos, con portada", async ({ page }) => {
-  await page.goto("/videos");
+  await page.goto("/contenido");
   for (const title of TITLES) {
     const link = page.getByRole("link", { name: title });
     await expect(link).toBeVisible();
@@ -21,21 +21,21 @@ test("los videos de Rubén en redes aparecen en la sección de Videos, con porta
 });
 
 test("un video de Instagram se reproduce con su enlace", async ({ page }) => {
-  await page.goto("/videos");
+  await page.goto("/contenido");
   await page.getByRole("link", { name: "Llegó el momento de facturar" }).click();
   await page.getByRole("button", { name: "Reproducir Llegó el momento de facturar" }).click();
   await expect(page.locator('iframe[src*="instagram.com/reel/DfKsYMsv2y0/embed"]')).toBeAttached();
 });
 
 test("un video de TikTok se reproduce con su enlace", async ({ page }) => {
-  await page.goto("/videos");
+  await page.goto("/contenido");
   await page.getByRole("link", { name: "Que empiece la acción" }).click();
   await page.getByRole("button", { name: "Reproducir Que empiece la acción" }).click();
   await expect(page.locator('iframe[src*="tiktok.com/player/v1/7702832461750816020"]')).toBeAttached();
 });
 
 test("la portada vertical se ve completa en la tarjeta, sin cortes", async ({ page }) => {
-  await page.goto("/videos");
+  await page.goto("/contenido");
   const cover = page.getByRole("link", { name: "Que empiece la acción" }).locator("[data-video-cover]");
   await expect(cover).toHaveCSS("object-fit", "contain");
 });

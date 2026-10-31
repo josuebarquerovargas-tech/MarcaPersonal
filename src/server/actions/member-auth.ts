@@ -43,7 +43,7 @@ export async function registerMember(_prev: MemberAuthState, fd: FormData): Prom
     },
   });
   await setMemberSession(member);
-  redirect(safeNext(fd.get("next")) ?? "/membresia");
+  redirect(safeNext(fd.get("next")) ?? "/contenido?ver=membresia");
 }
 
 const loginSchema = z.object({

@@ -45,7 +45,7 @@ test.beforeAll(async () => {
 });
 
 test("el catálogo lista los publicados y oculta los borradores", async ({ page }) => {
-  await page.goto("/videos");
+  await page.goto("/contenido");
   await expect(page.getByRole("heading", { name: "E2E paseo gratis" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "E2E sesión exclusiva" })).toBeVisible();
   await expect(page.getByText("E2E borrador oculto")).toHaveCount(0);
@@ -66,16 +66,16 @@ test("el stream de un video gratis responde completo y por rangos", async ({ req
 test("un video exclusivo niega el stream y muestra el candado sin sesión", async ({ page, request }) => {
   const res = await request.get(`/api/stream/${membersId}`);
   expect(res.status()).toBe(403);
-  await page.goto(`/videos/${membersSlug}`);
+  await page.goto(`/contenido/${membersSlug}`);
   await expect(page.getByText("Contenido exclusivo para miembros")).toBeVisible();
   await expect(page.getByRole("link", { name: "Hazte miembro" }).first()).toBeVisible();
   await expect(page.locator("video")).toHaveCount(0);
 });
 
 test("un video gratis muestra el reproductor y cuenta la vista", async ({ page }) => {
-  await page.goto("/videos/e2e-gratis");
+  await page.goto("/contenido/e2e-gratis");
   await expect(page.locator("video")).toHaveCount(1);
-  await page.goto("/videos/e2e-gratis");
+  await page.goto("/contenido/e2e-gratis");
   const db = new PrismaClient();
   try {
     const v = await db.video.findUniqueOrThrow({ where: { slug: "e2e-gratis" } });
@@ -86,7 +86,7 @@ test("un video gratis muestra el reproductor y cuenta la vista", async ({ page }
 });
 
 test("el filtro de gratis excluye los exclusivos", async ({ page }) => {
-  await page.goto("/videos?acceso=gratis");
+  await page.goto("/contenido?acceso=gratis");
   await expect(page.getByRole("heading", { name: "E2E paseo gratis" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "E2E sesión exclusiva" })).toHaveCount(0);
 });

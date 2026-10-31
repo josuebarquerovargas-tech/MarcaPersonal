@@ -11,8 +11,8 @@ export default function NotFound() {
         <Link href="/" className={buttonClasses("primary")}>
           Ir a la portada
         </Link>
-        <Link href="/videos" className={buttonClasses("secondary")}>
-          Ver videos
+        <Link href="/contenido" className={buttonClasses("secondary")}>
+          Ver contenido
         </Link>
       </div>
     </main>

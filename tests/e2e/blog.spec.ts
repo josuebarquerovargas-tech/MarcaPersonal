@@ -24,7 +24,7 @@ test.describe.serial("blog", () => {
     await db.$disconnect();
     expect(posts).toHaveLength(1);
     expect((await request.get(`/blog/${posts[0].slug}`)).status()).toBe(404);
-    await page.goto("/blog");
+    await page.goto("/contenido");
     await expect(page.getByRole("heading", { name: title })).toHaveCount(0);
   });
 
@@ -35,7 +35,7 @@ test.describe.serial("blog", () => {
     await row.getByRole("button", { name: "Publicar" }).click();
     await expect(row.getByText("Publicado")).toBeVisible();
 
-    await page.goto("/blog");
+    await page.goto("/contenido");
     await page.getByRole("heading", { name: title }).click();
     await expect(page).toHaveURL(/\/blog\/articulo-e2e-/);
     await expect(page.getByRole("heading", { level: 2, name: "Subtítulo" })).toBeVisible();
@@ -45,7 +45,6 @@ test.describe.serial("blog", () => {
     await expect(page.locator('article a[href^="javascript"]')).toHaveCount(0);
 
     await page.goto("/");
-    await expect(page.getByRole("navigation", { name: "Principal", exact: true }).getByRole("link", { name: "Blog" })).toBeVisible();
 
     const xml = await (await request.get("/sitemap.xml")).text();
     expect(xml).toContain("/blog/articulo-e2e-");
@@ -81,9 +80,8 @@ test.describe.serial("blog", () => {
     expect((await request.get(`/blog/${before.slug}`)).status()).toBe(404);
   });
 
-  test("sin artículos el blog sale del menú y sin sesión el panel redirige", async ({ page }) => {
+  test("sin sesión el panel de artículos redirige", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByRole("navigation", { name: "Principal", exact: true }).getByRole("link", { name: "Blog" })).toHaveCount(0);
     await page.goto("/admin/blog");
     await expect(page).toHaveURL(/\/admin\/login$/);
   });

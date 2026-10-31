@@ -14,13 +14,13 @@ export function MembershipCta({ title, text, benefits, monthlyPriceCRC, isMember
             <div aria-hidden="true" className="breathe absolute -right-24 -top-24 size-96 rounded-full bg-brand/30 blur-3xl" />
             <div className="relative grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
               <div>
-                <p className="text-xs uppercase tracking-[0.25em] text-brand">Membresía</p>
+                <p className="text-xs uppercase tracking-[0.25em] text-brand">Contenido exclusivo</p>
                 <h2 id="cta-title" className="font-display mt-3 text-4xl leading-[1.02] sm:text-6xl">
                   {title}
                 </h2>
                 <p className="mt-5 max-w-xl text-lg text-bg/70">{text}</p>
                 <div className="mt-8 flex flex-wrap items-center gap-4">
-                  <LinkButton href={isMember ? "/videos?acceso=miembros" : "/membresia"} className="!bg-brand !text-brand-ink hover:!bg-bg hover:!text-ink">
+                  <LinkButton href={isMember ? "/contenido?acceso=miembros" : "/contenido#membresia"} className="!bg-brand !text-brand-ink hover:!bg-bg hover:!text-ink">
                     {isMember ? "Ver contenido exclusivo" : "Hazte miembro"}
                   </LinkButton>
                   {monthlyPriceCRC !== null && !isMember && (

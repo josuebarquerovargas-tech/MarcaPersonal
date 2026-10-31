@@ -32,16 +32,17 @@ test.describe.serial("membresía desactivable", () => {
   });
 
   test("apagada: sus páginas no existen", async ({ request }) => {
-    for (const p of ["/membresia", "/registro", "/ingresar", "/pago/exito", "/pago/error"]) {
+    for (const p of ["/registro", "/ingresar", "/pago/exito", "/pago/error"]) {
       expect((await request.get(p)).status(), p).toBe(404);
     }
   });
 
   test("apagada: el video exclusivo no aparece", async ({ page, request }) => {
-    await page.goto("/videos");
+    await page.goto("/contenido");
     await expect(page.getByRole("heading", { name: "Flag exclusivo" })).toHaveCount(0);
     await expect(page.getByRole("link", { name: "Exclusivos" })).toHaveCount(0);
-    expect((await request.get("/videos/flag-exclusivo")).status()).toBe(404);
+    await expect(page.locator("#membresia")).toHaveCount(0);
+    expect((await request.get("/contenido/flag-exclusivo")).status()).toBe(404);
     expect((await request.get(`/api/stream/${videoId}`)).status()).toBe(403);
   });
 
@@ -52,8 +53,8 @@ test.describe.serial("membresía desactivable", () => {
     await page.getByRole("button", { name: "Guardar módulos" }).click();
     await expect(page.getByText("Módulos actualizados")).toBeVisible();
     await expect(page.getByRole("link", { name: "Miembros" })).toBeVisible();
-    expect((await request.get("/membresia")).status()).toBe(200);
-    await page.goto("/videos");
+    expect((await request.get("/registro")).status()).toBe(200);
+    await page.goto("/contenido");
     await expect(page.getByRole("heading", { name: "Flag exclusivo" })).toBeVisible();
   });
 

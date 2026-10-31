@@ -68,7 +68,7 @@ export default async function AccountPage() {
                 {membership.active && sub ? (
                   <SubscriptionControls status={sub.status} />
                 ) : (
-                  <LinkButton href="/membresia">Activar membresía</LinkButton>
+                  <LinkButton href="/contenido#membresia">Activar membresía</LinkButton>
                 )}
               </div>
             </div>

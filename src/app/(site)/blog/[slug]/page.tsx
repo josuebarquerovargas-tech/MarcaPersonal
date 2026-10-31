@@ -37,7 +37,7 @@ export default async function PostPage({ params }: Params) {
     <main className="py-10 sm:py-16">
       <Container>
         <article className="mx-auto max-w-2xl">
-          <Link href="/blog" className="text-sm text-muted underline-offset-4 hover:underline">
+          <Link href="/contenido#articulos" className="text-sm text-muted underline-offset-4 hover:underline">
             ← Volver al blog
           </Link>
           <h1 className="font-display mt-6 text-4xl leading-[1.05] sm:text-6xl">{post.title}</h1>

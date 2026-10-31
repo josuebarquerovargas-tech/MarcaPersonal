@@ -15,7 +15,7 @@ test("la portada explica la oferta y lleva a servicios y cotización", async ({ 
 });
 
 test("el sitio público no conserva textos del enfoque anterior ni promesas prohibidas", async ({ page }) => {
-  for (const path of ["/", "/servicios", "/servicios/asesoria", "/sobre-mi", "/contacto", "/videos", "/blog", "/galeria"]) {
+  for (const path of ["/", "/servicios", "/servicios/asesoria", "/sobre-mi", "/contacto", "/contenido", "/blog", "/galeria"]) {
     await page.goto(path);
     const text = await page.locator("body").innerText();
     expect(text, path).not.toMatch(/perro|canin|adiestr|mascota|manada|maltrato|mae de los|ACAN|24\/7|garantiz/i);
@@ -54,11 +54,11 @@ test("el menú presenta las secciones nuevas", async ({ page }) => {
   const nav = page.getByRole("navigation", { name: "Principal", exact: true });
   await expect(nav.getByRole("link", { name: "Servicios" })).toBeVisible();
   await expect(nav.getByRole("link", { name: "Sobre Rubén" })).toBeVisible();
-  await expect(nav.getByRole("link", { name: "Membresía" })).toBeVisible();
+  await expect(nav.getByRole("link", { name: "Contenido" })).toBeVisible();
 });
 
 test("los servicios entran al sitemap", async ({ request }) => {
   const xml = await (await request.get("/sitemap.xml")).text();
   expect(xml).toContain("/servicios/herramientas-tecnologicas");
-  expect(xml).toContain("/membresia");
+  expect(xml).toContain("/contenido");
 });

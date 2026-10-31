@@ -22,6 +22,13 @@ export const defaults: Content = {
     heading: "Creamos una estrategia a tu medida y a tu presupuesto",
     intro: "Marca personal, marca institucional o marca de producto y servicio, para llegar al nicho de mercado que deseas.",
     items: SERVICES.map((s) => ({ title: s.title, text: s.summary })),
+    plansTitle: "Planes para tu marca",
+    plansText: "Elige el plan que más se acerca a lo que necesitas y solicita tu cotización de una vez. Nos adaptamos a tu presupuesto.",
+    plans: [
+      { name: "Plan Inicio", includes: "Estrategia a tu medida\nSitio web profesional\nAsesoría personal" },
+      { name: "Plan Crecimiento", includes: "Todo lo del Plan Inicio\nManejo de redes sociales\nContenido que vende" },
+      { name: "Plan Completo", includes: "Todo lo del Plan Crecimiento\nHerramientas tecnológicas para vender\nAnuncios digitales y automatización" },
+    ],
   },
   process: {
     heading: "Cómo trabajamos",
@@ -51,13 +58,6 @@ export const defaults: Content = {
     ],
   },
   membership: {
-    plansTitle: "Planes para tu marca",
-    plansText: "Elige el plan que más se acerca a lo que necesitas y solicita tu cotización de una vez. Nos adaptamos a tu presupuesto.",
-    plans: [
-      { name: "Plan Inicio", includes: "Estrategia a tu medida\nSitio web profesional\nAsesoría personal" },
-      { name: "Plan Crecimiento", includes: "Todo lo del Plan Inicio\nManejo de redes sociales\nContenido que vende" },
-      { name: "Plan Completo", includes: "Todo lo del Plan Crecimiento\nHerramientas tecnológicas para vender\nAnuncios digitales y automatización" },
-    ],
     title: "Contenido exclusivo para tu marca",
     text: "Una membresía para acceder a videos exclusivos sobre marca personal, presencia digital y ventas.",
     benefits: ["Videos exclusivos", "Acceso anticipado a nuevos contenidos", "Acceso desde tu cuenta, en cualquier dispositivo"],

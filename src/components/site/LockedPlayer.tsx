@@ -30,9 +30,9 @@ export function LockedPlayer({ poster, title, signedIn, slug }: Props) {
           </p>
         </div>
         <div className="flex flex-wrap justify-center gap-2">
-          <LinkButton href="/membresia">Hazte miembro</LinkButton>
+          <LinkButton href="/contenido#membresia">Hazte miembro</LinkButton>
           {!signedIn && (
-            <LinkButton href={`/ingresar?next=/videos/${slug}`} variant="secondary">
+            <LinkButton href={`/ingresar?next=/contenido/${slug}`} variant="secondary">
               Ingresar
             </LinkButton>
           )}

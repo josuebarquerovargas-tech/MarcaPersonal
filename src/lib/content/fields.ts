@@ -19,7 +19,7 @@ export const contentSections: { key: ContentKey; label: string }[] = [
   { key: "about", label: "Sobre mí" },
   { key: "services", label: "Servicios" },
   { key: "process", label: "Proceso" },
-  { key: "membership", label: "Membresía" },
+  { key: "membership", label: "Contenido exclusivo" },
   { key: "contact", label: "Contacto" },
   { key: "social", label: "Redes" },
   { key: "pitch", label: "Mensaje de Rubén" },
@@ -49,16 +49,6 @@ export const contentFields: Record<ContentKey, FieldDef[]> = {
     { name: "heading", label: "Encabezado", kind: "text" },
     { name: "intro", label: "Introducción", kind: "textarea" },
     { name: "items", label: "Servicios", kind: "pairs", keys: ["title", "text"], labels: ["Título", "Resumen"], fixed: 5 },
-  ],
-  process: [
-    { name: "heading", label: "Encabezado", kind: "text" },
-    { name: "intro", label: "Introducción", kind: "textarea" },
-    { name: "items", label: "Pasos", kind: "pairs", keys: ["title", "text"], labels: ["Paso", "Texto"], fixed: 5 },
-  ],
-  membership: [
-    { name: "title", label: "Título", kind: "text" },
-    { name: "text", label: "Texto", kind: "textarea" },
-    { name: "benefits", label: "Beneficios", kind: "lines", hint: "Un beneficio por línea." },
     { name: "plansTitle", label: "Título de los planes", kind: "text" },
     { name: "plansText", label: "Texto de los planes", kind: "textarea" },
     {
@@ -70,6 +60,16 @@ export const contentFields: Record<ContentKey, FieldDef[]> = {
       fixed: 3,
       hint: "En «Qué incluye», un elemento por línea.",
     },
+  ],
+  process: [
+    { name: "heading", label: "Encabezado", kind: "text" },
+    { name: "intro", label: "Introducción", kind: "textarea" },
+    { name: "items", label: "Pasos", kind: "pairs", keys: ["title", "text"], labels: ["Paso", "Texto"], fixed: 5 },
+  ],
+  membership: [
+    { name: "title", label: "Título", kind: "text" },
+    { name: "text", label: "Texto", kind: "textarea" },
+    { name: "benefits", label: "Beneficios", kind: "lines", hint: "Un beneficio por línea." },
     {
       name: "faq",
       label: "Preguntas frecuentes",
