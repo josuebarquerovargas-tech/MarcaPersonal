@@ -72,8 +72,44 @@ body {
 
 .font-display {
   font-family: var(--font-fraunces), Georgia, serif;
-  font-variation-settings: "opsz" 144, "SOFT" 30;
   letter-spacing: -0.015em;
+}
+
+/* El símbolo de colón (U+20A1) vive en el subconjunto latin-ext de las
+   fuentes web; se dibuja con la fuente del sistema para no descargarlo. */
+.currency-symbol {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-weight: 500;
+}
+
+/* Entrada del hero sin depender de JavaScript: la portada pinta y anima
+   desde el primer render; Motion se reserva para los revelados por scroll. */
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.hero-in {
+  animation: hero-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(0.1s + var(--i, 0) * 0.08s);
+}
+@keyframes hero-portrait-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.hero-portrait-in {
+  animation: hero-portrait-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
 }
 
 @media (prefers-reduced-motion: reduce) {

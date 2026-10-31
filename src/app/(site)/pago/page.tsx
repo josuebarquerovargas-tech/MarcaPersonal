@@ -6,7 +6,8 @@ import { getMembership } from "@/server/members";
 import { getPlanByCode } from "@/server/plans";
 import { formTokens } from "@/server/security";
 import { payAndSubscribe } from "@/server/actions/checkout";
-import { computePeriodEnd, formatCRC } from "@/lib/membership/subscription";
+import { computePeriodEnd } from "@/lib/membership/subscription";
+import { Money } from "@/components/ui/Money";
 import { formatLongDate } from "@/lib/format";
 import { Container } from "@/components/ui/Container";
 import { CheckoutForm } from "@/components/site/CheckoutForm";
@@ -41,7 +42,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: Pro
               </Link>
             </p>
             <div className="mt-8 rounded-[16px] border border-line bg-surface p-6 shadow-soft">
-              <CheckoutForm action={payAndSubscribe} planCode={plan.code} amountLabel={formatCRC(plan.priceCRC)} formToken={formToken} />
+              <CheckoutForm action={payAndSubscribe} planCode={plan.code} amountCRC={plan.priceCRC} formToken={formToken} />
             </div>
           </div>
           <aside className="lg:pt-16">
@@ -62,7 +63,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: Pro
                 </div>
                 <div className="mt-2 flex justify-between border-t border-line pt-3 text-base">
                   <dt className="font-medium">Total hoy</dt>
-                  <dd className="font-display text-2xl">{formatCRC(plan.priceCRC)}</dd>
+                  <dd className="font-display text-2xl"><Money amount={plan.priceCRC} /></dd>
                 </div>
               </dl>
             </div>

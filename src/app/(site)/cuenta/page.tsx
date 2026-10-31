@@ -3,7 +3,7 @@ import { requireMember } from "@/server/auth";
 import { getMembership } from "@/server/members";
 import { db } from "@/server/db";
 import { logoutMember } from "@/server/actions/member-auth";
-import { formatCRC } from "@/lib/membership/subscription";
+import { Money } from "@/components/ui/Money";
 import { formatLongDate } from "@/lib/format";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
@@ -57,7 +57,7 @@ export default async function AccountPage() {
                 </p>
                 {sub && (
                   <p className="mt-2 text-sm text-muted">
-                    Plan {sub.plan.name} · {formatCRC(sub.plan.priceCRC)}
+                    Plan {sub.plan.name} · <Money amount={sub.plan.priceCRC} />
                     {sub.plan.intervalMonths === 1 ? " al mes" : " al año"}
                   </p>
                 )}
@@ -96,7 +96,7 @@ export default async function AccountPage() {
                         <td className="px-4 py-3">{formatLongDate(p.createdAt)}</td>
                         <td className="px-4 py-3">{p.subscription?.plan.name ?? "—"}</td>
                         <td className="px-4 py-3">{p.method === "CARD" ? `Tarjeta ···· ${p.cardLast4 ?? ""}` : "SINPE Móvil"}</td>
-                        <td className="px-4 py-3 text-right tabular-nums">{formatCRC(p.amountCRC)}</td>
+                        <td className="px-4 py-3 text-right tabular-nums"><Money amount={p.amountCRC} /></td>
                         <td className="px-4 py-3">
                           <Badge tone={statusTone[p.status]}>{statusLabel[p.status]}</Badge>
                         </td>

@@ -8,11 +8,12 @@ import { FORM_TOKEN_FIELD } from "@/lib/form-token";
 import { Button } from "@/components/ui/Button";
 import { Field, FormMessage } from "@/components/ui/Field";
 import { Input } from "@/components/ui/Input";
+import { Money } from "@/components/ui/Money";
 
 type Props = {
   action: (prev: CheckoutState, fd: FormData) => Promise<CheckoutState>;
   planCode: string;
-  amountLabel: string;
+  amountCRC: number;
   formToken: string;
 };
 
@@ -23,7 +24,7 @@ function groupDigits(v: string): string {
     .replace(/(\d{4})(?=\d)/g, "$1 ");
 }
 
-export function CheckoutForm({ action, planCode, amountLabel, formToken }: Props) {
+export function CheckoutForm({ action, planCode, amountCRC, formToken }: Props) {
   const [state, formAction, pending] = useActionState(action, {});
   const [method, setMethod] = useState<"CARD" | "SINPE">("CARD");
   const [number, setNumber] = useState("");
@@ -114,7 +115,7 @@ export function CheckoutForm({ action, planCode, amountLabel, formToken }: Props
       </div>
 
       <Button type="submit" size="lg" pending={pending} pendingLabel="Procesando…" className="w-full">
-        Pagar {amountLabel}
+        Pagar <Money amount={amountCRC} />
       </Button>
       <p className="text-center text-xs text-muted">Al pagar aceptás que la membresía se renueva por el período elegido y que podés cancelarla cuando querás.</p>
     </form>

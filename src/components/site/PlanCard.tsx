@@ -1,5 +1,5 @@
 import type { Plan } from "@prisma/client";
-import { formatCRC } from "@/lib/membership/subscription";
+import { Money } from "@/components/ui/Money";
 import { LinkButton } from "@/components/ui/Button";
 
 type Props = { plan: Plan; monthlyPrice?: number; href: string; cta: string; highlight?: boolean };
@@ -20,10 +20,10 @@ export function PlanCard({ plan, monthlyPrice, href, cta, highlight }: Props) {
         </span>
       )}
       <p className="text-sm uppercase tracking-[0.15em] text-muted">{plan.name}</p>
-      <p className="font-display mt-3 text-5xl">{formatCRC(plan.priceCRC)}</p>
+      <p className="font-display mt-3 text-5xl"><Money amount={plan.priceCRC} /></p>
       <p className="mt-1 text-sm text-muted">{yearly ? "al año" : "al mes"} · cancelás cuando querás</p>
       {yearly && monthlyPrice && (
-        <p className="mt-1 text-sm text-muted">Equivale a {formatCRC(Math.round(plan.priceCRC / 12))} al mes</p>
+        <p className="mt-1 text-sm text-muted">Equivale a <Money amount={Math.round(plan.priceCRC / 12)} /> al mes</p>
       )}
       <div className="mt-8">
         <LinkButton href={href} variant={highlight ? "primary" : "secondary"} className="w-full">

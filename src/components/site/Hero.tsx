@@ -1,7 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
 import { buttonClasses } from "@/components/ui/Button";
 import { SocialLinks } from "./SocialLinks";
 
@@ -15,18 +12,10 @@ type Props = {
   social: { tiktok: string; instagram: string; youtube: string; facebook: string; tiktokFollowers: string; instagramFollowers: string };
 };
 
-const container = { hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } } };
-const item = {
-  hidden: { opacity: 0, y: 18 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const } },
-};
+const step = (i: number) => ({ "--i": i } as React.CSSProperties);
 
 export function Hero({ eyebrow, title, subtitle, ctaPrimary, ctaSecondary, portraitUrl, social }: Props) {
-  const reduce = useReducedMotion();
-  const variants = reduce ? undefined : container;
-  const child = reduce ? undefined : item;
   const [first, ...rest] = title.split(" ");
-
   const followers = [
     social.tiktokFollowers && { label: "TikTok", value: social.tiktokFollowers, href: social.tiktok },
     social.instagramFollowers && { label: "Instagram", value: social.instagramFollowers, href: social.instagram },
@@ -35,14 +24,14 @@ export function Hero({ eyebrow, title, subtitle, ctaPrimary, ctaSecondary, portr
   return (
     <section className="relative overflow-hidden" aria-labelledby="hero-title">
       <div className="mx-auto grid w-full max-w-[1200px] gap-12 px-4 pt-14 pb-20 sm:px-8 sm:pt-20 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:pb-28">
-        <motion.div variants={variants} initial={reduce ? false : "hidden"} animate="show" className="relative z-10">
-          <motion.p variants={child} className="text-xs uppercase tracking-[0.25em] text-accent sm:text-sm">
+        <div className="relative z-10">
+          <p className="hero-in text-xs uppercase tracking-[0.25em] text-accent sm:text-sm" style={step(0)}>
             {eyebrow}
-          </motion.p>
-          <motion.h1
+          </p>
+          <h1
             id="hero-title"
-            variants={child}
-            className="font-display mt-5 text-[clamp(44px,9vw,112px)] leading-[0.95] tracking-[-0.02em]"
+            className="hero-in font-display mt-5 text-[clamp(44px,9vw,112px)] leading-[0.95] tracking-[-0.02em]"
+            style={step(1)}
           >
             {first}
             {rest.length > 0 && (
@@ -51,19 +40,19 @@ export function Hero({ eyebrow, title, subtitle, ctaPrimary, ctaSecondary, portr
                 <span className="text-ink/80">{rest.join(" ")}</span>
               </>
             )}
-          </motion.h1>
-          <motion.p variants={child} className="mt-7 max-w-xl text-lg leading-relaxed text-muted sm:text-xl">
+          </h1>
+          <p className="hero-in mt-7 max-w-xl text-lg leading-relaxed text-muted sm:text-xl" style={step(2)}>
             {subtitle}
-          </motion.p>
-          <motion.div variants={child} className="mt-9 flex flex-wrap gap-3">
+          </p>
+          <div className="hero-in mt-9 flex flex-wrap gap-3" style={step(3)}>
             <Link href="/videos" className={buttonClasses("primary", "lg")}>
               {ctaPrimary}
             </Link>
             <Link href="/membresia" className={buttonClasses("secondary", "lg")}>
               {ctaSecondary}
             </Link>
-          </motion.div>
-          <motion.div variants={child} className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4">
+          </div>
+          <div className="hero-in mt-12 flex flex-wrap items-center gap-x-8 gap-y-4" style={step(4)}>
             <SocialLinks social={social} />
             {followers.map((f) => (
               <a key={f.label} href={f.href} target="_blank" rel="noopener noreferrer" className="group">
@@ -71,15 +60,10 @@ export function Hero({ eyebrow, title, subtitle, ctaPrimary, ctaSecondary, portr
                 <span className="text-xs uppercase tracking-wider text-muted">en {f.label}</span>
               </a>
             ))}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
-        <motion.div
-          initial={reduce ? false : { opacity: 0, scale: 0.96, y: 24 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
-          className="relative mx-auto w-full max-w-md lg:max-w-none"
-        >
+        <div className="hero-portrait-in relative mx-auto w-full max-w-md lg:max-w-none">
           <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] bg-surface-2 shadow-soft">
             {portraitUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -89,7 +73,7 @@ export function Hero({ eyebrow, title, subtitle, ctaPrimary, ctaSecondary, portr
             )}
           </div>
           <div aria-hidden="true" className="absolute -right-6 -top-6 -z-10 size-40 rounded-full bg-accent/20 blur-3xl" />
-        </motion.div>
+        </div>
       </div>
     </section>
   );

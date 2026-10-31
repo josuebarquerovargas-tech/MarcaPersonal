@@ -11,11 +11,12 @@ const inter = Inter({
   display: "swap",
 });
 
+// Sin ejes extra: la instancia por defecto (opsz 144) basta para titulares y
+// pesa menos de la mitad que la variable completa.
 const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
   display: "swap",
-  axes: ["opsz", "SOFT"],
 });
 
 export async function generateMetadata(): Promise<Metadata> {

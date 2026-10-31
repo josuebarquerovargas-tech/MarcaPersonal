@@ -1,7 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { LinkButton } from "@/components/ui/Button";
-import { formatCRC } from "@/lib/membership/subscription";
+import { Money } from "@/components/ui/Money";
 
 type Props = { title: string; text: string; benefits: string[]; monthlyPriceCRC: number | null; isMember: boolean };
 
@@ -25,7 +25,7 @@ export function MembershipCta({ title, text, benefits, monthlyPriceCRC, isMember
                   </LinkButton>
                   {monthlyPriceCRC !== null && !isMember && (
                     <span className="text-sm text-bg/60">
-                      Desde <span className="font-display text-xl text-bg">{formatCRC(monthlyPriceCRC)}</span> al mes
+                      Desde <span className="font-display text-xl text-bg"><Money amount={monthlyPriceCRC} /></span> al mes
                     </span>
                   )}
                 </div>
