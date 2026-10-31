@@ -4,6 +4,8 @@
  */
 export type Service = {
   slug: string;
+  icon: "web" | "social" | "video" | "tools" | "chat";
+  tag: string;
   title: string;
   summary: string;
   includes: string[];
@@ -14,6 +16,8 @@ export type Service = {
 export const SERVICES: Service[] = [
   {
     slug: "sitios-web",
+    icon: "web",
+    tag: "Web",
     title: "Sitios web",
     summary: "Páginas web profesionales para mostrar tu marca, tus productos y tus servicios.",
     includes: [
@@ -26,6 +30,8 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "redes-sociales",
+    icon: "social",
+    tag: "Redes",
     title: "Manejo de redes sociales",
     summary: "Gestión profesional de tus redes para conectar con tu audiencia y generar clientes potenciales.",
     includes: [
@@ -38,6 +44,8 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "contenido",
+    icon: "video",
+    tag: "Contenido",
     title: "Contenido que vende",
     summary: "Videos, reels, fotografías y contenido estratégico para presentar lo que ofrecés.",
     includes: ["Producción de videos y reels", "Fotografías", "Contenido estratégico para presentar productos o servicios"],
@@ -46,6 +54,8 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "herramientas-tecnologicas",
+    icon: "tools",
+    tag: "Tecnología",
     title: "Herramientas tecnológicas para vender",
     summary: "Inteligencia artificial, automatizaciones y anuncios digitales para mejorar tus procesos comerciales.",
     includes: ["Inteligencia artificial", "Automatizaciones", "Anuncios digitales y otras soluciones tecnológicas"],
@@ -54,6 +64,8 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "asesoria",
+    icon: "chat",
+    tag: "Asesoría",
     title: "Asesoría y acompañamiento",
     summary: "Orientación personalizada durante el crecimiento de tu marca, con seguimiento y apoyo estratégico.",
     includes: ["Orientación personalizada", "Seguimiento durante el proceso", "Apoyo estratégico"],

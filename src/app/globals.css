@@ -14,6 +14,9 @@
   --accent-ink: #ffffff;
   --brand: #f5c518;
   --brand-ink: #111111;
+  --card-light: rgb(255 255 255 / 0.9);
+  --card-shade: rgb(17 17 17 / 0.1);
+  --card-edge: rgb(17 17 17 / 0.05);
   --shadow: 0 1px 2px rgb(17 17 17 / 0.04), 0 8px 24px rgb(17 17 17 / 0.06);
   color-scheme: light;
 }
@@ -30,6 +33,9 @@
   --accent-ink: #0c0c0b;
   --brand: #f5c518;
   --brand-ink: #111111;
+  --card-light: rgb(255 255 255 / 0.06);
+  --card-shade: rgb(0 0 0 / 0.5);
+  --card-edge: rgb(0 0 0 / 0.6);
   --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.45);
   color-scheme: dark;
 }
@@ -185,6 +191,91 @@ body {
 }
 .breathe {
   animation: breathe 8s var(--ease-in-out) infinite;
+}
+
+/* Tarjeta elevada: sombra suave en capas y borde de luz arriba. */
+.raised-card {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow:
+    inset 0 1px 0 var(--card-light),
+    0 1px 2px var(--card-shade),
+    0 10px 24px -8px var(--card-shade),
+    0 2px 0 var(--card-edge);
+  transition:
+    transform 240ms var(--ease-out),
+    box-shadow 240ms var(--ease-out);
+}
+.icon-frame {
+  display: inline-flex;
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  box-shadow:
+    inset 0 1px 0 var(--card-light),
+    0 2px 6px -2px var(--card-shade);
+  transition: transform 240ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .raised-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      inset 0 1px 0 var(--card-light),
+      0 2px 4px var(--card-shade),
+      0 20px 36px -10px var(--card-shade),
+      0 2px 0 var(--card-edge);
+  }
+  .raised-card:hover .icon-frame {
+    transform: scale(1.08);
+  }
+  .raised-card:hover .drawn-icon > * {
+    animation-name: draw-stroke-again;
+    animation-delay: calc(var(--stroke, 0) * 60ms);
+    animation-duration: 650ms;
+  }
+}
+
+/* Icono que se dibuja. Los trazos usan pathLength=1 y solo se ocultan dentro de la
+   animación, así que sin JavaScript o con movimiento reducido se ven completos. */
+.drawn-icon > * {
+  stroke-dasharray: 1 1.2;
+  stroke-dashoffset: 0;
+}
+.drawn-icon > :nth-child(2) {
+  --stroke: 1;
+}
+.drawn-icon > :nth-child(3) {
+  --stroke: 2;
+}
+.drawn-icon > :nth-child(4) {
+  --stroke: 3;
+}
+.drawn-icon.is-drawing > * {
+  animation: draw-stroke 900ms var(--ease-in-out) both;
+  animation-delay: calc(0.15s + var(--stroke, 0) * 160ms);
+}
+@keyframes draw-stroke {
+  from {
+    stroke-dashoffset: 1.1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes draw-stroke-again {
+  from {
+    stroke-dashoffset: 1.1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 /* Franja continua. Dos copias idénticas: al llegar a -50% el salto no se nota. */
