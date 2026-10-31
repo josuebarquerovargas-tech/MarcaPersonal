@@ -11,7 +11,7 @@ test.beforeEach(async () => {
 });
 
 const pages = [
-  { path: "/", file: /ruben-inicio\.webp/, maxWidth: 460 },
+  { path: "/", file: /ruben-inicio\.webp/, maxWidth: 520 },
   { path: "/sobre-mi", file: /ruben\.webp/, maxWidth: 400 },
 ];
 
@@ -33,3 +33,10 @@ for (const { path, file, maxWidth } of pages) {
     expect(size.width).toBeLessThanOrEqual(maxWidth);
   });
 }
+
+test("la foto de inicio tiene un tamaño generoso en escritorio", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const box = await page.getByRole("img", { name: "Rubén Rodríguez" }).first().boundingBox();
+  expect(box!.width).toBeGreaterThan(490);
+});

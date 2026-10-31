@@ -11,6 +11,7 @@ type NavProps = { brand: string; memberName: string | null; showMembership: bool
 
 export function Nav({ brand, memberName, showMembership, showBlog }: NavProps) {
   const links = [
+    { href: "/", label: "Inicio" },
     { href: "/servicios", label: "Servicios" },
     { href: "/videos", label: "Videos" },
     ...(showBlog ? [{ href: "/blog", label: "Blog" }] : []),
@@ -19,6 +20,8 @@ export function Nav({ brand, memberName, showMembership, showBlog }: NavProps) {
     { href: "/contacto", label: "Contacto" },
   ];
   const pathname = usePathname();
+  // "/" prefixes every path, so the home link only counts on the home page itself.
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
   const [open, setOpen] = useState(false);
 
   useEffect(() => setOpen(false), [pathname]);
@@ -51,7 +54,7 @@ export function Nav({ brand, memberName, showMembership, showBlog }: NavProps) {
             <Link
               key={l.href}
               href={l.href}
-              aria-current={pathname.startsWith(l.href) ? "page" : undefined}
+              aria-current={isActive(l.href) ? "page" : undefined}
               className="relative text-[15px] text-muted transition-colors duration-200 after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-200 after:ease-[var(--ease-out)] hover:text-ink hover:after:scale-x-100 aria-[current=page]:text-ink aria-[current=page]:after:scale-x-100"
             >
               {l.label}

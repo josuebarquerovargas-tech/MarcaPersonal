@@ -77,7 +77,7 @@ export function Hero({ eyebrow, title, subtitle, ctaPrimary, ctaSecondary, portr
           </a>
         </div>
 
-        <div className="hero-portrait-in relative mx-auto w-full max-w-md">
+        <div className="hero-portrait-in relative mx-auto w-full max-w-lg">
           <div className="relative overflow-hidden rounded-[24px] bg-surface-2 shadow-soft">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={portraitUrl} alt={title} width={960} height={842} className="block h-auto w-full" fetchPriority="high" />
