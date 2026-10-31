@@ -1,0 +1,175 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MemberStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+enum PlanCode {
+  MONTHLY
+  YEARLY
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  EXPIRED
+}
+
+enum PaymentMethod {
+  CARD
+  SINPE
+}
+
+enum PaymentStatus {
+  APPROVED
+  DECLINED
+  INSUFFICIENT_FUNDS
+}
+
+enum VideoKind {
+  FILE
+  EMBED
+}
+
+enum Platform {
+  TIKTOK
+  INSTAGRAM
+  YOUTUBE
+}
+
+enum VideoAccess {
+  FREE
+  MEMBERS
+}
+
+enum VideoStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model AdminUser {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  passwordHash   String
+  sessionVersion Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model LoginAttempt {
+  id        String   @id @default(cuid())
+  ip        String
+  success   Boolean
+  createdAt DateTime @default(now())
+
+  @@index([ip, createdAt])
+}
+
+model FormToken {
+  token     String    @id
+  usedAt    DateTime?
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+}
+
+model Member {
+  id             String         @id @default(cuid())
+  name           String
+  email          String         @unique
+  passwordHash   String
+  status         MemberStatus   @default(ACTIVE)
+  sessionVersion Int            @default(0)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  subscriptions  Subscription[]
+  payments       Payment[]
+}
+
+model Plan {
+  id             String         @id @default(cuid())
+  code           PlanCode       @unique
+  name           String
+  priceCRC       Int
+  intervalMonths Int
+  active         Boolean        @default(true)
+  subscriptions  Subscription[]
+}
+
+model Subscription {
+  id               String             @id @default(cuid())
+  member           Member             @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId         String
+  plan             Plan               @relation(fields: [planId], references: [id])
+  planId           String
+  status           SubscriptionStatus @default(ACTIVE)
+  startedAt        DateTime           @default(now())
+  currentPeriodEnd DateTime
+  canceledAt       DateTime?
+  payments         Payment[]
+
+  @@index([memberId, status])
+}
+
+model Payment {
+  id             String        @id @default(cuid())
+  member         Member        @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId       String
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+  subscriptionId String?
+  amountCRC      Int
+  method         PaymentMethod
+  status         PaymentStatus
+  gatewayRef     String
+  cardLast4      String?
+  createdAt      DateTime      @default(now())
+
+  @@index([createdAt])
+}
+
+model Video {
+  id            String      @id @default(cuid())
+  slug          String      @unique
+  title         String
+  description   String      @default("")
+  kind          VideoKind
+  platform      Platform?
+  sourceUrl     String?     @unique
+  filePath      String?
+  thumbnailPath String?
+  durationSec   Int?
+  access        VideoAccess @default(FREE)
+  status        VideoStatus @default(DRAFT)
+  featured      Boolean     @default(false)
+  sortOrder     Int         @default(0)
+  views         Int         @default(0)
+  publishedAt   DateTime    @default(now())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([status, access, publishedAt])
+}
+
+model Photo {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String   @default("")
+  caption   String   @default("")
+  width     Int
+  height    Int
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model SiteContent {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
