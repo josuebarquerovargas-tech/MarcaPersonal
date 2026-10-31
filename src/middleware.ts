@@ -7,12 +7,12 @@ export async function middleware(req: NextRequest) {
   if (pathname.startsWith("/admin")) {
     const token = req.cookies.get(SESSION_COOKIE.admin)?.value;
     const session = token ? await verifySession("admin", token) : null;
+    // The login page decides on its own (with a DB check) whether to bounce a
+    // signed-in admin to /admin; doing it here would loop when the token is
+    // signed but its session version is stale.
     const isLogin = pathname === "/admin/login";
     if (!session && !isLogin) {
       return NextResponse.redirect(new URL("/admin/login", req.url));
-    }
-    if (session && isLogin) {
-      return NextResponse.redirect(new URL("/admin", req.url));
     }
     return NextResponse.next();
   }

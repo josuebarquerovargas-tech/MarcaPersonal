@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { getAdmin } from "@/server/auth";
 import { AdminLoginForm } from "@/components/admin/AdminLoginForm";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
@@ -6,8 +8,10 @@ export const metadata: Metadata = {
   title: "Ingresar · Panel",
   robots: { index: false, follow: false },
 };
+export const dynamic = "force-dynamic";
 
-export default function AdminLoginPage() {
+export default async function AdminLoginPage() {
+  if (await getAdmin()) redirect("/admin");
   return (
     <main className="flex min-h-dvh items-center justify-center px-4 py-12">
       <div className="w-full max-w-sm">
