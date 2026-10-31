@@ -10,7 +10,6 @@ export type VideoCardData = Pick<
 > & { thumbUrl: string | null };
 
 export function VideoCard({ video, index = 0 }: { video: VideoCardData; index?: number }) {
-  const vertical = video.kind === "EMBED" && video.platform !== "YOUTUBE";
   const chip = video.kind === "FILE" ? "Video" : video.platform ? PLATFORM_LABEL[video.platform] : "Enlace";
   const duration = formatDuration(video.durationSec);
 
@@ -18,9 +17,7 @@ export function VideoCard({ video, index = 0 }: { video: VideoCardData; index?: 
     <Reveal as="li" delay={Math.min(index, 5) * 0.06} className="group">
       <Link href={`/videos/${video.slug}`} className="block focus-visible:outline-none">
         <div
-          className={`relative overflow-hidden rounded-[14px] bg-surface-2 shadow-soft transition-transform duration-300 group-hover:-translate-y-1 group-focus-visible:ring-2 group-focus-visible:ring-accent ${
-            vertical ? "aspect-[9/16]" : "aspect-video"
-          }`}
+          className={`relative overflow-hidden rounded-[14px] bg-surface-2 shadow-soft transition-transform duration-300 group-hover:-translate-y-1 group-focus-visible:ring-2 group-focus-visible:ring-accent aspect-video`}
         >
           {video.thumbUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
