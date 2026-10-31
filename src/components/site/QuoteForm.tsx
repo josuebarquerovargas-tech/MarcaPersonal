@@ -9,7 +9,16 @@ import { Button } from "@/components/ui/Button";
 import { Field, FormMessage } from "@/components/ui/Field";
 import { Input, Select, Textarea } from "@/components/ui/Input";
 
-export function QuoteForm({ formToken, initialService }: { formToken: string; initialService: string }) {
+type Props = {
+  formToken: string;
+  initialService: string;
+  plans?: { id: string; name: string }[];
+  /** When given, the parent controls the selection, so a plan card can change it without wiping the form. */
+  service?: string;
+  onServiceChange?: (service: string) => void;
+};
+
+export function QuoteForm({ formToken, initialService, plans, service, onServiceChange }: Props) {
   const [state, action, pending] = useActionState(submitQuote, {} as QuoteFormState);
   // Controlled so a validation error never wipes what was written.
   const [values, setValues] = useState({ name: "", contact: "", service: initialService, message: "" });
@@ -42,12 +51,28 @@ export function QuoteForm({ formToken, initialService }: { formToken: string; in
         </Field>
       </div>
       <Field label="Servicio de interés" htmlFor="q-service">
-        <Select id="q-service" name="service" value={values.service} onChange={set("service")}>
-          {SERVICES.map((s) => (
-            <option key={s.slug} value={s.slug}>
-              {s.title}
-            </option>
-          ))}
+        <Select
+          id="q-service"
+          name="service"
+          value={service ?? values.service}
+          onChange={onServiceChange ? (e) => onServiceChange(e.target.value) : set("service")}
+        >
+          {plans && (
+            <optgroup label="Planes">
+              {plans.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name}
+                </option>
+              ))}
+            </optgroup>
+          )}
+          <optgroup label="Servicios">
+            {SERVICES.map((s) => (
+              <option key={s.slug} value={s.slug}>
+                {s.title}
+              </option>
+            ))}
+          </optgroup>
           <option value="otro">Todavía no lo sé</option>
         </Select>
       </Field>

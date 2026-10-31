@@ -5,20 +5,22 @@ import { requireMembershipEnabled } from "@/server/features";
 import { getMembership } from "@/server/members";
 import { getContent } from "@/server/content";
 import { listPlans } from "@/server/plans";
+import { formTokens } from "@/server/security";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import { PlanCard } from "@/components/site/PlanCard";
+import { PlanQuotes } from "@/components/site/PlanQuotes";
 
 export const metadata: Metadata = {
   title: "Membresía",
-  description: "Contenido exclusivo en video para miembros.",
+  description: "Planes para tu marca con cotización directa y contenido exclusivo en video.",
 };
 export const dynamic = "force-dynamic";
 
 export default async function MembershipPage() {
   await requireMembershipEnabled();
-  const [m, plans, member] = await Promise.all([getContent("membership"), listPlans(), getMember()]);
+  const [m, plans, member, formToken] = await Promise.all([getContent("membership"), listPlans(), getMember(), formTokens.issueFormToken()]);
   const membership = await getMembership(member);
   const monthly = plans.find((p) => p.code === "MONTHLY");
 
@@ -30,7 +32,12 @@ export default async function MembershipPage() {
   return (
     <main className="py-12 sm:py-16">
       <Container>
-        <SectionHeading eyebrow="Membresía" title={m.title} text={m.text} />
+        <SectionHeading eyebrow="Planes" title={m.plansTitle} text={m.plansText} level={1} />
+        <PlanQuotes plans={m.plans} formToken={formToken} />
+
+        <div id="contenido" className="mt-24 scroll-mt-24">
+          <SectionHeading eyebrow="Membresía" title={m.title} text={m.text} />
+        </div>
 
         {membership.active ? (
           <Reveal className="mt-10 rounded-[16px] border border-accent/40 bg-accent/5 p-6">

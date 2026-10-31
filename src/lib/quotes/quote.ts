@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { z } from "zod";
 import { getServiceBySlug } from "@/lib/services/catalog";
+import { isQuotePlan } from "./plans";
 
 export const QUOTE_OTHER = "otro";
 export const DIRECT_SOURCE = "direct";
@@ -17,7 +18,7 @@ export const quoteSchema = z.object({
     .refine((v) => EMAIL.test(v) || PHONE.test(v), "Ingresa un correo o un teléfono válido"),
   service: z
     .string()
-    .refine((v) => v === QUOTE_OTHER || !!getServiceBySlug(v), "Elige un servicio de la lista"),
+    .refine((v) => v === QUOTE_OTHER || isQuotePlan(v) || !!getServiceBySlug(v), "Elige un servicio de la lista"),
   message: z.string().trim().max(2000, "El mensaje admite hasta 2000 caracteres"),
   consent: z.literal("on", { message: "Necesitamos tu autorización para responderte" }),
 });

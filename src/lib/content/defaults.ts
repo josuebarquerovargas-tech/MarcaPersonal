@@ -51,6 +51,13 @@ export const defaults: Content = {
     ],
   },
   membership: {
+    plansTitle: "Planes para tu marca",
+    plansText: "Elige el plan que más se acerca a lo que necesitas y solicita tu cotización de una vez. Nos adaptamos a tu presupuesto.",
+    plans: [
+      { name: "Plan Inicio", includes: "Estrategia a tu medida\nSitio web profesional\nAsesoría personal" },
+      { name: "Plan Crecimiento", includes: "Todo lo del Plan Inicio\nManejo de redes sociales\nContenido que vende" },
+      { name: "Plan Completo", includes: "Todo lo del Plan Crecimiento\nHerramientas tecnológicas para vender\nAnuncios digitales y automatización" },
+    ],
     title: "Contenido exclusivo para tu marca",
     text: "Una membresía para acceder a videos exclusivos sobre marca personal, presencia digital y ventas.",
     benefits: ["Videos exclusivos", "Acceso anticipado a nuevos contenidos", "Acceso desde tu cuenta, en cualquier dispositivo"],

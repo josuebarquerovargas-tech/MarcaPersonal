@@ -34,6 +34,11 @@ describe("quoteSchema", () => {
     expect(quoteSchema.safeParse({ ...valid, service: "otro" }).success).toBe(true);
   });
 
+  test("acepta los planes de la membresía y rechaza uno inventado", () => {
+    expect(quoteSchema.safeParse({ ...valid, service: "plan-crecimiento" }).success).toBe(true);
+    expect(quoteSchema.safeParse({ ...valid, service: "plan-falso" }).success).toBe(false);
+  });
+
   test("limita el largo del mensaje", () => {
     expect(quoteSchema.safeParse({ ...valid, message: "x".repeat(2001) }).success).toBe(false);
   });

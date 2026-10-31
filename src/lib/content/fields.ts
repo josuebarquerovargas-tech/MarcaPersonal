@@ -59,6 +59,17 @@ export const contentFields: Record<ContentKey, FieldDef[]> = {
     { name: "title", label: "Título", kind: "text" },
     { name: "text", label: "Texto", kind: "textarea" },
     { name: "benefits", label: "Beneficios", kind: "lines", hint: "Un beneficio por línea." },
+    { name: "plansTitle", label: "Título de los planes", kind: "text" },
+    { name: "plansText", label: "Texto de los planes", kind: "textarea" },
+    {
+      name: "plans",
+      label: "Planes con cotización",
+      kind: "pairs",
+      keys: ["name", "includes"],
+      labels: ["Plan", "Qué incluye"],
+      fixed: 3,
+      hint: "En «Qué incluye», un elemento por línea.",
+    },
     {
       name: "faq",
       label: "Preguntas frecuentes",
