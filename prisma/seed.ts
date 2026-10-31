@@ -9,7 +9,8 @@ import bcrypt from "bcryptjs";
 
 const db = new PrismaClient();
 const uploadsDir = path.resolve(process.env.UPLOADS_DIR ?? "./data/uploads");
-const demoDir = path.join(__dirname, "demo");
+// Relativo al directorio de trabajo para que funcione tanto con tsx como compilado en Docker.
+const demoDir = path.resolve(process.env.DEMO_DIR ?? "prisma/demo");
 
 const DEMO_VIDEOS = [
   {

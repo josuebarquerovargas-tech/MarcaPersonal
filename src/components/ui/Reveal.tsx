@@ -19,6 +19,7 @@ export function Reveal({ children, delay = 0, className, as = "div" }: RevealPro
   }
   return (
     <Tag
+      data-reveal
       className={className}
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}

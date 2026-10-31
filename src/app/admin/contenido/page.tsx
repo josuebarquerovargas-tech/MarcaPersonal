@@ -2,13 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { requireAdmin } from "@/server/auth";
 import { getContent } from "@/server/content";
+import { listPlans } from "@/server/plans";
 import { saveContent } from "@/server/actions/content";
 import { contentFields, contentSections } from "@/lib/content/fields";
 import type { ContentKey } from "@/lib/content/keys";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { ContentForm } from "@/components/admin/ContentForm";
+import { PlansForm } from "@/components/admin/PlansForm";
 
 export const metadata: Metadata = { title: "Contenido" };
+export const dynamic = "force-dynamic";
+
+const PLANS_SECTION = "planes";
 
 export default async function AdminContentPage({
   searchParams,
@@ -17,25 +22,26 @@ export default async function AdminContentPage({
 }) {
   await requireAdmin();
   const { seccion } = await searchParams;
+  const isPlans = seccion === PLANS_SECTION;
   const current =
     contentSections.find((s) => s.key === seccion)?.key ?? ("hero" satisfies ContentKey);
-  const value = await getContent(current);
-  const action = saveContent.bind(null, current);
+  const tabs = [...contentSections.map((s) => ({ key: s.key as string, label: s.label })), { key: PLANS_SECTION, label: "Planes" }];
+  const activeKey = isPlans ? PLANS_SECTION : current;
 
   return (
     <>
       <AdminPageHeader
         title="Contenido"
-        description="Textos del sitio público. Los cambios se publican al guardar."
+        description="Textos y precios del sitio público. Los cambios se publican al guardar."
       />
       <nav aria-label="Secciones de contenido" className="mt-6 flex flex-wrap gap-2">
-        {contentSections.map((s) => (
+        {tabs.map((s) => (
           <Link
             key={s.key}
             href={`/admin/contenido?seccion=${s.key}`}
-            aria-current={s.key === current ? "page" : undefined}
+            aria-current={s.key === activeKey ? "page" : undefined}
             className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
-              s.key === current
+              s.key === activeKey
                 ? "border-ink bg-ink text-bg"
                 : "border-line bg-surface text-muted hover:text-ink"
             }`}
@@ -45,12 +51,16 @@ export default async function AdminContentPage({
         ))}
       </nav>
       <div className="mt-8">
-        <ContentForm
-          key={current}
-          fields={contentFields[current]}
-          value={value as Record<string, unknown>}
-          action={action}
-        />
+        {isPlans ? (
+          <PlansForm plans={await listPlans()} />
+        ) : (
+          <ContentForm
+            key={current}
+            fields={contentFields[current]}
+            value={(await getContent(current)) as Record<string, unknown>}
+            action={saveContent.bind(null, current)}
+          />
+        )}
       </div>
     </>
   );

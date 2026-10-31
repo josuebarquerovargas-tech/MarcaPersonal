@@ -48,3 +48,36 @@ test.describe.serial("cuentas de miembro", () => {
     await expect(page.getByRole("link", { name: "Hazte miembro" }).first()).toBeVisible();
   });
 });
+
+test("tras un correo duplicado, corregirlo permite registrarse sin recargar", async ({ page }) => {
+  const dup = `dup-${Date.now()}@demo.cr`;
+  await page.goto("/registro");
+  await page.getByLabel("Nombre").fill("Dup Uno");
+  await page.getByLabel("Correo").fill(dup);
+  await page.getByLabel("Contraseña", { exact: true }).fill(password);
+  await page.getByRole("button", { name: "Crear cuenta" }).click();
+  await expect(page).toHaveURL(/\/membresia$/);
+  await page.goto("/cuenta");
+  await page.getByRole("button", { name: "Cerrar sesión" }).click();
+  await expect(page.getByRole("link", { name: "Hazte miembro" }).first()).toBeVisible();
+
+  await page.goto("/registro");
+  await page.getByLabel("Nombre").fill("Dup Dos");
+  await page.getByLabel("Correo").fill(dup);
+  await page.getByLabel("Contraseña", { exact: true }).fill(password);
+  await page.getByRole("button", { name: "Crear cuenta" }).click();
+  await expect(page.getByText("Ya existe una cuenta con ese correo")).toBeVisible();
+  await page.getByLabel("Correo").fill(`otro-${Date.now()}@demo.cr`);
+  await page.getByRole("button", { name: "Crear cuenta" }).click();
+  await expect(page).toHaveURL(/\/membresia$/);
+});
+
+test("un next malicioso no saca al usuario del sitio", async ({ page }) => {
+  await page.goto("/ingresar?next=//evil.com");
+  await page.getByLabel("Correo").fill("miembro@demo.cr");
+  await page.getByLabel("Contraseña", { exact: true }).fill("Miembro1234!");
+  await page.getByRole("button", { name: "Ingresar" }).click();
+  await expect(page).toHaveURL(/^http:\/\/localhost:\d+\/cuenta$/);
+  await page.goto("/ingresar?next=/%5Cevil.com");
+  await expect(page).toHaveURL(/^http:\/\/localhost:\d+\/cuenta$/);
+});

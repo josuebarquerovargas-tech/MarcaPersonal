@@ -54,3 +54,14 @@ test("las páginas secundarias cargan", async ({ page }) => {
   await page.goto("/contacto");
   await expect(page.getByRole("link", { name: /WhatsApp/ })).toHaveAttribute("href", /wa\.me\/50670150301/);
 });
+
+test("sin JavaScript el contenido y las miniaturas se ven", async ({ browser }) => {
+  const ctx = await browser.newContext({ javaScriptEnabled: false });
+  const page = await ctx.newPage();
+  await page.goto("/");
+  const card = page.locator("[data-reveal]").first();
+  await expect(card).toBeVisible();
+  expect(await card.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
+  await expect(page.getByRole("heading", { name: "Demo: rutina de paseo" })).toBeVisible();
+  await ctx.close();
+});

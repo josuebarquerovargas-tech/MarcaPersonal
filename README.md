@@ -38,6 +38,7 @@ Variables de entorno (ver `.env.example`):
 | `UPLOADS_DIR`          | Carpeta de videos, miniaturas y fotos (`./data/uploads`). En producción usá una ruta absoluta: el servidor standalone cambia el directorio de trabajo |
 | `NEXT_PUBLIC_SITE_URL` | URL pública (metadatos, sitemap)                             |
 | `SEED_DEMO`            | `false` para sembrar solo admin y planes, sin contenido demo |
+| `TRUST_PROXY`          | `true` solo detrás de un proxy que fije `X-Forwarded-For`; si no, el límite de intentos de login usa un único cubo global |
 
 ## Credenciales de la demo
 

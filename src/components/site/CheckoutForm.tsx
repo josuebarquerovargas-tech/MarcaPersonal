@@ -24,13 +24,20 @@ function groupDigits(v: string): string {
     .replace(/(\d{4})(?=\d)/g, "$1 ");
 }
 
+const digits = (v: string, max: number) => v.replace(/\D/g, "").slice(0, max);
+
 export function CheckoutForm({ action, planCode, amountCRC, formToken }: Props) {
   const [state, formAction, pending] = useActionState(action, {});
   const [method, setMethod] = useState<"CARD" | "SINPE">("CARD");
-  const [number, setNumber] = useState("");
+  // All fields are controlled: React resets uncontrolled inputs after a server
+  // action, which would wipe what the user typed when a validation error comes back.
+  const [card, setCard] = useState({ number: "", name: "", expMonth: "", expYear: "", cvv: "" });
+  const [phone, setPhone] = useState("");
   const [touched, setTouched] = useState(false);
-  const numberError = touched && number && !luhnValid(number) ? "El número de tarjeta no es válido" : undefined;
+  const numberError = touched && card.number && !luhnValid(card.number) ? "El número de tarjeta no es válido" : undefined;
   const year = new Date().getFullYear();
+  const fieldError = (name: string) => (state.field === name ? state.error : undefined);
+  const set = (k: keyof typeof card) => (v: string) => setCard((c) => ({ ...c, [k]: v }));
 
   return (
     <form action={formAction} className="flex flex-col gap-5" noValidate>
@@ -57,32 +64,56 @@ export function CheckoutForm({ action, planCode, amountCRC, formToken }: Props) 
 
       {method === "CARD" ? (
         <div role="tabpanel" className="flex flex-col gap-4">
-          <Field label="Número de tarjeta" htmlFor="number" error={numberError ?? (state.field === "number" ? state.error : undefined)}>
+          <Field label="Número de tarjeta" htmlFor="number" error={numberError ?? fieldError("number")}>
             <Input
               id="number"
               name="number"
               inputMode="numeric"
               autoComplete="cc-number"
               placeholder="0000 0000 0000 0000"
-              value={number}
-              onChange={(e) => setNumber(groupDigits(e.target.value))}
+              value={card.number}
+              onChange={(e) => set("number")(groupDigits(e.target.value))}
               onBlur={() => setTouched(true)}
               aria-invalid={!!numberError || undefined}
               className="tabular-nums tracking-[0.08em]"
             />
           </Field>
-          <Field label="Nombre en la tarjeta" htmlFor="name" error={state.field === "name" ? state.error : undefined}>
-            <Input id="name" name="name" autoComplete="cc-name" />
+          <Field label="Nombre en la tarjeta" htmlFor="name" error={fieldError("name")}>
+            <Input id="name" name="name" autoComplete="cc-name" value={card.name} onChange={(e) => set("name")(e.target.value)} />
           </Field>
           <div className="grid grid-cols-3 gap-3">
-            <Field label="Mes" htmlFor="expMonth" error={state.field === "expMonth" ? state.error : undefined}>
-              <Input id="expMonth" name="expMonth" inputMode="numeric" placeholder="MM" maxLength={2} autoComplete="cc-exp-month" />
+            <Field label="Mes" htmlFor="expMonth" error={fieldError("expMonth")}>
+              <Input
+                id="expMonth"
+                name="expMonth"
+                inputMode="numeric"
+                placeholder="MM"
+                autoComplete="cc-exp-month"
+                value={card.expMonth}
+                onChange={(e) => set("expMonth")(digits(e.target.value, 2))}
+              />
             </Field>
-            <Field label="Año" htmlFor="expYear" error={state.field === "expYear" ? state.error : undefined}>
-              <Input id="expYear" name="expYear" inputMode="numeric" placeholder={String(year)} maxLength={4} autoComplete="cc-exp-year" />
+            <Field label="Año" htmlFor="expYear" error={fieldError("expYear")}>
+              <Input
+                id="expYear"
+                name="expYear"
+                inputMode="numeric"
+                placeholder={String(year)}
+                autoComplete="cc-exp-year"
+                value={card.expYear}
+                onChange={(e) => set("expYear")(digits(e.target.value, 4))}
+              />
             </Field>
-            <Field label="CVV" htmlFor="cvv" error={state.field === "cvv" ? state.error : undefined}>
-              <Input id="cvv" name="cvv" inputMode="numeric" placeholder="123" maxLength={4} autoComplete="cc-csc" />
+            <Field label="CVV" htmlFor="cvv" error={fieldError("cvv")}>
+              <Input
+                id="cvv"
+                name="cvv"
+                inputMode="numeric"
+                placeholder="123"
+                autoComplete="cc-csc"
+                value={card.cvv}
+                onChange={(e) => set("cvv")(digits(e.target.value, 4))}
+              />
             </Field>
           </div>
         </div>
@@ -92,9 +123,17 @@ export function CheckoutForm({ action, planCode, amountCRC, formToken }: Props) 
             label="Número SINPE Móvil"
             htmlFor="phone"
             hint="Recibirás una solicitud de transferencia simulada."
-            error={state.field === "phone" ? state.error : undefined}
+            error={fieldError("phone")}
           >
-            <Input id="phone" name="phone" inputMode="tel" placeholder="8888 8888" autoComplete="tel-national" />
+            <Input
+              id="phone"
+              name="phone"
+              inputMode="tel"
+              placeholder="8888 8888"
+              autoComplete="tel-national"
+              value={phone}
+              onChange={(e) => setPhone(digits(e.target.value, 8))}
+            />
           </Field>
         </div>
       )}
@@ -104,7 +143,8 @@ export function CheckoutForm({ action, planCode, amountCRC, formToken }: Props) 
       <div className="rounded-[12px] border border-dashed border-accent/50 bg-accent/5 px-4 py-3 text-sm">
         <p className="font-medium text-ink">Modo demostración: no se realizan cobros reales.</p>
         <p className="mt-1 text-muted">
-          Probá con {DEMO_CARD_RULES.map((r, i) => (
+          Probá con{" "}
+          {DEMO_CARD_RULES.map((r, i) => (
             <span key={r.ending}>
               {i > 0 && ", "}
               <span className="tabular-nums text-ink">{r.ending === "4242" ? "4242 4242 4242 4242" : `…${r.ending}`}</span> ({r.outcome})

@@ -117,3 +117,15 @@ test("el pago sin sesión redirige a ingresar", async ({ page }) => {
   await page.goto("/pago?plan=MONTHLY");
   await expect(page).toHaveURL(/\/ingresar\?next=/);
 });
+
+test("un error de validación no gasta el token y el pago sigue siendo posible", async ({ page }) => {
+  await register(page, `pago-cvv-${Date.now()}@demo.cr`);
+  await page.goto("/pago?plan=MONTHLY");
+  await fillCard(page, "4242 4242 4242 4242");
+  await page.getByLabel("CVV").fill("12");
+  await page.getByRole("button", { name: /Pagar/ }).click();
+  await expect(page.getByText("El CVV tiene 3 o 4 dígitos")).toBeVisible();
+  await page.getByLabel("CVV").fill("123");
+  await page.getByRole("button", { name: /Pagar/ }).click();
+  await expect(page).toHaveURL(/\/pago\/exito/);
+});

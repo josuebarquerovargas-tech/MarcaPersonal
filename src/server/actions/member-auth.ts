@@ -7,13 +7,9 @@ import { hashPassword, verifyPassword } from "@/lib/auth/password";
 import { clearMemberSession, setMemberSession } from "@/server/auth";
 import { clientIp, formTokens, loginLimiter } from "@/server/security";
 import { FORM_TOKEN_FIELD } from "@/lib/form-token";
+import { safeNext } from "@/lib/safe-next";
 
 export type MemberAuthState = { error?: string };
-
-function safeNext(next: unknown): string | null {
-  if (typeof next !== "string" || !next.startsWith("/") || next.startsWith("//")) return null;
-  return next;
-}
 
 const registerSchema = z.object({
   name: z.string().trim().min(2, "Ingresá tu nombre").max(80),
@@ -22,10 +18,6 @@ const registerSchema = z.object({
 });
 
 export async function registerMember(_prev: MemberAuthState, fd: FormData): Promise<MemberAuthState> {
-  const token = fd.get(FORM_TOKEN_FIELD);
-  if (typeof token !== "string" || !(await formTokens.consumeFormToken(token))) {
-    return { error: "El formulario expiró. Recargá la página e intentá de nuevo." };
-  }
   const parsed = registerSchema.safeParse({
     name: fd.get("name"),
     email: fd.get("email"),
@@ -35,6 +27,11 @@ export async function registerMember(_prev: MemberAuthState, fd: FormData): Prom
 
   const existing = await db.member.findUnique({ where: { email: parsed.data.email } });
   if (existing) return { error: "Ya existe una cuenta con ese correo" };
+
+  const token = fd.get(FORM_TOKEN_FIELD);
+  if (typeof token !== "string" || !(await formTokens.consumeFormToken(token))) {
+    return { error: "El formulario expiró. Recargá la página e intentá de nuevo." };
+  }
 
   const member = await db.member.create({
     data: {

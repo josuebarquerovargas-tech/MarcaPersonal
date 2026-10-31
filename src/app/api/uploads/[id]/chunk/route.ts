@@ -7,7 +7,11 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   if (admin instanceof Response) return admin;
 
   const { id } = await params;
-  const index = Number(req.nextUrl.searchParams.get("index"));
+  const rawIndex = req.nextUrl.searchParams.get("index");
+  if (rawIndex === null || !/^\d+$/.test(rawIndex)) {
+    return Response.json({ error: "Falta el índice de la parte" }, { status: 400 });
+  }
+  const index = Number(rawIndex);
   const data = Buffer.from(await req.arrayBuffer());
   try {
     await chunkUploads.writeChunk(id, index, data);

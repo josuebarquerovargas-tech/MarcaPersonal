@@ -39,3 +39,13 @@ test.describe.serial("galería", () => {
     await expect(page.getByText("Pronto habrá fotos aquí.")).toBeVisible();
   });
 });
+
+test("subir varias fotos a la vez crea una fila por foto", async ({ page }) => {
+  await loginAsAdmin(page);
+  await page.goto("/admin/galeria");
+  await page.getByLabel("Fotos").setInputFiles([fixture, fixture, fixture]);
+  await page.getByLabel("Pie de foto").fill("Lote E2E");
+  await page.getByRole("button", { name: "Subir" }).click();
+  await expect(page.getByText("Fotos subidas")).toBeVisible();
+  await expect(page.locator("input[name=caption][value=\"Lote E2E\"]")).toHaveCount(3);
+});

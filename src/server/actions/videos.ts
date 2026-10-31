@@ -92,10 +92,6 @@ async function embedThumbnail(platform: "TIKTOK" | "INSTAGRAM" | "YOUTUBE", exte
 
 export async function createVideo(_prev: VideoFormState, fd: FormData): Promise<VideoFormState> {
   await requireAdmin();
-  const token = str(fd, FORM_TOKEN_FIELD) ?? "";
-  if (!(await formTokens.consumeFormToken(token))) {
-    return { error: "Este formulario ya fue enviado. Revisá la lista de videos." };
-  }
   const parsed = readForm(fd);
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Datos inválidos" };
   const d = parsed.data;
@@ -115,7 +111,9 @@ export async function createVideo(_prev: VideoFormState, fd: FormData): Promise<
 
   try {
     if (d.kind === "FILE") {
-      if (!(await storage.stat(d.fileKey))) return { error: "El archivo de video no se encontró. Subilo de nuevo." };
+      if (!d.fileKey.startsWith("videos/") || !(await storage.stat(d.fileKey))) {
+        return { error: "El archivo de video no se encontró. Subilo de nuevo." };
+      }
       data.filePath = d.fileKey;
       data.thumbnailPath = await thumbnailFromForm(fd);
     } else {
@@ -134,6 +132,9 @@ export async function createVideo(_prev: VideoFormState, fd: FormData): Promise<
     return { error: (e as Error).message };
   }
 
+  if (!(await formTokens.consumeFormToken(str(fd, FORM_TOKEN_FIELD) ?? ""))) {
+    return { error: "Este formulario ya fue enviado. Revisá la lista de videos." };
+  }
   await db.$transaction(async (tx) => {
     await tx.video.updateMany({ data: { sortOrder: { increment: 1 } } });
     await tx.video.create({ data });

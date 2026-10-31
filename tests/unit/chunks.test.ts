@@ -67,3 +67,22 @@ test("rechaza índices de parte fuera de rango o sesión desconocida", async () 
   await expect(uploads.writeChunk(s.uploadId, 3, Buffer.from("x"))).rejects.toThrow();
   await expect(uploads.writeChunk("nope", 0, Buffer.from("x"))).rejects.toThrow();
 });
+
+test("rechaza una parte truncada y no deja archivo final", async () => {
+  const s = await uploads.createUploadSession({ filename: "a.mp4", size: 12, mime: "video/mp4" });
+  await uploads.writeChunk(s.uploadId, 0, Buffer.from("ABCDE"));
+  await uploads.writeChunk(s.uploadId, 1, Buffer.from("FG")); // debería medir 5
+  await uploads.writeChunk(s.uploadId, 2, Buffer.from("KL"));
+  const err = await uploads.completeUpload(s.uploadId).catch((e) => e);
+  expect(err).toBeInstanceOf(MissingChunksError);
+  expect((err as MissingChunksError).missing).toEqual([1]);
+  expect(await storage.stat(`videos/${s.uploadId}.mp4`)).toBeNull();
+});
+
+test("la última parte puede ser más corta pero no de otro tamaño", async () => {
+  const s = await uploads.createUploadSession({ filename: "a.mp4", size: 12, mime: "video/mp4" });
+  await uploads.writeChunk(s.uploadId, 0, Buffer.from("ABCDE"));
+  await uploads.writeChunk(s.uploadId, 1, Buffer.from("FGHIJ"));
+  await uploads.writeChunk(s.uploadId, 2, Buffer.from("K")); // debería medir 2
+  await expect(uploads.completeUpload(s.uploadId)).rejects.toBeInstanceOf(MissingChunksError);
+});

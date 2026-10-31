@@ -33,8 +33,25 @@ Ajustes de rendimiento aplicados a partir de la primera medición (82 / 92 / 82)
 
 ## Pruebas automatizadas
 
-- Unitarias (Vitest): 88 pruebas en 14 archivos.
-- End-to-end (Playwright): 35 pruebas en 9 archivos: login y ajustes del panel, subida de
+- Unitarias (Vitest): 99 pruebas en 17 archivos.
+- End-to-end (Playwright): 41 pruebas en 10 archivos: login y ajustes del panel, subida de
   video por partes con anti doble envío, catálogo y stream con control de acceso, registro e
-  ingreso de miembros, checkout simulado (aprobado, rechazado, doble clic, SINPE, cancelar y
-  reactivar), galería, portada, tema, redirecciones 301, sitemap y robots.
+  ingreso de miembros (incluida redirección segura y reintento tras correo duplicado), checkout
+  simulado (aprobado, rechazado, doble clic, SINPE, cancelar y reactivar, reintento tras error de
+  validación), galería (una y varias fotos), planes editables, portada con y sin JavaScript, tema,
+  redirecciones 301, sitemap y robots.
+
+## Revisión final de código
+
+Un revisor con contexto fresco revisó toda la rama (sin críticos, nueve importantes). Los nueve se
+corrigieron con prueba previa: token de un solo uso consumido tras validar, redirección segura
+tras ingresar, límite de intentos que no confía en `X-Forwarded-For` sin `TRUST_PROXY`, CSV sin
+inyección de fórmulas, galería con límite de cuerpo real y proceso fuera de la transacción, sitio
+legible sin JavaScript, Docker verificado en ejecución (migraciones, seed y servidor), subida por
+partes que valida tamaños, y planes con precio editable desde el panel.
+
+## Docker
+
+`docker build -t ruben-demo .` y `docker run` contra la base local: migraciones aplicadas al
+arrancar, `/` y `/videos` 200, `/no-existe` 404, stream exclusivo sin sesión 403, `dist/scripts/seed.cjs`
+y `dist/scripts/reset-admin-password.cjs` funcionando dentro del contenedor. Imagen de 1,2 GB.

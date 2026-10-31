@@ -23,15 +23,11 @@ export async function payAndSubscribe(_prev: CheckoutState, fd: FormData): Promi
   const planCode = str(fd, "plan");
   const member = await requireMember(`/pago?plan=${encodeURIComponent(planCode)}`);
 
-  if (!(await formTokens.consumeFormToken(str(fd, FORM_TOKEN_FIELD)))) {
-    return { error: "Este pago ya fue enviado. Revisá tu cuenta antes de intentar de nuevo." };
-  }
-
   const plan = await getPlanByCode(planCode);
   if (!plan) return { error: "Plan no disponible." };
 
   const method = str(fd, "method") === "SINPE" ? "SINPE" : "CARD";
-  let charge;
+  let input: Parameters<typeof gateway.charge>[0];
   if (method === "CARD") {
     const parsed = cardSchema.safeParse({
       number: str(fd, "number"),
@@ -44,12 +40,19 @@ export async function payAndSubscribe(_prev: CheckoutState, fd: FormData): Promi
       const issue = parsed.error.issues[0];
       return { error: issue.message, field: String(issue.path[0] ?? "") };
     }
-    charge = await gateway.charge({ amountCRC: plan.priceCRC, method: "CARD", card: parsed.data });
+    input = { amountCRC: plan.priceCRC, method: "CARD", card: parsed.data };
   } else {
     const parsed = sinpeSchema.safeParse({ phone: str(fd, "phone") });
     if (!parsed.success) return { error: parsed.error.issues[0].message, field: "phone" };
-    charge = await gateway.charge({ amountCRC: plan.priceCRC, method: "SINPE", phone: parsed.data.phone });
+    input = { amountCRC: plan.priceCRC, method: "SINPE", phone: parsed.data.phone };
   }
+
+  // The one-time token is spent only once the input is valid, right before the charge,
+  // so a validation error never locks the user out of retrying.
+  if (!(await formTokens.consumeFormToken(str(fd, FORM_TOKEN_FIELD)))) {
+    return { error: "Este pago ya fue enviado. Revisá tu cuenta antes de intentar de nuevo." };
+  }
+  const charge = await gateway.charge(input);
 
   const now = new Date();
   const result = await db.$transaction(async (tx) => {

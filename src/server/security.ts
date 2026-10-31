@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { db } from "@/server/db";
 import { createRateLimiter } from "@/lib/auth/rate-limit";
+import { resolveClientIp } from "@/lib/auth/client-ip";
 import { createFormTokens } from "@/lib/form-token";
 
 /** Rate limiter backed by the LoginAttempt table. */
@@ -34,7 +35,9 @@ export const formTokens = createFormTokens({
 
 export async function clientIp(): Promise<string> {
   const h = await headers();
-  const fwd = h.get("x-forwarded-for");
-  if (fwd) return fwd.split(",")[0].trim();
-  return h.get("x-real-ip") ?? "127.0.0.1";
+  return resolveClientIp({
+    forwardedFor: h.get("x-forwarded-for"),
+    realIp: h.get("x-real-ip"),
+    trustProxy: process.env.TRUST_PROXY === "true",
+  });
 }

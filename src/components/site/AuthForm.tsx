@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import type { MemberAuthState } from "@/server/actions/member-auth";
 import { FORM_TOKEN_FIELD } from "@/lib/form-token";
 import { Button } from "@/components/ui/Button";
@@ -17,6 +17,10 @@ type Props = {
 
 export function AuthForm({ mode, action, next, formToken }: Props) {
   const [state, formAction, pending] = useActionState(action, {});
+  // Controlled so a server-side error (e.g. duplicate email) doesn't wipe the fields.
+  const [values, setValues] = useState({ name: "", email: "", password: "" });
+  const set = (k: keyof typeof values) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setValues((v) => ({ ...v, [k]: e.target.value }));
   const register = mode === "register";
   const nextQuery = next ? `?next=${encodeURIComponent(next)}` : "";
 
@@ -26,11 +30,11 @@ export function AuthForm({ mode, action, next, formToken }: Props) {
       {next && <input type="hidden" name="next" value={next} />}
       {register && (
         <Field label="Nombre" htmlFor="name">
-          <Input id="name" name="name" autoComplete="name" required />
+          <Input id="name" name="name" autoComplete="name" required value={values.name} onChange={set("name")} />
         </Field>
       )}
       <Field label="Correo" htmlFor="email">
-        <Input id="email" name="email" type="email" autoComplete="email" required />
+        <Input id="email" name="email" type="email" autoComplete="email" required value={values.email} onChange={set("email")} />
       </Field>
       <Field label="Contraseña" htmlFor="password" hint={register ? "Mínimo 8 caracteres." : undefined}>
         <Input
@@ -40,6 +44,8 @@ export function AuthForm({ mode, action, next, formToken }: Props) {
           autoComplete={register ? "new-password" : "current-password"}
           required
           minLength={register ? 8 : undefined}
+          value={values.password}
+          onChange={set("password")}
         />
       </Field>
       {state.error && <FormMessage tone="error">{state.error}</FormMessage>}

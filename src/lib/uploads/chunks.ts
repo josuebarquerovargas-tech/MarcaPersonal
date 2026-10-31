@@ -87,10 +87,13 @@ export function createChunkUploads(
 
     async completeUpload(uploadId: string): Promise<{ key: string; size: number; mime: string }> {
       const session = await readSession(uploadId);
+      // Every part must exist with its exact expected size (the last one may be shorter).
       const missing: number[] = [];
       for (let i = 0; i < session.totalChunks; i++) {
+        const expected =
+          i === session.totalChunks - 1 ? session.size - i * session.chunkSize : session.chunkSize;
         const s = await storage.stat(`tmp/${uploadId}/${i}`);
-        if (!s) missing.push(i);
+        if (!s || s.size !== expected) missing.push(i);
       }
       if (missing.length) throw new MissingChunksError(missing);
 
@@ -108,7 +111,11 @@ export function createChunkUploads(
       });
       await rm(dirOf(uploadId), { recursive: true, force: true });
       const final = await storage.stat(key);
-      return { key, size: final?.size ?? 0, mime: session.mime };
+      if (!final || final.size !== session.size) {
+        await storage.delete(key).catch(() => {});
+        throw new Error("El archivo ensamblado no coincide con el tamaño declarado. Subilo de nuevo.");
+      }
+      return { key, size: final.size, mime: session.mime };
     },
 
     async abortUpload(uploadId: string): Promise<void> {

@@ -28,6 +28,7 @@ export function VideoForm({ action, video, formToken, thumbnailUrl }: Props) {
   const [upload, setUpload] = useState<UploadResult | null>(null);
   const [sourceUrl, setSourceUrl] = useState(video?.sourceUrl ?? "");
   const [title, setTitle] = useState(video?.title ?? "");
+  const [description, setDescription] = useState(video?.description ?? "");
   const parsedEmbed = kind === "EMBED" && sourceUrl ? parseEmbedUrl(sourceUrl) : null;
 
   const canSubmit = editing || (kind === "FILE" ? !!upload : !!parsedEmbed);
@@ -128,7 +129,7 @@ export function VideoForm({ action, video, formToken, thumbnailUrl }: Props) {
         <Input id="title" name="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
       </Field>
       <Field label="Descripción" htmlFor="description" hint="Opcional.">
-        <Textarea id="description" name="description" defaultValue={video?.description ?? ""} />
+        <Textarea id="description" name="description" value={description} onChange={(e) => setDescription(e.target.value)} />
       </Field>
 
       <div className="grid gap-4 sm:grid-cols-3">
