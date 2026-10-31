@@ -1,3 +1,4 @@
+import { isMembershipEnabled } from "@/server/features";
 import type { MetadataRoute } from "next";
 import { db } from "@/server/db";
 import { SERVICES } from "@/lib/services/catalog";
@@ -10,7 +11,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     where: { status: "PUBLISHED", access: "FREE" },
     select: { slug: true, updatedAt: true },
   });
-  const posts = await db.post.findMany({ where: { status: "PUBLISHED" }, select: { slug: true, updatedAt: true } });
+  const membership = await isMembershipEnabled();
+  const posts = await db.post.findMany({ where: { status: "PUBLISHED", ...(membership ? {} : { access: "FREE" as const }) }, select: { slug: true, updatedAt: true } });
   const now = new Date();
   return [
     { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },

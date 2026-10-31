@@ -49,8 +49,8 @@ export default async function ContentPage({ searchParams }: { searchParams: Prom
   const filtered = !!(access || platform || q);
   const [videos, posts, content, plans, member] = await Promise.all([
     listPublishedVideos({ access, platform, q }),
-    // The filters only apply to videos, so articles stay out of a filtered list.
-    filtered ? [] : listPublishedPosts(),
+    // Source and search only apply to videos; the access filter applies to articles too.
+    platform || q ? [] : listPublishedPosts({ access }),
     getContent("membership"),
     listPlans(),
     getMember(),

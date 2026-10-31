@@ -346,3 +346,14 @@ body {
     display: none;
   }
 }
+
+/* Botón de WhatsApp: entra una sola vez. Solo se oculta dentro de la animación. */
+@keyframes whatsapp-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+.whatsapp-in {
+  animation: whatsapp-in 350ms var(--ease-out) 400ms backwards;
+}

@@ -24,6 +24,7 @@ export function PostForm({ action, post, formToken, coverUrl }: Props) {
     excerpt: post?.excerpt ?? "",
     body: post?.body ?? "",
     status: post?.status ?? "DRAFT",
+    access: post?.access ?? "FREE",
   });
   const [preview, setPreview] = useState(false);
   const set = (k: keyof typeof values) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
@@ -61,6 +62,12 @@ export function PostForm({ action, post, formToken, coverUrl }: Props) {
           <Select id="status" name="status" value={values.status} onChange={set("status")}>
             <option value="DRAFT">Borrador</option>
             <option value="PUBLISHED">Publicado</option>
+          </Select>
+        </Field>
+        <Field label="Acceso" htmlFor="access" hint="Exclusivo: solo los miembros leen el texto completo. El título y el resumen son públicos.">
+          <Select id="access" name="access" value={values.access} onChange={set("access")}>
+            <option value="FREE">Gratis</option>
+            <option value="MEMBERS">Exclusivo</option>
           </Select>
         </Field>
         <Field label="Imagen de portada" htmlFor="cover" hint={coverUrl ? "Sube una imagen para reemplazar la actual." : "Opcional. JPEG, PNG o WebP, hasta 8 MB."}>

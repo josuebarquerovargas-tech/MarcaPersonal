@@ -202,6 +202,7 @@ model Post {
   body        String
   coverPath   String?
   status      PostStatus @default(DRAFT)
+  access      VideoAccess @default(FREE)
   publishedAt DateTime?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt

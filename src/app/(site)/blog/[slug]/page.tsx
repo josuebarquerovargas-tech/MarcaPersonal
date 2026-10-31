@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPublishedPostBySlug } from "@/server/posts";
+import { getPostBody, getPublishedPostBySlug } from "@/server/posts";
+import { getMember } from "@/server/auth";
+import { getMembership } from "@/server/members";
+import { canWatch } from "@/lib/videos/access";
+import { Badge } from "@/components/ui/Badge";
+import { LockedPost } from "@/components/site/LockedPost";
 import { storage } from "@/lib/storage/storage";
 import { readingMinutes } from "@/lib/blog/markdown";
 import { formatLongDate } from "@/lib/format";
@@ -33,16 +38,26 @@ export default async function PostPage({ params }: Params) {
   const post = await getPublishedPostBySlug(slug);
   if (!post) notFound();
 
+  const member = await getMember();
+  const allowed = canWatch(post, await getMembership(member));
+  const body = allowed ? await getPostBody(post.id) : null;
+
   return (
     <main className="py-10 sm:py-16">
       <Container>
         <article className="mx-auto max-w-2xl">
           <Link href="/contenido#articulos" className="text-sm text-muted underline-offset-4 hover:underline">
-            ← Volver al blog
+            ← Volver a Contenido
           </Link>
+          {post.access === "MEMBERS" && (
+            <div className="mt-6">
+              <Badge tone="accent">Exclusivo</Badge>
+            </div>
+          )}
           <h1 className="font-display mt-6 text-4xl leading-[1.05] sm:text-6xl">{post.title}</h1>
           <p className="mt-4 text-sm text-muted">
-            {post.publishedAt && formatLongDate(post.publishedAt)} · {readingMinutes(post.body)} min de lectura
+            {post.publishedAt && formatLongDate(post.publishedAt)}
+            {body !== null && ` · ${readingMinutes(body)} min de lectura`}
           </p>
           {post.excerpt && <p className="mt-6 text-xl leading-relaxed text-muted">{post.excerpt}</p>}
           {post.coverPath && (
@@ -50,7 +65,8 @@ export default async function PostPage({ params }: Params) {
             <img src={storage.publicUrl(post.coverPath)} alt="" className="mt-8 w-full rounded-[16px] object-cover shadow-soft" />
           )}
           <div className="mt-10">
-            <PostBody source={post.body} />
+            {/* The text is only rendered for members, so it never reaches anyone else's browser. */}
+            {body !== null ? <PostBody source={body} /> : <LockedPost title={post.title} signedIn={!!member} slug={post.slug} />}
           </div>
         </article>
       </Container>

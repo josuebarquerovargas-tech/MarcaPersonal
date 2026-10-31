@@ -107,6 +107,22 @@ async function seedSocialVideos() {
   }
 }
 
+async function seedDemoPost() {
+  await db.post.upsert({
+    where: { slug: "demo-articulo-exclusivo" },
+    update: {},
+    create: {
+      slug: "demo-articulo-exclusivo",
+      title: "Demo: artículo exclusivo sobre cómo mostrar tu marca",
+      excerpt: "Artículo de demostración para ver cómo funciona el contenido exclusivo. Reemplázalo desde el panel.",
+      body: "Este texto es de demostración y solo lo leen los miembros.\n\n## Reemplázalo desde el panel\n\nEscribe aquí el artículo real de Rubén.",
+      status: "PUBLISHED",
+      access: "MEMBERS",
+      publishedAt: new Date(),
+    },
+  });
+}
+
 async function seedDemoVideos() {
   await db.video.deleteMany({ where: { slug: { in: OLD_DEMO_SLUGS } } });
   await mkdir(path.join(uploadsDir, "videos"), { recursive: true });
@@ -173,6 +189,7 @@ async function main() {
   if (process.env.SEED_DEMO !== "false") {
     await seedDemoVideos();
     await seedSocialVideos();
+    await seedDemoPost();
     await seedDemoMember();
   }
   console.log("Seed listo: administrador, planes y contenido de demostración.");

@@ -44,7 +44,7 @@ export default async function Home() {
       listPhotos(),
       listPlans(),
       getMember(),
-      listPublishedPosts(3),
+      listPublishedPosts({ take: 3 }),
       isMembershipEnabled(),
     ]);
   const { active: isMember } = await getMembership(member);
@@ -86,7 +86,7 @@ export default async function Home() {
           <Container>
             <Reveal>
               <SectionHeading
-                eyebrow="Blog"
+                eyebrow="Artículos"
                 title="Ideas para tu marca"
                 action={
                   <LinkButton href="/contenido#articulos" variant="secondary">

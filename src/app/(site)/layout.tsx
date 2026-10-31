@@ -4,13 +4,15 @@ import { getContent } from "@/server/content";
 import { isMembershipEnabled } from "@/server/features";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
+import { WhatsAppButton } from "@/components/site/WhatsAppButton";
 
 export default async function SiteLayout({ children }: { children: ReactNode }) {
-  const [member, hero, social, membership] = await Promise.all([
+  const [member, hero, social, membership, contact] = await Promise.all([
     getMember(),
     getContent("hero"),
     getContent("social"),
     isMembershipEnabled(),
+    getContent("contact"),
   ]);
 
   return (
@@ -19,6 +21,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       <Nav brand={hero.title} memberName={membership ? (member?.name ?? null) : null} />
       <div className="flex-1">{children}</div>
       <Footer brand={hero.title} social={social} />
+      <WhatsAppButton whatsapp={contact.whatsapp} />
     </div>
   );
 }

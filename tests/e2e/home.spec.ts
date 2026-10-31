@@ -51,7 +51,7 @@ test("las páginas secundarias cargan", async ({ page }) => {
   await page.goto("/sobre-mi");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await page.goto("/contacto");
-  await expect(page.getByRole("link", { name: /WhatsApp/ })).toHaveAttribute("href", /wa\.me\/50663360450/);
+  await expect(page.getByRole("main").getByRole("link", { name: /WhatsApp/ })).toHaveAttribute("href", /wa\.me\/50663360450/);
 });
 
 test("sin JavaScript el contenido y las miniaturas se ven", async ({ browser }) => {

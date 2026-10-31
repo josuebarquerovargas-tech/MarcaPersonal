@@ -35,6 +35,11 @@ export function PostTable({ posts }: { posts: Post[] }) {
                 </td>
                 <td className="px-4 py-3">
                   {p.status === "PUBLISHED" ? <Badge tone="success">Publicado</Badge> : <Badge tone="warning">Borrador</Badge>}
+                  {p.access === "MEMBERS" && (
+                    <span className="ml-1.5 inline-block">
+                      <Badge tone="accent">Exclusivo</Badge>
+                    </span>
+                  )}
                 </td>
                 <td className="px-4 py-3 text-muted">{p.publishedAt ? formatDate(p.publishedAt) : "—"}</td>
                 <td className="px-4 py-3">

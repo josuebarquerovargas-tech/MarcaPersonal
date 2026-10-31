@@ -20,6 +20,7 @@ const schema = z.object({
   excerpt: z.string().trim().max(300, "El resumen admite hasta 300 caracteres"),
   body: z.string().trim().min(1, "El contenido es obligatorio").max(50_000, "El contenido es demasiado largo"),
   status: z.enum(["DRAFT", "PUBLISHED"]),
+  access: z.enum(["FREE", "MEMBERS"]),
 });
 
 function readForm(fd: FormData) {
@@ -28,6 +29,7 @@ function readForm(fd: FormData) {
     excerpt: fd.get("excerpt") ?? "",
     body: fd.get("body") ?? "",
     status: fd.get("status") ?? "DRAFT",
+    access: fd.get("access") ?? "FREE",
   });
 }
 

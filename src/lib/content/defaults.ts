@@ -59,8 +59,8 @@ export const defaults: Content = {
   },
   membership: {
     title: "Contenido exclusivo para tu marca",
-    text: "Una membresía para acceder a videos exclusivos sobre marca personal, presencia digital y ventas.",
-    benefits: ["Videos exclusivos", "Acceso anticipado a nuevos contenidos", "Acceso desde tu cuenta, en cualquier dispositivo"],
+    text: "Una membresía para acceder a videos y artículos exclusivos sobre marca personal, presencia digital y ventas.",
+    benefits: ["Videos y artículos exclusivos", "Acceso anticipado a nuevos contenidos", "Acceso desde tu cuenta, en cualquier dispositivo"],
     faq: [
       {
         q: "¿Puedo cancelar cuando quiera?",

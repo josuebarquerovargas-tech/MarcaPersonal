@@ -19,6 +19,14 @@ const icons = {
   ),
 };
 
+/** Each network's own color, with a white icon, the same in light and dark themes. */
+const brand = {
+  tiktok: "bg-black ring-1 ring-white/20",
+  instagram: "bg-[radial-gradient(circle_at_30%_107%,#fdf497_0%,#fdf497_5%,#fd5949_45%,#d6249f_60%,#285aeb_90%)]",
+  youtube: "bg-[#ff0000]",
+  facebook: "bg-[#1877f2]",
+};
+
 const labels = { tiktok: "TikTok", instagram: "Instagram", youtube: "YouTube", facebook: "Facebook" };
 
 export function SocialLinks({ social, className = "" }: { social: Social; className?: string }) {
@@ -33,7 +41,7 @@ export function SocialLinks({ social, className = "" }: { social: Social; classN
             rel="noopener noreferrer"
             aria-label={labels[k]}
             title={labels[k]}
-            className="inline-flex size-10 items-center justify-center rounded-full border border-line text-ink transition-colors hover:border-accent hover:text-accent"
+            className={`inline-flex size-10 items-center justify-center rounded-full text-white transition-transform duration-200 hover:scale-110 active:scale-95 ${brand[k]}`}
           >
             <svg viewBox="0 0 24 24" className="size-5" fill="currentColor" aria-hidden="true">
               {icons[k]}
