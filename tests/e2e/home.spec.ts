@@ -62,6 +62,20 @@ test("sin JavaScript el contenido y las miniaturas se ven", async ({ browser }) 
   const card = page.locator("[data-reveal]").first();
   await expect(card).toBeVisible();
   expect(await card.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
-  await expect(page.getByRole("heading", { name: "Lanzamiento de la Federación Canina de Costa Rica" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Demo: sesión exclusiva de adiestramiento" })).toBeVisible();
   await ctx.close();
+});
+
+test("el sitio no enlaza las cuentas de TikTok y YouTube que ya no existen", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator('a[href*="tiktok.com"]')).toHaveCount(0);
+  await expect(page.locator('a[href*="rubenrodriguez-lx1gr"]')).toHaveCount(0);
+});
+
+test("los clips de muestra y los videos retirados no aparecen en el catálogo", async ({ page }) => {
+  await page.goto("/videos");
+  await expect(page.getByRole("heading", { name: "Demo: sesión exclusiva de adiestramiento" })).toBeVisible();
+  for (const name of ["Demo: rutina de paseo", "Cerro Negro: aventura y diversión", "Lanzamiento de la Federación Canina de Costa Rica"]) {
+    await expect(page.getByRole("heading", { name })).toHaveCount(0);
+  }
 });

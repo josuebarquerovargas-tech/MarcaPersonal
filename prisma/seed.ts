@@ -79,7 +79,7 @@ async function seedDemoVideos() {
     await copyFile(path.join(demoDir, `${v.file}.jpg`), path.join(uploadsDir, thumbnailPath));
     await db.video.upsert({
       where: { slug: v.slug },
-      // Los clips gratis de muestra quedan ocultos: hay videos reales de sus redes.
+      // Los clips gratis de muestra quedan ocultos: los videos reales se agregan desde el panel.
       // El exclusivo se mantiene para demostrar la membresía.
       update: { status: v.access === "MEMBERS" ? "PUBLISHED" : "DRAFT" },
       create: {
@@ -96,53 +96,6 @@ async function seedDemoVideos() {
         sortOrder: i++,
         publishedAt: new Date(now - v.daysAgo * 86_400_000),
       },
-    });
-  }
-}
-
-/** Videos reales de sus redes, insertados con el reproductor de cada plataforma. */
-const SOCIAL_VIDEOS = [
-  {
-    slug: "lanzamiento-de-la-federacion-canina-de-costa-rica",
-    title: "Lanzamiento de la Federación Canina de Costa Rica",
-    description: "Lanzamiento oficial de la primera Federación Canina en Costa Rica, para asociados y amigos de ACAN.",
-    platform: "YOUTUBE" as const,
-    sourceUrl: "https://www.youtube.com/watch?v=cA8dTa2JIEs",
-    thumb: "yt-federacion.jpg",
-    publishedAt: "2016-12-16T12:00:00Z",
-    featured: true,
-  },
-  {
-    slug: "cerro-negro-aventura-y-diversion",
-    title: "Cerro Negro: aventura y diversión",
-    description: "Una visita a Cerro Negro, publicada en su Instagram.",
-    platform: "INSTAGRAM" as const,
-    sourceUrl: "https://www.instagram.com/reel/DfKj_JexdNo/",
-    thumb: "ig-cerro-negro.jpg",
-    publishedAt: "2026-10-31T12:00:00Z",
-    featured: true,
-  },
-  {
-    slug: "permiso-de-construccion-para-agua-y-luz",
-    title: "¿Para tener agua y luz necesita permiso de construcción?",
-    description: "Respuesta a una pregunta de sus seguidores, publicada en su Instagram.",
-    platform: "INSTAGRAM" as const,
-    sourceUrl: "https://www.instagram.com/reel/DfIpdJORFnQ/",
-    thumb: "ig-permiso.jpg",
-    publishedAt: "2026-10-30T12:00:00Z",
-    featured: false,
-  },
-];
-
-async function seedSocialVideos() {
-  await mkdir(path.join(uploadsDir, "thumbs"), { recursive: true });
-  for (const { thumb, publishedAt, ...v } of SOCIAL_VIDEOS) {
-    const thumbnailPath = `thumbs/${thumb}`;
-    await copyFile(path.join(demoDir, thumb), path.join(uploadsDir, thumbnailPath));
-    await db.video.upsert({
-      where: { slug: v.slug },
-      update: {},
-      create: { ...v, kind: "EMBED", thumbnailPath, access: "FREE", status: "PUBLISHED", publishedAt: new Date(publishedAt) },
     });
   }
 }
@@ -225,7 +178,6 @@ async function main() {
   await seedAdminAndPlans();
   if (process.env.SEED_DEMO !== "false") {
     await seedDemoVideos();
-    await seedSocialVideos();
     await seedDemoMember();
     await seedDemoPosts();
   }
