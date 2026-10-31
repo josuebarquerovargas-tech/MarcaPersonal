@@ -1,12 +1,11 @@
-/** Brand mark for personal growth: a figure rising over two upward steps. */
+/** Horizontal brand mark for personal growth: a line that rises into an upward arrow. */
 export function BrandLogo({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 40 40" className={`rounded-[11px] ${className}`} aria-hidden="true">
-      <rect width="40" height="40" rx="11" fill="var(--ink)" />
-      <g className="logo-rise" fill="none" stroke="var(--bg)" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="20" cy="9.5" r="4" fill="var(--brand)" stroke="none" />
-        <path d="M9.5 25 20 18l10.5 7" strokeWidth="3.6" />
-        <path d="M9.5 33 20 26l10.5 7" strokeWidth="3.6" opacity="0.55" />
+    <svg viewBox="0 0 88 40" className={className} fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4.5" aria-hidden="true">
+      <g className="logo-rise">
+        <path d="M4 34 24 19l18 10" stroke="var(--ink)" />
+        <path d="M42 29 80 6" stroke="var(--accent)" />
+        <path d="M64 5 80 6 73.5 20.5" stroke="var(--accent)" />
       </g>
     </svg>
   );

@@ -19,3 +19,11 @@ test("el logo sigue visible en tema oscuro y el pie conserva el nombre", async (
   await expect(page.getByRole("banner").getByRole("link", { name: "Rubén Rodríguez" }).locator("svg")).toBeVisible();
   await expect(page.getByRole("contentinfo").getByText("Rubén Rodríguez", { exact: true }).first()).toBeVisible();
 });
+
+test("el logo es horizontal y cabe en el encabezado del celular", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await page.goto("/");
+  const box = await page.getByRole("banner").getByRole("link", { name: "Rubén Rodríguez" }).locator("svg").boundingBox();
+  expect(box!.width).toBeGreaterThan(box!.height * 1.8);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBe(0);
+});
