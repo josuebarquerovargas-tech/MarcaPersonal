@@ -45,6 +45,10 @@ export const contentSchemas = {
     tiktokFollowers: text.max(20),
     instagramFollowers: text.max(20),
   }),
+  pitch: z.object({
+    text: text.min(1).max(600),
+    author: text.max(60),
+  }),
   seo: z.object({
     title: text.min(1).max(70),
     description: text.max(160),

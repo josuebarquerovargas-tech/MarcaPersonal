@@ -14,36 +14,36 @@ const demoDir = path.resolve(process.env.DEMO_DIR ?? "prisma/demo");
 
 const DEMO_VIDEOS = [
   {
-    slug: "demo-rutina-de-paseo",
-    title: "Demo: rutina de paseo",
-    description:
-      "Contenido de muestra para la demostración. Cómo convertir el paseo diario en un momento de calma y conexión: correa floja, pausas para olfatear y señales claras.",
+    slug: "demo-como-mostrar-tu-marca",
+    title: "Demo: cómo mostrar tu marca",
+    description: "Contenido de muestra para la demostración. Reemplazalo por un video real desde el panel.",
     access: "FREE" as const,
-    featured: true,
+    featured: false,
     file: "demo-1",
     daysAgo: 2,
   },
   {
-    slug: "demo-senales-de-estres-en-perros",
-    title: "Demo: señales de estrés en perros",
-    description:
-      "Contenido de muestra para la demostración. Bostezos, lamidos de labios y orejas hacia atrás: cómo leer a tiempo lo que tu perro intenta decirte.",
+    slug: "demo-primeros-pasos-en-redes-sociales",
+    title: "Demo: primeros pasos en redes sociales",
+    description: "Contenido de muestra para la demostración. Reemplazalo por un video real desde el panel.",
     access: "FREE" as const,
     featured: false,
     file: "demo-2",
     daysAgo: 9,
   },
   {
-    slug: "demo-sesion-exclusiva-de-adiestramiento",
-    title: "Demo: sesión exclusiva de adiestramiento",
-    description:
-      "Contenido de muestra para la demostración. Sesión completa sin cortes: llamada, quieto y paseo junto, paso a paso y con los errores más comunes.",
+    slug: "demo-contenido-exclusivo",
+    title: "Demo: contenido exclusivo para hacer crecer tu marca",
+    description: "Contenido de muestra para demostrar la membresía. Reemplazalo por un video real desde el panel.",
     access: "MEMBERS" as const,
     featured: true,
     file: "demo-3",
     daysAgo: 1,
   },
 ];
+
+/** Clips con títulos del enfoque anterior que pudieran quedar en una base existente. */
+const OLD_DEMO_SLUGS = ["demo-rutina-de-paseo", "demo-senales-de-estres-en-perros", "demo-sesion-exclusiva-de-adiestramiento"];
 
 async function seedAdminAndPlans() {
   const email = process.env.ADMIN_EMAIL;
@@ -68,6 +68,7 @@ async function seedAdminAndPlans() {
 }
 
 async function seedDemoVideos() {
+  await db.video.deleteMany({ where: { slug: { in: OLD_DEMO_SLUGS } } });
   await mkdir(path.join(uploadsDir, "videos"), { recursive: true });
   await mkdir(path.join(uploadsDir, "thumbs"), { recursive: true });
   const now = Date.now();
@@ -79,9 +80,8 @@ async function seedDemoVideos() {
     await copyFile(path.join(demoDir, `${v.file}.jpg`), path.join(uploadsDir, thumbnailPath));
     await db.video.upsert({
       where: { slug: v.slug },
-      // Los clips gratis de muestra quedan ocultos: los videos reales se agregan desde el panel.
-      // Se pueden publicar desde el panel para probar la membresía.
-      update: { status: "DRAFT" },
+      // Solo el exclusivo se publica, para demostrar la membresía. Los gratis quedan ocultos.
+      update: { status: v.access === "MEMBERS" ? "PUBLISHED" : "DRAFT" },
       create: {
         slug: v.slug,
         title: v.title,
@@ -91,7 +91,7 @@ async function seedDemoVideos() {
         thumbnailPath,
         durationSec: 6,
         access: v.access,
-        status: "DRAFT",
+        status: v.access === "MEMBERS" ? "PUBLISHED" : "DRAFT",
         featured: v.featured,
         sortOrder: i++,
         publishedAt: new Date(now - v.daysAgo * 86_400_000),

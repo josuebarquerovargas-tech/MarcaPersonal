@@ -7,7 +7,7 @@ test.beforeAll(async () => {
 });
 
 test.afterAll(async () => {
-  await setMembership(false);
+  await setMembership(true);
 });
 
 

@@ -42,16 +42,23 @@ test("WhatsApp usa el número autorizado", async ({ page }) => {
   await expect(page.getByRole("link", { name: "Hablar por WhatsApp" }).first()).toHaveAttribute("href", /wa\.me\/50663360450/);
 });
 
+test("la portada lleva el mensaje de Rubén y su llamada a contactar", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByText(/tenemos los creadores, tenemos una plataforma/)).toBeVisible();
+  await expect(page.getByText(/nos adaptamos a su presupuesto/)).toBeVisible();
+  await expect(page.getByText("Rubén Rodríguez", { exact: true }).last()).toBeVisible();
+});
+
 test("el menú presenta las secciones nuevas", async ({ page }) => {
   await page.goto("/");
   const nav = page.getByRole("navigation", { name: "Principal", exact: true });
   await expect(nav.getByRole("link", { name: "Servicios" })).toBeVisible();
   await expect(nav.getByRole("link", { name: "Sobre Rubén" })).toBeVisible();
-  await expect(nav.getByRole("link", { name: "Membresía" })).toHaveCount(0);
+  await expect(nav.getByRole("link", { name: "Membresía" })).toBeVisible();
 });
 
 test("los servicios entran al sitemap", async ({ request }) => {
   const xml = await (await request.get("/sitemap.xml")).text();
   expect(xml).toContain("/servicios/herramientas-tecnologicas");
-  expect(xml).not.toContain("/membresia");
+  expect(xml).toContain("/membresia");
 });

@@ -4,7 +4,7 @@ Sitio de marca personal con cinco servicios, proceso de trabajo, cotizaciones y 
 galería y panel administrativo. El contexto de negocio está en `docs/contexto-negocio.md`.
 
 > Es una demostración. Textos, fotos, enlaces y dominio están por confirmar con Rubén. Las páginas legales son borradores.
-> La membresía con pago simulado está apagada: se activa en Panel → Ajustes → Módulos cuando se confirmen planes y precios.
+> La membresía con contenido de pago está activa con pago simulado y precios de ejemplo. Se puede apagar en Panel → Ajustes → Módulos.
 > No hay cobros reales. La pasarela (`FakeGateway`) y el almacenamiento (`DiskStorage`) están detrás de interfaces reemplazables.
 
 **Aviso:** `npm run test:e2e` vacía la base definida en `DATABASE_URL`. No la corras contra una base con contenido real.

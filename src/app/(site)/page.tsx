@@ -9,6 +9,7 @@ import { listPlans } from "@/server/plans";
 import { storage } from "@/lib/storage/storage";
 import { Hero } from "@/components/site/Hero";
 import { Marquee } from "@/components/site/Marquee";
+import { Pitch } from "@/components/site/Pitch";
 import { LatestVideos } from "@/components/site/LatestVideos";
 import { About } from "@/components/site/About";
 import { Process } from "@/components/site/Process";
@@ -26,9 +27,10 @@ import { PhotoMosaic } from "@/components/site/PhotoMosaic";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [hero, about, services, processContent, membership, contact, social, seo, portrait, videos, photos, plans, member, posts, membershipOn] =
+  const [hero, pitch, about, services, processContent, membership, contact, social, seo, portrait, videos, photos, plans, member, posts, membershipOn] =
     await Promise.all([
       getContent("hero"),
+      getContent("pitch"),
       getContent("about"),
       getContent("services"),
       getContent("process"),
@@ -60,6 +62,7 @@ export default async function Home() {
       />
       <Hero {...hero} portraitUrl={portraitUrl} social={social} />
       <Marquee />
+      <Pitch {...pitch} whatsapp={contact.whatsapp} />
       <ServicesGrid {...services} />
       <Process {...processContent} />
       {videos.length > 0 && (

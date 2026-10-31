@@ -52,7 +52,7 @@ export default async function VideosPage({ searchParams }: { searchParams: Promi
   return (
     <main className="py-12 sm:py-16">
       <Container>
-        <SectionHeading eyebrow="Videos" title="Todo el contenido" text="Videos para conocer mejor cómo mostrar y hacer crecer tu marca." />
+        <SectionHeading eyebrow="Videos" title="Todo el contenido" text={membershipOn ? "Videos para hacer crecer tu marca. Lo exclusivo lleva candado." : "Videos para conocer mejor cómo mostrar y hacer crecer tu marca."} />
 
         <form method="get" action="/videos" className="mt-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrar por acceso">

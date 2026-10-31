@@ -28,7 +28,7 @@ test.describe.serial("membresía desactivable", () => {
     const db = new PrismaClient();
     await db.video.deleteMany({ where: { slug: "flag-exclusivo" } });
     await db.$disconnect();
-    await setMembership(false);
+    await setMembership(true);
   });
 
   test("apagada: sus páginas no existen", async ({ request }) => {

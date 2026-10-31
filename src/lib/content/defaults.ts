@@ -10,7 +10,7 @@ export const defaults: Content = {
     eyebrow: "¿Estás listo a mostrar tu marca?",
     title: "Rubén Rodríguez",
     subtitle:
-      "Ayudo a marcas y negocios a tener mayor visibilidad, conectar con clientes y crecer con estrategias y herramientas digitales.",
+      "Una marca, una estrategia y todas las herramientas para manejar tus redes sociales, conectar con clientes y convertirlos en ventas.",
     ctaPrimary: "Ver servicios",
     ctaSecondary: "Solicitar cotización",
   },
@@ -34,7 +34,7 @@ export const defaults: Content = {
     heading: "Presencia digital con acompañamiento",
     paragraphs: [
       "Rubén Rodríguez promociona su marca personal y ayuda a negocios, emprendedores y otras marcas personales a mejorar su presencia digital, su visibilidad y sus ventas.",
-      "Cada estrategia se adapta a la marca, las necesidades y el presupuesto de cada cliente, ya sea una marca personal, institucional o de productos y servicios.",
+      "Junto a su equipo de estrategas y creadores, y con una plataforma para que cada marca se dé a conocer, adapta cada estrategia a las necesidades y al presupuesto del cliente, ya sea una marca personal, institucional o de productos y servicios.",
     ],
     facts: [
       { label: "Emprendedores", value: "Emprendedores y microempresas que buscan una presencia digital profesional" },
@@ -44,20 +44,21 @@ export const defaults: Content = {
     ],
   },
   membership: {
-    title: "Membresía",
-    text: "Acceso a contenido exclusivo en video.",
-    benefits: ["Videos exclusivos", "Acceso anticipado a nuevos contenidos"],
+    title: "Contenido exclusivo para tu marca",
+    text: "Una membresía para acceder a videos exclusivos sobre marca personal, presencia digital y ventas.",
+    benefits: ["Videos exclusivos", "Acceso anticipado a nuevos contenidos", "Acceso desde tu cuenta, en cualquier dispositivo"],
     faq: [
       {
         q: "¿Puedo cancelar cuando quiera?",
         a: "Sí. Cancelás desde tu cuenta y conservás el acceso hasta el final del período que ya pagaste.",
       },
       { q: "¿Qué métodos de pago aceptan?", a: "Tarjeta de crédito o débito y SINPE Móvil." },
+      { q: "¿Los videos gratuitos siguen siendo gratuitos?", a: "Sí. La membresía suma contenido exclusivo, no quita nada." },
     ],
   },
   contact: {
     title: "Hablemos de tu marca",
-    text: "Contame qué necesita tu negocio y te respondo con una propuesta a tu medida.",
+    text: "Tenemos estrategas, creadores y una plataforma para que te des a conocer. Contactame y nos adaptamos a tu presupuesto.",
     whatsapp: "+50663360450",
     email: "rr@rubenrodriguezoficial.com",
   },
@@ -69,6 +70,10 @@ export const defaults: Content = {
     tiktokFollowers: "",
     instagramFollowers: "119 mil",
   },
+  pitch: {
+    text: "Hacer una marca, una estrategia, tener todas las herramientas para el manejo de redes sociales y clientes, y convertirlas en ventas. Hacer dinero. ¿Quiere que le ayude? Tenemos estrategas, tenemos los creadores, tenemos una plataforma para que usted se dé a conocer y facture. Contácteme y nos adaptamos a su presupuesto.",
+    author: "Rubén Rodríguez",
+  },
   seo: {
     title: "Rubén Rodríguez · Marca personal y soluciones digitales",
     description:
@@ -78,6 +83,6 @@ export const defaults: Content = {
     key: "",
   },
   features: {
-    membership: false,
+    membership: true,
   },
 };

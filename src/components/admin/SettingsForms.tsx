@@ -51,7 +51,7 @@ export function ModulesForm({ membership }: { membership: boolean }) {
         <input type="checkbox" name="membership" defaultChecked={membership} className="mt-0.5 size-4 accent-accent" />
         <span>
           <span className="font-medium">Activar membresía y pagos</span>
-          <span className="block text-muted">Muestra planes, cuentas de miembros y pago simulado. Activalo cuando Rubén confirme planes y precios.</span>
+          <span className="block text-muted">Muestra planes, contenido de pago, cuentas de miembros y pago simulado. Al apagarlo se oculta todo eso sin borrar nada.</span>
         </span>
       </label>
       {state.ok && !pending && <FormMessage tone="success">{state.ok}</FormMessage>}

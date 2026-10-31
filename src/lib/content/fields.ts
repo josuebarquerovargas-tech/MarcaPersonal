@@ -22,6 +22,7 @@ export const contentSections: { key: ContentKey; label: string }[] = [
   { key: "membership", label: "Membresía" },
   { key: "contact", label: "Contacto" },
   { key: "social", label: "Redes" },
+  { key: "pitch", label: "Mensaje de Rubén" },
   { key: "seo", label: "SEO" },
 ];
 
@@ -79,6 +80,10 @@ export const contentFields: Record<ContentKey, FieldDef[]> = {
     { name: "facebook", label: "Facebook (URL)", kind: "text" },
     { name: "tiktokFollowers", label: "Seguidores en TikTok", kind: "text", hint: "Texto libre, p. ej. 250 mil" },
     { name: "instagramFollowers", label: "Seguidores en Instagram", kind: "text" },
+  ],
+  pitch: [
+    { name: "text", label: "Mensaje", kind: "textarea", hint: "Se muestra en la portada, con sus palabras." },
+    { name: "author", label: "Firma", kind: "text" },
   ],
   seo: [
     { name: "title", label: "Título de la página", kind: "text" },

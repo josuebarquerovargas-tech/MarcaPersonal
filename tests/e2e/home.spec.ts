@@ -73,7 +73,7 @@ test("el sitio no enlaza las cuentas de TikTok y YouTube que ya no existen", asy
 
 test("los clips de muestra y los videos retirados no aparecen en el catálogo", async ({ page }) => {
   await page.goto("/videos");
-  for (const name of ["Demo: sesión exclusiva de adiestramiento", "Demo: rutina de paseo", "Cerro Negro: aventura y diversión", "Lanzamiento de la Federación Canina de Costa Rica"]) {
+  for (const name of ["Demo: cómo mostrar tu marca", "Demo: rutina de paseo", "Cerro Negro: aventura y diversión", "Lanzamiento de la Federación Canina de Costa Rica"]) {
     await expect(page.getByRole("heading", { name })).toHaveCount(0);
   }
 });

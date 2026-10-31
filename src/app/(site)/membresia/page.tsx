@@ -44,7 +44,9 @@ export default async function MembershipPage() {
             </p>
           </Reveal>
         ) : (
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
+          <>
+          <p className="mt-10 text-sm text-muted">Precios de ejemplo para esta demostración.</p>
+          <div className="mt-4 grid gap-6 md:grid-cols-2">
             {plans.map((p, i) => (
               <Reveal key={p.id} delay={i * 0.08}>
                 <PlanCard
@@ -57,6 +59,7 @@ export default async function MembershipPage() {
               </Reveal>
             ))}
           </div>
+          </>
         )}
 
         <section className="mt-20 grid gap-12 md:grid-cols-2" aria-labelledby="beneficios">
