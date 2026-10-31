@@ -5,6 +5,9 @@ import { SERVICES } from "@/lib/services/catalog";
  * Default copy for the public site, based only on docs/contexto-negocio.md.
  * No invented clients, results, prices or availability. Everything is editable from the panel.
  */
+/** Shown until a portrait is uploaded from the admin panel. */
+export const DEFAULT_PORTRAIT = "/images/ruben.webp";
+
 export const defaults: Content = {
   hero: {
     eyebrow: "¿Estás listo a mostrar tu marca?",

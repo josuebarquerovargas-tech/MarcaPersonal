@@ -1,3 +1,4 @@
+import { DEFAULT_PORTRAIT } from "@/lib/content/defaults";
 import type { Metadata } from "next";
 import { getContent } from "@/server/content";
 import { storage } from "@/lib/storage/storage";
@@ -20,7 +21,7 @@ export default async function AboutPage() {
     getContent("hero"),
     getContent("portrait"),
   ]);
-  const portraitUrl = portrait.key ? storage.publicUrl(portrait.key) : null;
+  const portraitUrl = portrait.key ? storage.publicUrl(portrait.key) : DEFAULT_PORTRAIT;
 
   return (
     <main>
@@ -47,14 +48,8 @@ export default async function AboutPage() {
             </Reveal>
             <Reveal delay={0.1} className="lg:sticky lg:top-24 lg:self-start">
               <div className="aspect-[4/5] overflow-hidden rounded-[24px] bg-surface-2 shadow-soft">
-                {portraitUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={portraitUrl} alt={hero.title} className="size-full object-cover" />
-                ) : (
-                  <div className="flex size-full items-center justify-center bg-[radial-gradient(circle_at_30%_30%,color-mix(in_oklab,var(--accent)_35%,transparent),transparent_60%)]">
-                    <span className="font-display text-[140px] leading-none tracking-[-0.06em] text-ink/80">RR</span>
-                  </div>
-                )}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={portraitUrl} alt={hero.title} className="size-full object-cover object-top" />
               </div>
             </Reveal>
           </div>

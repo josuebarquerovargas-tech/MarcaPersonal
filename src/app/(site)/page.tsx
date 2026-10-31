@@ -1,3 +1,4 @@
+import { DEFAULT_PORTRAIT } from "@/lib/content/defaults";
 import { getMember } from "@/server/auth";
 import { getMembership } from "@/server/members";
 import { getContent } from "@/server/content";
@@ -47,7 +48,7 @@ export default async function Home() {
       isMembershipEnabled(),
     ]);
   const { active: isMember } = await getMembership(member);
-  const portraitUrl = portrait.key ? storage.publicUrl(portrait.key) : null;
+  const portraitUrl = portrait.key ? storage.publicUrl(portrait.key) : DEFAULT_PORTRAIT;
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   const monthly = plans.find((p) => p.code === "MONTHLY")?.priceCRC ?? null;
 

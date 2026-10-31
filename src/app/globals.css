@@ -149,24 +149,6 @@ body {
 }
 
 /* Movimiento ambiental: lento y solo con transform. */
-@keyframes drift-a {
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(-14px, 18px);
-  }
-}
-@keyframes drift-b {
-  0%,
-  100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  50% {
-    transform: translate(10px, -10px) rotate(2deg);
-  }
-}
 @keyframes breathe {
   0%,
   100% {
@@ -177,17 +159,6 @@ body {
     transform: scale(1.18);
     opacity: 1;
   }
-}
-.drift-a,
-.drift-b {
-  transform-box: fill-box;
-  transform-origin: center;
-}
-.drift-a {
-  animation: drift-a 11s var(--ease-in-out) infinite;
-}
-.drift-b {
-  animation: drift-b 14s var(--ease-in-out) infinite;
 }
 .breathe {
   animation: breathe 8s var(--ease-in-out) infinite;

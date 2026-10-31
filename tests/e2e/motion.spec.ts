@@ -31,7 +31,7 @@ test("con movimiento reducido nada se mueve y todo el contenido se ve", async ({
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   const names = await page.evaluate(() =>
-    [...document.querySelectorAll("[data-marquee-track], .hero-line-inner, .hero-in, .drift-a, .drift-b, .breathe, .scroll-cue-line")].map(
+    [...document.querySelectorAll("[data-marquee-track], .hero-line-inner, .hero-in, .breathe, .scroll-cue-line")].map(
       (el) => getComputedStyle(el).animationName,
     ),
   );

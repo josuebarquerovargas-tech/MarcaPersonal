@@ -8,7 +8,7 @@ type Props = {
   subtitle: string;
   ctaPrimary: string;
   ctaSecondary: string;
-  portraitUrl: string | null;
+  portraitUrl: string;
   social: { tiktok: string; instagram: string; youtube: string; facebook: string; tiktokFollowers: string; instagramFollowers: string };
 };
 
@@ -79,35 +79,12 @@ export function Hero({ eyebrow, title, subtitle, ctaPrimary, ctaSecondary, portr
 
         <div className="hero-portrait-in relative mx-auto w-full max-w-md lg:max-w-none">
           <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] bg-surface-2 shadow-soft">
-            {portraitUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={portraitUrl} alt={title} className="size-full object-cover" fetchPriority="high" />
-            ) : (
-              <Monogram initials={title.split(" ").map((w) => w[0]).join("").slice(0, 2)} />
-            )}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={portraitUrl} alt={title} className="size-full object-cover object-top" fetchPriority="high" />
           </div>
           <div aria-hidden="true" className="breathe absolute -right-6 -top-6 -z-10 size-40 rounded-full bg-brand/25 blur-3xl" />
         </div>
       </div>
     </section>
-  );
-}
-
-function Monogram({ initials }: { initials: string }) {
-  return (
-    <div className="relative flex size-full items-center justify-center">
-      <svg viewBox="0 0 400 500" className="absolute inset-0 size-full" aria-hidden="true">
-        <defs>
-          <linearGradient id="hero-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="var(--brand)" stopOpacity="0.7" />
-            <stop offset="1" stopColor="var(--brand)" stopOpacity="0.08" />
-          </linearGradient>
-        </defs>
-        <path className="drift-b" d="M60 420 C 40 300, 120 220, 200 240 S 360 330, 340 420 Z" fill="url(#hero-grad)" />
-        <circle className="drift-a" cx="290" cy="130" r="70" fill="var(--brand)" opacity="0.3" />
-        <path d="M40 80 Q 200 20 360 90" stroke="var(--line)" strokeWidth="1.5" fill="none" />
-      </svg>
-      <span className="font-display relative text-[clamp(96px,22vw,180px)] leading-none tracking-[-0.06em] text-ink/85">{initials}</span>
-    </div>
   );
 }

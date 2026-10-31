@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import { THEME_INIT_SCRIPT } from "@/lib/theme";
 import { getContent } from "@/server/content";
-import { defaults } from "@/lib/content/defaults";
+import { DEFAULT_PORTRAIT, defaults } from "@/lib/content/defaults";
 import { storage } from "@/lib/storage/storage";
 import "./globals.css";
 
@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
     () => [defaults.seo, defaults.portrait] as const,
   );
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-  const image = portrait.key ? storage.publicUrl(portrait.key) : undefined;
+  const image = portrait.key ? storage.publicUrl(portrait.key) : DEFAULT_PORTRAIT;
   return {
     metadataBase: new URL(base),
     title: { default: seo.title, template: `%s · Rubén Rodríguez` },
