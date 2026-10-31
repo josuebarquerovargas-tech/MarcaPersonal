@@ -47,7 +47,7 @@ export default async function AboutPage() {
               </div>
             </Reveal>
             <Reveal delay={0.1} className="lg:sticky lg:top-24 lg:self-start">
-              <div className="aspect-[4/5] overflow-hidden rounded-[24px] bg-surface-2 shadow-soft">
+              <div className="mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-[24px] bg-surface-2 shadow-soft">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={portraitUrl} alt={hero.title} className="size-full object-cover object-top" />
               </div>

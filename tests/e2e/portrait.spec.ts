@@ -24,3 +24,21 @@ test("Sobre Rubén también muestra su foto", async ({ page }) => {
   await expect(img).toBeVisible();
   await expect(img).toHaveAttribute("src", /ruben\.webp/);
 });
+
+for (const path of ["/", "/sobre-mi"]) {
+  test(`la foto en ${path} se ve completa y en tamaño contenido`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(path);
+    const img = page.getByRole("img", { name: "Rubén Rodríguez" }).first();
+    await expect.poll(() => img.evaluate((el) => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(300);
+    const size = await img.evaluate((el) => {
+      const i = el as HTMLImageElement;
+      const r = i.getBoundingClientRect();
+      return { natural: i.naturalWidth / i.naturalHeight, shown: r.width / r.height, width: r.width };
+    });
+    // The file keeps the original photo's proportions (1179x1479), so nothing was cropped.
+    expect(Math.abs(size.natural - 1179 / 1479)).toBeLessThan(0.01);
+    expect(Math.abs(size.natural - size.shown)).toBeLessThan(0.02);
+    expect(size.width).toBeLessThanOrEqual(400);
+  });
+}
