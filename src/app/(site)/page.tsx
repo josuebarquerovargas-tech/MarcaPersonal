@@ -11,7 +11,9 @@ import { Hero } from "@/components/site/Hero";
 import { Marquee } from "@/components/site/Marquee";
 import { LatestVideos } from "@/components/site/LatestVideos";
 import { About } from "@/components/site/About";
-import { Pillars } from "@/components/site/Pillars";
+import { Process } from "@/components/site/Process";
+import { ServicesGrid } from "@/components/site/ServicesGrid";
+import { isMembershipEnabled } from "@/server/features";
 import { MembershipCta } from "@/components/site/MembershipCta";
 import { ContactSection } from "@/components/site/ContactSection";
 import { JsonLd } from "@/components/site/JsonLd";
@@ -24,11 +26,12 @@ import { PhotoMosaic } from "@/components/site/PhotoMosaic";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [hero, about, pillars, membership, contact, social, seo, portrait, videos, photos, plans, member, posts] =
+  const [hero, about, services, processContent, membership, contact, social, seo, portrait, videos, photos, plans, member, posts, membershipOn] =
     await Promise.all([
       getContent("hero"),
       getContent("about"),
-      getContent("pillars"),
+      getContent("services"),
+      getContent("process"),
       getContent("membership"),
       getContent("contact"),
       getContent("social"),
@@ -39,6 +42,7 @@ export default async function Home() {
       listPlans(),
       getMember(),
       listPublishedPosts(3),
+      isMembershipEnabled(),
     ]);
   const { active: isMember } = await getMembership(member);
   const portraitUrl = portrait.key ? storage.publicUrl(portrait.key) : null;
@@ -56,25 +60,30 @@ export default async function Home() {
       />
       <Hero {...hero} portraitUrl={portraitUrl} social={social} />
       <Marquee />
-      <LatestVideos
-        videos={videos.map((v) => ({ ...v, thumbUrl: v.thumbnailPath ? storage.publicUrl(v.thumbnailPath) : null }))}
-      />
+      <ServicesGrid {...services} />
+      <Process {...processContent} />
+      {videos.length > 0 && (
+        <LatestVideos
+          videos={videos.map((v) => ({ ...v, thumbUrl: v.thumbnailPath ? storage.publicUrl(v.thumbnailPath) : null }))}
+        />
+      )}
       <About heading={about.heading} paragraphs={about.paragraphs} facts={about.facts} compact />
-      <Pillars heading={pillars.heading} intro={pillars.intro} items={pillars.items} />
-      <MembershipCta
-        title={membership.title}
-        text={membership.text}
-        benefits={membership.benefits}
-        monthlyPriceCRC={monthly}
-        isMember={isMember}
-      />
+      {membershipOn && (
+        <MembershipCta
+          title={membership.title}
+          text={membership.text}
+          benefits={membership.benefits}
+          monthlyPriceCRC={monthly}
+          isMember={isMember}
+        />
+      )}
       {posts.length > 0 && (
         <section className="py-10 sm:py-16" aria-labelledby="blog-title">
           <Container>
             <Reveal>
               <SectionHeading
                 eyebrow="Blog"
-                title="Para leer con calma"
+                title="Ideas para tu marca"
                 action={
                   <LinkButton href="/blog" variant="secondary">
                     Ver todos los artículos
@@ -94,7 +103,7 @@ export default async function Home() {
             <Reveal>
               <SectionHeading
                 eyebrow="Galería"
-                title="En la calle y en el campo"
+                title="Proyectos y actividades"
                 action={
                   <LinkButton href="/galeria" variant="secondary">
                     Ver galería completa

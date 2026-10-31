@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 import { db } from "@/server/db";
+import { isMembershipEnabled } from "@/server/features";
+import { SERVICES } from "@/lib/services/catalog";
 
 export const dynamic = "force-dynamic";
 
@@ -10,12 +12,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     select: { slug: true, updatedAt: true },
   });
   const posts = await db.post.findMany({ where: { status: "PUBLISHED" }, select: { slug: true, updatedAt: true } });
+  const membership = await isMembershipEnabled();
   const now = new Date();
   return [
     { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: `${base}/videos`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
     { url: `${base}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${base}/membresia`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/servicios`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...SERVICES.map((s) => ({ url: `${base}/servicios/${s.slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.8 })),
+    ...(membership ? [{ url: `${base}/membresia`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.5 }] : []),
+    { url: `${base}/privacidad`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
+    { url: `${base}/terminos`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
     { url: `${base}/sobre-mi`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/galeria`, lastModified: now, changeFrequency: "weekly", priority: 0.5 },
     { url: `${base}/contacto`, lastModified: now, changeFrequency: "yearly", priority: 0.5 },

@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { db } from "@/server/db";
+import { requireMembershipEnabled } from "@/server/features";
 import { hashPassword, verifyPassword } from "@/lib/auth/password";
 import { clearMemberSession, setMemberSession } from "@/server/auth";
 import { clientIp, formTokens, loginLimiter } from "@/server/security";
@@ -18,6 +19,7 @@ const registerSchema = z.object({
 });
 
 export async function registerMember(_prev: MemberAuthState, fd: FormData): Promise<MemberAuthState> {
+  await requireMembershipEnabled();
   const parsed = registerSchema.safeParse({
     name: fd.get("name"),
     email: fd.get("email"),
@@ -50,6 +52,7 @@ const loginSchema = z.object({
 });
 
 export async function loginMember(_prev: MemberAuthState, fd: FormData): Promise<MemberAuthState> {
+  await requireMembershipEnabled();
   const parsed = loginSchema.safeParse({ email: fd.get("email"), password: fd.get("password") });
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Datos inválidos" };
 

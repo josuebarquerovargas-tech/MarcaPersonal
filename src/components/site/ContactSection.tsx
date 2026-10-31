@@ -25,12 +25,19 @@ export function ContactSection({ title, text, whatsapp, email, social, standalon
           </Heading>
           <p className="mx-auto mt-6 max-w-xl text-lg text-muted">{text}</p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
-            <LinkButton href={wa} external size="lg">
-              Escribir por WhatsApp
+            {!standalone && (
+              <LinkButton href="/contacto#cotizacion" size="lg">
+                Solicitar cotización
+              </LinkButton>
+            )}
+            <LinkButton href={wa} external size="lg" variant={standalone ? "primary" : "secondary"}>
+              Hablar por WhatsApp
             </LinkButton>
-            <LinkButton href={`mailto:${email}`} variant="secondary" size="lg" external>
-              {email}
-            </LinkButton>
+            {standalone && (
+              <LinkButton href={`mailto:${email}`} variant="secondary" size="lg" external>
+                {email}
+              </LinkButton>
+            )}
           </div>
           <div className="mt-10 flex justify-center">
             <SocialLinks social={social} />

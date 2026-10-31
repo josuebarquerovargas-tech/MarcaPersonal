@@ -7,7 +7,7 @@ export function JsonLd({ name, url, sameAs, description, image }: Props) {
     name,
     url,
     description,
-    jobTitle: "Juez internacional canino y activista por el bienestar animal",
+    jobTitle: "Marca personal y soluciones digitales",
     nationality: { "@type": "Country", name: "Costa Rica" },
     sameAs: sameAs.filter(Boolean),
     ...(image ? { image } : {}),

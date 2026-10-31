@@ -2,6 +2,16 @@ import { expect, test } from "@playwright/test";
 import { copyFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { PrismaClient } from "@prisma/client";
+import { setMembership } from "./membership";
+
+test.beforeAll(async () => {
+  await setMembership(true);
+});
+
+test.afterAll(async () => {
+  await setMembership(false);
+});
+
 
 const uploadsDir = process.env.UPLOADS_DIR ?? "./data/uploads";
 const fixture = path.join(__dirname, "fixtures", "sample.mp4");

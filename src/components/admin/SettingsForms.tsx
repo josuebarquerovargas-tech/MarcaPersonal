@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useTransition } from "react";
-import { changeAdminPassword, removePortrait, uploadPortrait, type SettingsState } from "@/server/actions/settings";
+import { changeAdminPassword, removePortrait, saveModules, uploadPortrait, type SettingsState } from "@/server/actions/settings";
 import { Button } from "@/components/ui/Button";
 import { Field, FormMessage } from "@/components/ui/Field";
 import { Input } from "@/components/ui/Input";
@@ -39,6 +39,27 @@ export function PortraitForm({ currentUrl }: { currentUrl: string | null }) {
       </div>
       {state.error && <FormMessage tone="error">{state.error}</FormMessage>}
       {state.ok && !pending && <FormMessage tone="success">{state.ok}</FormMessage>}
+    </form>
+  );
+}
+
+export function ModulesForm({ membership }: { membership: boolean }) {
+  const [state, action, pending] = useActionState(saveModules, {} as SettingsState);
+  return (
+    <form action={action} className="flex flex-col gap-4">
+      <label className="flex items-start gap-3 text-sm">
+        <input type="checkbox" name="membership" defaultChecked={membership} className="mt-0.5 size-4 accent-accent" />
+        <span>
+          <span className="font-medium">Activar membresía y pagos</span>
+          <span className="block text-muted">Muestra planes, cuentas de miembros y pago simulado. Actívalo cuando Rubén confirme planes y precios.</span>
+        </span>
+      </label>
+      {state.ok && !pending && <FormMessage tone="success">{state.ok}</FormMessage>}
+      <div>
+        <Button type="submit" pending={pending} pendingLabel="Guardando…">
+          Guardar módulos
+        </Button>
+      </div>
     </form>
   );
 }

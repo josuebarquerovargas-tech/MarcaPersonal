@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { requireMember } from "@/server/auth";
+import { requireMembershipEnabled } from "@/server/features";
 import { getMembership } from "@/server/members";
 import { getPlanByCode } from "@/server/plans";
 import { formTokens } from "@/server/security";
@@ -16,6 +17,7 @@ export const metadata: Metadata = { title: "Pago", robots: { index: false } };
 export const dynamic = "force-dynamic";
 
 export default async function CheckoutPage({ searchParams }: { searchParams: Promise<{ plan?: string }> }) {
+  await requireMembershipEnabled();
   const { plan: code = "MONTHLY" } = await searchParams;
   const member = await requireMember(`/pago?plan=${encodeURIComponent(code)}`);
   const plan = await getPlanByCode(code);

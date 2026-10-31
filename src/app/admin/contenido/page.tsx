@@ -3,6 +3,7 @@ import Link from "next/link";
 import { requireAdmin } from "@/server/auth";
 import { getContent } from "@/server/content";
 import { listPlans } from "@/server/plans";
+import { isMembershipEnabled } from "@/server/features";
 import { saveContent } from "@/server/actions/content";
 import { contentFields, contentSections } from "@/lib/content/fields";
 import type { ContentKey } from "@/lib/content/keys";
@@ -22,10 +23,12 @@ export default async function AdminContentPage({
 }) {
   await requireAdmin();
   const { seccion } = await searchParams;
-  const isPlans = seccion === PLANS_SECTION;
+  const membershipOn = await isMembershipEnabled();
+  const sections = contentSections.filter((s) => membershipOn || s.key !== "membership");
+  const isPlans = membershipOn && seccion === PLANS_SECTION;
   const current =
-    contentSections.find((s) => s.key === seccion)?.key ?? ("hero" satisfies ContentKey);
-  const tabs = [...contentSections.map((s) => ({ key: s.key as string, label: s.label })), { key: PLANS_SECTION, label: "Planes" }];
+    sections.find((s) => s.key === seccion)?.key ?? ("hero" satisfies ContentKey);
+  const tabs = [...sections.map((s) => ({ key: s.key as string, label: s.label })), ...(membershipOn ? [{ key: PLANS_SECTION, label: "Planes" }] : [])];
   const activeKey = isPlans ? PLANS_SECTION : current;
 
   return (

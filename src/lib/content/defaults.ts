@@ -1,95 +1,64 @@
 import type { Content } from "./keys";
+import { SERVICES } from "@/lib/services/catalog";
 
 /**
- * Default copy for the public site. Based only on verified facts about Rubén
- * (spec §2). Everything here is editable from the admin panel.
+ * Default copy for the public site, based only on docs/contexto-negocio.md.
+ * No invented clients, results, prices or availability. Everything is editable from the panel.
  */
 export const defaults: Content = {
   hero: {
-    eyebrow: "El mae de los perros",
+    eyebrow: "¿Estás listo a mostrar tu marca?",
     title: "Rubén Rodríguez",
     subtitle:
-      "Defensor del bienestar animal, juez internacional canino y creador de contenido en Costa Rica.",
-    ctaPrimary: "Ver videos",
-    ctaSecondary: "Hazte miembro",
+      "Ayudo a marcas y negocios a tener mayor visibilidad, conectar con clientes y crecer con estrategias y herramientas digitales.",
+    ctaPrimary: "Ver servicios",
+    ctaSecondary: "Solicitar cotización",
+  },
+  services: {
+    heading: "Soluciones para mostrar y hacer crecer tu marca",
+    intro: "Cada estrategia se adapta a tu marca, tus necesidades y tu presupuesto.",
+    items: SERVICES.map((s) => ({ title: s.title, text: s.summary })),
+  },
+  process: {
+    heading: "Cómo trabajamos",
+    intro: "Un proceso claro, desde entender tu mercado hasta acompañar tu crecimiento.",
+    items: [
+      { title: "Análisis del mercado", text: "Encontramos oportunidades reales para tu marca." },
+      { title: "Conexión con el mercado", text: "Acercamos tu marca a su cliente ideal." },
+      { title: "Campañas estratégicas", text: "Publicidad y estrategias en plataformas digitales." },
+      { title: "Resultados medibles", text: "Evaluamos el rendimiento de cada acción." },
+      { title: "Confianza y acompañamiento", text: "Damos continuidad y soporte al crecimiento de tu marca." },
+    ],
   },
   about: {
-    heading: "Una vida dedicada a los perros",
+    heading: "Presencia digital con acompañamiento",
     paragraphs: [
-      "Ingeniero, empresario y asesor de estrategia, Rubén lleva años al frente del movimiento por el bienestar animal en Costa Rica. Fundó la Asociación Cinológica Autónoma Nacional, hoy Federación Canina de Costa Rica, la primera federación debidamente inscrita en el país.",
-      "Es juez internacional de todas las razas, criador de pastor alemán y adiestrador. Impulsa un modelo de crianza responsable y una relación entre personas y perros basada en el respeto y la comprensión del comportamiento canino.",
-      "En redes comparte rescates, consejos de adiestramiento y campañas que han llevado la conversación sobre el maltrato animal a la calle, a la televisión y a las instituciones.",
+      "Rubén Rodríguez promociona su marca personal y ayuda a negocios, emprendedores y otras marcas personales a mejorar su presencia digital, su visibilidad y sus ventas.",
+      "Cada estrategia se adapta a la marca, las necesidades y el presupuesto de cada cliente, ya sea una marca personal, institucional o de productos y servicios.",
     ],
     facts: [
-      {
-        label: "Juez internacional",
-        value:
-          "Todas las razas, avalado por la Federación Canina Mundial y la International Kennel Union",
-      },
-      {
-        label: "Fundador",
-        value: "Federación Canina de Costa Rica (ACAN), primera federación inscrita en el país",
-      },
-      {
-        label: "Criador y adiestrador",
-        value: "Pastor alemán, talleres y consultoría de comportamiento",
-      },
-      {
-        label: "Activista",
-        value: "Campañas contra el maltrato animal, rescates y educación",
-      },
-    ],
-  },
-  pillars: {
-    heading: "Trayectoria",
-    intro: "Cuatro frentes de trabajo por los animales de Costa Rica.",
-    items: [
-      {
-        title: "Activismo y campañas",
-        text: "Campañas de concientización sobre el maltrato y la adopción responsable, desde la Estatua Emblema del Maltrato Animal hasta el Zaguaparade.",
-      },
-      {
-        title: "Rescates y organizaciones",
-        text: "Colaboración con refugios y organizaciones de rescate para rehabilitar perros abandonados y encontrarles hogar.",
-      },
-      {
-        title: "Legislación",
-        text: "Impulso a normas más estrictas contra el maltrato animal y a la crianza responsable desde la Federación Canina de Costa Rica.",
-      },
-      {
-        title: "Educación y conciencia social",
-        text: "Charlas, talleres y contenido en redes que cambian la forma en que las personas ven y tratan a los animales.",
-      },
+      { label: "Emprendedores", value: "Emprendedores y microempresas que buscan una presencia digital profesional" },
+      { label: "Negocios", value: "Empresas que quieren atraer clientes con redes sociales, contenido y publicidad" },
+      { label: "Profesionales", value: "Personas que desean fortalecer su marca personal" },
+      { label: "Marcas y proyectos", value: "Productos, servicios y organizaciones que quieren comunicar mejor su propuesta" },
     ],
   },
   membership: {
-    title: "Unite a la manada",
-    text: "Acceso a videos exclusivos de adiestramiento, sesiones completas y contenido que no publico en redes. Tu apoyo financia rescates y campañas.",
-    benefits: [
-      "Videos exclusivos de adiestramiento y comportamiento canino",
-      "Sesiones completas sin cortes",
-      "Acceso anticipado a nuevos contenidos",
-      "Apoyás directamente rescates y campañas por el bienestar animal",
-    ],
+    title: "Membresía",
+    text: "Acceso a contenido exclusivo en video.",
+    benefits: ["Videos exclusivos", "Acceso anticipado a nuevos contenidos"],
     faq: [
       {
         q: "¿Puedo cancelar cuando quiera?",
         a: "Sí. Cancelás desde tu cuenta y conservás el acceso hasta el final del período que ya pagaste.",
       },
-      {
-        q: "¿Qué métodos de pago aceptan?",
-        a: "Tarjeta de crédito o débito y SINPE Móvil.",
-      },
-      {
-        q: "¿Los videos gratuitos siguen siendo gratuitos?",
-        a: "Siempre. La membresía suma contenido exclusivo, no quita nada.",
-      },
+      { q: "¿Qué métodos de pago aceptan?", a: "Tarjeta de crédito o débito y SINPE Móvil." },
     ],
   },
   contact: {
-    title: "Hablemos",
-    text: "Para prensa, alianzas, charlas o consultoría canina, escribime por WhatsApp o correo.",
-    whatsapp: "+50670150301",
+    title: "Hablemos de tu marca",
+    text: "Contame qué necesita tu negocio y te respondo con una propuesta a tu medida.",
+    whatsapp: "+50663360450",
     email: "rr@rubenrodriguezoficial.com",
   },
   social: {
@@ -101,11 +70,14 @@ export const defaults: Content = {
     instagramFollowers: "119 mil",
   },
   seo: {
-    title: "Rubén Rodríguez · El mae de los perros",
+    title: "Rubén Rodríguez · Marca personal y soluciones digitales",
     description:
-      "Defensor del bienestar animal, juez internacional canino y creador de contenido en Costa Rica. Videos, membresía y contacto.",
+      "Sitios web, redes sociales, contenido, herramientas tecnológicas y asesoría para que tu marca tenga mayor visibilidad y conecte con clientes.",
   },
   portrait: {
     key: "",
+  },
+  features: {
+    membership: false,
   },
 };

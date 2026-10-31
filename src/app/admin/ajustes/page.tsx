@@ -3,14 +3,14 @@ import { requireAdmin } from "@/server/auth";
 import { getContent } from "@/server/content";
 import { storage } from "@/lib/storage/storage";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
-import { PasswordForm, PortraitForm } from "@/components/admin/SettingsForms";
+import { ModulesForm, PasswordForm, PortraitForm } from "@/components/admin/SettingsForms";
 
 export const metadata: Metadata = { title: "Ajustes" };
 export const dynamic = "force-dynamic";
 
 export default async function AdminSettingsPage() {
   const admin = await requireAdmin();
-  const portrait = await getContent("portrait");
+  const [portrait, features] = await Promise.all([getContent("portrait"), getContent("features")]);
   const portraitUrl = portrait.key ? storage.publicUrl(portrait.key) : null;
 
   return (
@@ -22,6 +22,14 @@ export default async function AdminSettingsPage() {
         </h2>
         <div className="mt-5">
           <PortraitForm currentUrl={portraitUrl} />
+        </div>
+      </section>
+      <section className="mt-6 rounded-[12px] border border-line bg-surface p-6" aria-labelledby="modulos">
+        <h2 id="modulos" className="font-display text-2xl">
+          Módulos
+        </h2>
+        <div className="mt-5">
+          <ModulesForm membership={features.membership} />
         </div>
       </section>
       <section className="mt-6 rounded-[12px] border border-line bg-surface p-6" aria-labelledby="clave">

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { listPublishedVideos } from "@/server/videos";
+import { isMembershipEnabled } from "@/server/features";
 import { storage } from "@/lib/storage/storage";
 import { Container } from "@/components/ui/Container";
 import { VideoGrid } from "@/components/site/VideoGrid";
@@ -8,7 +9,7 @@ import { Input } from "@/components/ui/Input";
 
 export const metadata: Metadata = {
   title: "Videos",
-  description: "Todos los videos de Rubén Rodríguez: adiestramiento, rescates y campañas por el bienestar animal.",
+  description: "Videos de Rubén Rodríguez sobre marca personal, redes sociales y crecimiento de negocios.",
 };
 
 const accessOptions = [
@@ -29,6 +30,8 @@ type Search = { acceso?: string; plataforma?: string; q?: string };
 
 export default async function VideosPage({ searchParams }: { searchParams: Promise<Search> }) {
   const sp = await searchParams;
+  const membershipOn = await isMembershipEnabled();
+  const shownAccess = accessOptions.filter((o) => membershipOn || o.value !== "miembros");
   const access = sp.acceso === "gratis" ? "FREE" : sp.acceso === "miembros" ? "MEMBERS" : undefined;
   const platform = platformOptions.some((p) => p.value === sp.plataforma && p.value)
     ? (sp.plataforma as "FILE" | "TIKTOK" | "INSTAGRAM" | "YOUTUBE")
@@ -49,11 +52,11 @@ export default async function VideosPage({ searchParams }: { searchParams: Promi
   return (
     <main className="py-12 sm:py-16">
       <Container>
-        <SectionHeading eyebrow="Videos" title="Todo el contenido" text="Adiestramiento, rescates y campañas. Lo exclusivo lleva candado." />
+        <SectionHeading eyebrow="Videos" title="Todo el contenido" text="Videos para conocer mejor cómo mostrar y hacer crecer tu marca." />
 
         <form method="get" action="/videos" className="mt-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrar por acceso">
-            {accessOptions.map((o) => {
+            {shownAccess.map((o) => {
               const active = (sp.acceso ?? "") === o.value;
               return (
                 <a
@@ -91,7 +94,7 @@ export default async function VideosPage({ searchParams }: { searchParams: Promi
         </form>
 
         <div className="mt-10">
-          <VideoGrid videos={cards} emptyText="No hay videos que coincidan con ese filtro." />
+          <VideoGrid videos={cards} emptyText={videos.length === 0 && !q && !sp.plataforma && !sp.acceso ? "Pronto habrá videos aquí." : "No hay videos que coincidan con ese filtro."} />
         </div>
       </Container>
     </main>

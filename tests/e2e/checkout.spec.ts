@@ -2,6 +2,16 @@ import { expect, test, type Page } from "@playwright/test";
 import { copyFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { PrismaClient } from "@prisma/client";
+import { setMembership } from "./membership";
+
+test.beforeAll(async () => {
+  await setMembership(true);
+});
+
+test.afterAll(async () => {
+  await setMembership(false);
+});
+
 
 const uploadsDir = process.env.UPLOADS_DIR ?? "./data/uploads";
 const fixture = path.join(__dirname, "fixtures", "sample.mp4");
@@ -48,7 +58,7 @@ test("la membresía lleva al pago y una tarjeta 4242 activa la suscripción", as
   await fillCard(page, "4242 4242 4242 4242");
   await page.getByRole("button", { name: /Pagar/ }).click();
   await expect(page).toHaveURL(/\/pago\/exito/);
-  await expect(page.getByText("¡Bienvenido a la manada!")).toBeVisible();
+  await expect(page.getByText("¡Ya sos miembro!")).toBeVisible();
 
   await page.goto("/cuenta");
   await expect(page.getByText(/Activa hasta/)).toBeVisible();

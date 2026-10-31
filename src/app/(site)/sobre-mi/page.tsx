@@ -3,19 +3,19 @@ import { getContent } from "@/server/content";
 import { storage } from "@/lib/storage/storage";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
-import { Pillars } from "@/components/site/Pillars";
+import { Process } from "@/components/site/Process";
 import { LinkButton } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
-  title: "Sobre mí",
-  description: "Quién es Rubén Rodríguez: juez internacional canino, fundador de la Federación Canina de Costa Rica y activista por el bienestar animal.",
+  title: "Sobre Rubén",
+  description: "Quién es Rubén Rodríguez y cómo acompaña a marcas y negocios a mejorar su presencia digital.",
 };
 export const dynamic = "force-dynamic";
 
 export default async function AboutPage() {
-  const [about, pillars, hero, portrait] = await Promise.all([
+  const [about, process, hero, portrait] = await Promise.all([
     getContent("about"),
-    getContent("pillars"),
+    getContent("process"),
     getContent("hero"),
     getContent("portrait"),
   ]);
@@ -27,7 +27,7 @@ export default async function AboutPage() {
         <Container>
           <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
             <Reveal>
-              <p className="text-xs uppercase tracking-[0.25em] text-accent">Sobre mí</p>
+              <p className="text-xs uppercase tracking-[0.25em] text-accent">Sobre Rubén</p>
               <h1 className="font-display mt-3 text-5xl leading-[1.02] sm:text-7xl">{about.heading}</h1>
               <div className="mt-8 flex flex-col gap-5 text-lg leading-relaxed text-muted">
                 {about.paragraphs.map((p) => (
@@ -43,7 +43,7 @@ export default async function AboutPage() {
                 ))}
               </dl>
               <div className="mt-10 flex flex-wrap gap-3">
-                <LinkButton href="/videos">Ver videos</LinkButton>
+                <LinkButton href="/servicios">Ver servicios</LinkButton>
                 <LinkButton href="/contacto" variant="secondary">
                   Contacto
                 </LinkButton>
@@ -64,7 +64,7 @@ export default async function AboutPage() {
           </div>
         </Container>
       </section>
-      <Pillars heading={pillars.heading} intro={pillars.intro} items={pillars.items} />
+      <Process {...process} />
     </main>
   );
 }

@@ -6,15 +6,18 @@ import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { buttonClasses } from "@/components/ui/Button";
 
-const links = [
-  { href: "/videos", label: "Videos" },
-  { href: "/blog", label: "Blog" },
-  { href: "/membresia", label: "Membresía" },
-  { href: "/sobre-mi", label: "Sobre mí" },
-  { href: "/contacto", label: "Contacto" },
-];
 
-export function Nav({ brand, memberName }: { brand: string; memberName: string | null }) {
+type NavProps = { brand: string; memberName: string | null; showMembership: boolean; showBlog: boolean };
+
+export function Nav({ brand, memberName, showMembership, showBlog }: NavProps) {
+  const links = [
+    { href: "/servicios", label: "Servicios" },
+    { href: "/videos", label: "Videos" },
+    ...(showBlog ? [{ href: "/blog", label: "Blog" }] : []),
+    ...(showMembership ? [{ href: "/membresia", label: "Membresía" }] : []),
+    { href: "/sobre-mi", label: "Sobre Rubén" },
+    { href: "/contacto", label: "Contacto" },
+  ];
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -31,8 +34,8 @@ export function Nav({ brand, memberName }: { brand: string; memberName: string |
       Mi cuenta
     </Link>
   ) : (
-    <Link href="/membresia" className={buttonClasses("primary", "sm")}>
-      Hazte miembro
+    <Link href="/contacto#cotizacion" className={buttonClasses("primary", "sm")}>
+      Solicitar cotización
     </Link>
   );
 

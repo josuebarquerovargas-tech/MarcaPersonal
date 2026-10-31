@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { requireMember } from "@/server/auth";
+import { requireMembershipEnabled } from "@/server/features";
 import { getMembership } from "@/server/members";
 import { db } from "@/server/db";
 import { logoutMember } from "@/server/actions/member-auth";
@@ -17,6 +18,7 @@ const statusLabel = { APPROVED: "Aprobado", DECLINED: "Rechazado", INSUFFICIENT_
 const statusTone = { APPROVED: "success", DECLINED: "danger", INSUFFICIENT_FUNDS: "warning" } as const;
 
 export default async function AccountPage() {
+  await requireMembershipEnabled();
   const member = await requireMember("/cuenta");
   const membership = await getMembership(member);
   const payments = await db.payment.findMany({

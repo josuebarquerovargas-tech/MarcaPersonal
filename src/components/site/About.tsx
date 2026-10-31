@@ -17,7 +17,7 @@ export function About({ heading, paragraphs, facts, compact = false }: Props) {
       <Container>
         <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
           <Reveal>
-            <SectionHeading eyebrow="Sobre mí" title={heading} />
+            <SectionHeading eyebrow="Sobre Rubén" title={heading} />
             <div className="mt-8 flex flex-col gap-5 text-lg leading-relaxed text-muted">
               {shown.map((p) => (
                 <p key={p}>{p}</p>

@@ -15,13 +15,14 @@ type Props = {
   video?: Video;
   formToken?: string;
   thumbnailUrl?: string | null;
+  showAccess?: boolean;
 };
 
 function toDateInput(d: Date): string {
   return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 }
 
-export function VideoForm({ action, video, formToken, thumbnailUrl }: Props) {
+export function VideoForm({ action, video, formToken, thumbnailUrl, showAccess = false }: Props) {
   const [state, formAction, pending] = useActionState(action, {});
   const editing = !!video;
   const [kind, setKind] = useState<"FILE" | "EMBED">(video?.kind ?? "FILE");
@@ -133,12 +134,16 @@ export function VideoForm({ action, video, formToken, thumbnailUrl }: Props) {
       </Field>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <Field label="Acceso" htmlFor="access">
-          <Select id="access" name="access" defaultValue={video?.access ?? "FREE"}>
-            <option value="FREE">Gratis</option>
-            <option value="MEMBERS">Miembros</option>
-          </Select>
-        </Field>
+        {showAccess ? (
+          <Field label="Acceso" htmlFor="access">
+            <Select id="access" name="access" defaultValue={video?.access ?? "FREE"}>
+              <option value="FREE">Gratis</option>
+              <option value="MEMBERS">Miembros</option>
+            </Select>
+          </Field>
+        ) : (
+          <input type="hidden" name="access" value={video?.access ?? "FREE"} />
+        )}
         <Field label="Estado" htmlFor="status">
           <Select id="status" name="status" defaultValue={video?.status ?? "DRAFT"}>
             <option value="DRAFT">Borrador</option>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { requireAdmin } from "@/server/auth";
+import { isMembershipEnabled } from "@/server/features";
 import { formTokens } from "@/server/security";
 import { createVideo } from "@/server/actions/videos";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
@@ -15,7 +16,7 @@ export default async function NewVideoPage() {
     <>
       <AdminPageHeader title="Nuevo video" description="Subí un archivo o pegá un enlace." />
       <div className="mt-8">
-        <VideoForm action={createVideo} formToken={formToken} />
+        <VideoForm action={createVideo} formToken={formToken} showAccess={await isMembershipEnabled()} />
       </div>
     </>
   );

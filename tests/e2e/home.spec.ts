@@ -3,11 +3,10 @@ import { expect, test } from "@playwright/test";
 test("la portada muestra el nombre, el apodo y los llamados a la acción", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1, name: "Rubén Rodríguez" })).toBeVisible();
-  await expect(page.getByText("El mae de los perros").first()).toBeVisible();
-  await expect(page.getByRole("link", { name: "Ver videos" }).first()).toHaveAttribute("href", "/videos");
-  await expect(page.getByRole("link", { name: "Hazte miembro" }).first()).toHaveAttribute("href", "/membresia");
-  await expect(page.getByRole("heading", { name: "Trayectoria" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Hablemos" })).toBeVisible();
+  await expect(page.getByText("¿Estás listo a mostrar tu marca?").first()).toBeVisible();
+  await expect(page.getByRole("link", { name: "Ver servicios" }).first()).toHaveAttribute("href", "/servicios");
+  await expect(page.getByRole("link", { name: "Solicitar cotización" }).first()).toHaveAttribute("href", "/contacto#cotizacion");
+    await expect(page.getByRole("heading", { name: "Hablemos de tu marca" })).toBeVisible();
 });
 
 test("en móvil no hay scroll horizontal", async ({ page }) => {
@@ -40,7 +39,7 @@ test("sitemap y robots", async ({ request }) => {
   const sitemap = await request.get("/sitemap.xml");
   expect(sitemap.status()).toBe(200);
   const xml = await sitemap.text();
-  expect(xml).toContain("/membresia");
+  expect(xml).toContain("/servicios");
   expect(xml).not.toContain("/admin");
   const robots = await request.get("/robots.txt");
   const txt = await robots.text();
@@ -52,7 +51,7 @@ test("las páginas secundarias cargan", async ({ page }) => {
   await page.goto("/sobre-mi");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await page.goto("/contacto");
-  await expect(page.getByRole("link", { name: /WhatsApp/ })).toHaveAttribute("href", /wa\.me\/50670150301/);
+  await expect(page.getByRole("link", { name: /WhatsApp/ })).toHaveAttribute("href", /wa\.me\/50663360450/);
 });
 
 test("sin JavaScript el contenido y las miniaturas se ven", async ({ browser }) => {
@@ -62,7 +61,7 @@ test("sin JavaScript el contenido y las miniaturas se ven", async ({ browser }) 
   const card = page.locator("[data-reveal]").first();
   await expect(card).toBeVisible();
   expect(await card.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
-  await expect(page.getByRole("heading", { name: "Demo: sesión exclusiva de adiestramiento" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Sitios web" })).toBeVisible();
   await ctx.close();
 });
 
@@ -74,8 +73,7 @@ test("el sitio no enlaza las cuentas de TikTok y YouTube que ya no existen", asy
 
 test("los clips de muestra y los videos retirados no aparecen en el catálogo", async ({ page }) => {
   await page.goto("/videos");
-  await expect(page.getByRole("heading", { name: "Demo: sesión exclusiva de adiestramiento" })).toBeVisible();
-  for (const name of ["Demo: rutina de paseo", "Cerro Negro: aventura y diversión", "Lanzamiento de la Federación Canina de Costa Rica"]) {
+  for (const name of ["Demo: sesión exclusiva de adiestramiento", "Demo: rutina de paseo", "Cerro Negro: aventura y diversión", "Lanzamiento de la Federación Canina de Costa Rica"]) {
     await expect(page.getByRole("heading", { name })).toHaveCount(0);
   }
 });

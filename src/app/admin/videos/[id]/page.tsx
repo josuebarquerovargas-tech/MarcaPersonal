@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { requireAdmin } from "@/server/auth";
+import { isMembershipEnabled } from "@/server/features";
 import { getVideoById } from "@/server/videos";
 import { updateVideo } from "@/server/actions/videos";
 import { storage } from "@/lib/storage/storage";
@@ -34,6 +35,7 @@ export default async function EditVideoPage({ params }: { params: Promise<{ id: 
         <VideoForm
           action={action}
           video={video}
+          showAccess={await isMembershipEnabled()}
           thumbnailUrl={video.thumbnailPath ? storage.publicUrl(video.thumbnailPath) : null}
         />
       </div>

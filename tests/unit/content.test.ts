@@ -49,7 +49,9 @@ test("setContent valida y persiste", async () => {
 test("los textos por defecto no copian el sitio anterior", () => {
   const all = JSON.stringify(defaults);
   expect(all).not.toMatch(/destacado defensor de los derechos de los animales/i);
-  expect(all).toContain("El mae de los perros");
-  expect(defaults.pillars.items).toHaveLength(4);
+  expect(all).toContain("¿Estás listo a mostrar tu marca?");
+  expect(all).not.toMatch(/perro|canin|24\/7|garantiz/i);
+  expect(defaults.services.items).toHaveLength(5);
+  expect(defaults.process.items).toHaveLength(5);
   expect(defaults.about.facts).toHaveLength(4);
 });

@@ -44,6 +44,9 @@ test.describe.serial("blog", () => {
     expect(await page.evaluate(() => (window as unknown as { __xss?: number }).__xss)).toBeUndefined();
     await expect(page.locator('article a[href^="javascript"]')).toHaveCount(0);
 
+    await page.goto("/");
+    await expect(page.getByRole("navigation", { name: "Principal", exact: true }).getByRole("link", { name: "Blog" })).toBeVisible();
+
     const xml = await (await request.get("/sitemap.xml")).text();
     expect(xml).toContain("/blog/articulo-e2e-");
   });
@@ -78,10 +81,9 @@ test.describe.serial("blog", () => {
     expect((await request.get(`/blog/${before.slug}`)).status()).toBe(404);
   });
 
-  test("el blog está en el menú y sin sesión el panel redirige", async ({ page }) => {
+  test("sin artículos el blog sale del menú y sin sesión el panel redirige", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("navigation", { name: "Principal", exact: true }).getByRole("link", { name: "Blog" }).click();
-    await expect(page).toHaveURL(/\/blog$/);
+    await expect(page.getByRole("navigation", { name: "Principal", exact: true }).getByRole("link", { name: "Blog" })).toHaveCount(0);
     await page.goto("/admin/blog");
     await expect(page).toHaveURL(/\/admin\/login$/);
   });

@@ -10,8 +10,10 @@
   --ink: #111111;
   --muted: #5f5e59;
   --line: #e4e2db;
-  --accent: #c8782a;
+  --accent: #8a6500;
   --accent-ink: #ffffff;
+  --brand: #f5c518;
+  --brand-ink: #111111;
   --shadow: 0 1px 2px rgb(17 17 17 / 0.04), 0 8px 24px rgb(17 17 17 / 0.06);
   color-scheme: light;
 }
@@ -24,8 +26,10 @@
   --ink: #eceae4;
   --muted: #a09d94;
   --line: #272723;
-  --accent: #e09a4b;
+  --accent: #f5c518;
   --accent-ink: #0c0c0b;
+  --brand: #f5c518;
+  --brand-ink: #111111;
   --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.45);
   color-scheme: dark;
 }
@@ -39,6 +43,8 @@
   --color-line: var(--line);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-fraunces), Georgia, serif;
   --shadow-soft: var(--shadow);
@@ -63,8 +69,8 @@ body {
 }
 
 ::selection {
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: var(--brand);
+  color: var(--brand-ink);
 }
 
 :focus-visible {

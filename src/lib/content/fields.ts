@@ -17,7 +17,8 @@ export type FieldDef =
 export const contentSections: { key: ContentKey; label: string }[] = [
   { key: "hero", label: "Portada" },
   { key: "about", label: "Sobre mí" },
-  { key: "pillars", label: "Trayectoria" },
+  { key: "services", label: "Servicios" },
+  { key: "process", label: "Proceso" },
   { key: "membership", label: "Membresía" },
   { key: "contact", label: "Contacto" },
   { key: "social", label: "Redes" },
@@ -43,17 +44,15 @@ export const contentFields: Record<ContentKey, FieldDef[]> = {
       labels: ["Etiqueta", "Detalle"],
     },
   ],
-  pillars: [
+  services: [
     { name: "heading", label: "Encabezado", kind: "text" },
     { name: "intro", label: "Introducción", kind: "textarea" },
-    {
-      name: "items",
-      label: "Pilares",
-      kind: "pairs",
-      keys: ["title", "text"],
-      labels: ["Título", "Texto"],
-      fixed: 4,
-    },
+    { name: "items", label: "Servicios", kind: "pairs", keys: ["title", "text"], labels: ["Título", "Resumen"], fixed: 5 },
+  ],
+  process: [
+    { name: "heading", label: "Encabezado", kind: "text" },
+    { name: "intro", label: "Introducción", kind: "textarea" },
+    { name: "items", label: "Pasos", kind: "pairs", keys: ["title", "text"], labels: ["Paso", "Texto"], fixed: 5 },
   ],
   membership: [
     { name: "title", label: "Título", kind: "text" },
@@ -86,6 +85,7 @@ export const contentFields: Record<ContentKey, FieldDef[]> = {
     { name: "description", label: "Descripción", kind: "textarea" },
   ],
   portrait: [],
+  features: [],
 };
 
 function str(fd: FormData, name: string): string {

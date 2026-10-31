@@ -1,6 +1,7 @@
 import "server-only";
 import type { Prisma, Video } from "@prisma/client";
 import { db } from "@/server/db";
+import { isMembershipEnabled } from "@/server/features";
 import { storage } from "@/lib/storage/storage";
 
 export type { Video };
@@ -27,6 +28,7 @@ export type PublicVideoFilter = {
 export async function listPublishedVideos(filter: PublicVideoFilter = {}): Promise<Video[]> {
   const where: Prisma.VideoWhereInput = { status: "PUBLISHED" };
   if (filter.access) where.access = filter.access;
+  if (!(await isMembershipEnabled())) where.access = "FREE";
   if (filter.platform === "FILE") where.kind = "FILE";
   else if (filter.platform) where.platform = filter.platform;
   if (filter.q) {
@@ -44,7 +46,7 @@ export async function listPublishedVideos(filter: PublicVideoFilter = {}): Promi
 
 export async function relatedVideos(video: Video, n = 4): Promise<Video[]> {
   return db.video.findMany({
-    where: { status: "PUBLISHED", id: { not: video.id } },
+    where: { status: "PUBLISHED", id: { not: video.id }, ...((await isMembershipEnabled()) ? {} : { access: "FREE" as const }) },
     orderBy: [{ access: video.access === "MEMBERS" ? "desc" : "asc" }, { publishedAt: "desc" }],
     take: n,
   });

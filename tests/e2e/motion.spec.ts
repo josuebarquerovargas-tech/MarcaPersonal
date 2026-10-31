@@ -48,10 +48,10 @@ test("la franja no provoca scroll horizontal en móvil", async ({ page }) => {
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(360);
 });
 
-test("la indicación de desplazamiento lleva a los videos", async ({ page }) => {
+test("la indicación de desplazamiento lleva a los servicios", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
   await page.getByRole("link", { name: "Seguí bajando" }).click();
-  await expect(page).toHaveURL(/#videos$/);
-  await expect(page.getByRole("heading", { name: "Lo último en video" })).toBeInViewport();
+  await expect(page).toHaveURL(/#servicios$/);
+  await expect(page.getByRole("heading", { name: "Soluciones para mostrar y hacer crecer tu marca" })).toBeInViewport();
 });

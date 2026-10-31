@@ -1,4 +1,4 @@
-const ITEMS = ["Bienestar animal", "Adiestramiento", "Crianza responsable", "Juez internacional", "Rescates", "Costa Rica"];
+const ITEMS = ["Sitios web", "Redes sociales", "Contenido que vende", "Anuncios digitales", "Inteligencia artificial", "Automatizaciones"];
 
 function Group() {
   return (
@@ -6,7 +6,7 @@ function Group() {
       {[...ITEMS, ...ITEMS].map((item, i) => (
         <span key={i} className="flex items-center gap-8 pr-8">
           <span className="font-display whitespace-nowrap text-3xl sm:text-4xl">{item}</span>
-          <span className="size-1.5 shrink-0 rounded-full bg-accent" />
+          <span className="size-1.5 shrink-0 rounded-full bg-brand" />
         </span>
       ))}
     </>

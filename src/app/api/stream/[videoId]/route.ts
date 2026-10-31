@@ -2,6 +2,7 @@ import type { NextRequest } from "next/server";
 import { db } from "@/server/db";
 import { getMember } from "@/server/auth";
 import { getMembership } from "@/server/members";
+import { isMembershipEnabled } from "@/server/features";
 import { canWatch } from "@/lib/videos/access";
 import { storage } from "@/lib/storage/storage";
 import { fileResponse } from "@/lib/storage/respond";
@@ -17,7 +18,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ vide
 
   if (video.access === "MEMBERS") {
     const membership = await getMembership(await getMember());
-    if (!canWatch(video, membership)) {
+    if (!(await isMembershipEnabled()) || !canWatch(video, membership)) {
       return new Response("Contenido exclusivo para miembros", { status: 403 });
     }
   }

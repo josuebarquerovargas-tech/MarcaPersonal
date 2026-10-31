@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getMember } from "@/server/auth";
+import { requireMembershipEnabled } from "@/server/features";
 import { safeNext } from "@/lib/safe-next";
 import { formTokens } from "@/server/security";
 import { registerMember } from "@/server/actions/member-auth";
@@ -11,6 +12,7 @@ export const metadata: Metadata = { title: "Crear cuenta", robots: { index: fals
 export const dynamic = "force-dynamic";
 
 export default async function RegisterPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
+  await requireMembershipEnabled();
   const { next } = await searchParams;
   const target = safeNext(next);
   if (await getMember()) redirect(target ?? "/cuenta");

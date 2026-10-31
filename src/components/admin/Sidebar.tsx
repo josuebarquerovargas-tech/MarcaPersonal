@@ -6,18 +6,23 @@ import { useState } from "react";
 import { adminLogout } from "@/server/actions/admin-auth";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
-const links = [
-  { href: "/admin", label: "Resumen" },
-  { href: "/admin/videos", label: "Videos" },
-  { href: "/admin/blog", label: "Blog" },
-  { href: "/admin/miembros", label: "Miembros" },
-  { href: "/admin/pagos", label: "Pagos" },
-  { href: "/admin/contenido", label: "Contenido" },
-  { href: "/admin/galeria", label: "Galería" },
-  { href: "/admin/ajustes", label: "Ajustes" },
-];
 
-export function Sidebar({ email }: { email: string }) {
+export function Sidebar({ email, showMembership }: { email: string; showMembership: boolean }) {
+  const links = [
+    { href: "/admin", label: "Resumen" },
+    { href: "/admin/cotizaciones", label: "Cotizaciones" },
+    { href: "/admin/videos", label: "Videos" },
+    { href: "/admin/blog", label: "Blog" },
+    ...(showMembership
+      ? [
+          { href: "/admin/miembros", label: "Miembros" },
+          { href: "/admin/pagos", label: "Pagos" },
+        ]
+      : []),
+    { href: "/admin/contenido", label: "Contenido" },
+    { href: "/admin/galeria", label: "Galería" },
+    { href: "/admin/ajustes", label: "Ajustes" },
+  ];
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 

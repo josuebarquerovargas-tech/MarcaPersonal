@@ -15,10 +15,15 @@ export const contentSchemas = {
     paragraphs: z.array(text.max(800)).min(1).max(5),
     facts: z.array(z.object({ label: text.max(40), value: text.max(160) })).max(6),
   }),
-  pillars: z.object({
+  services: z.object({
     heading: text.max(80),
     intro: text.max(240),
-    items: z.array(z.object({ title: text.max(60), text: text.max(300) })).length(4),
+    items: z.array(z.object({ title: text.max(80), text: text.max(300) })).length(5),
+  }),
+  process: z.object({
+    heading: text.max(80),
+    intro: text.max(240),
+    items: z.array(z.object({ title: text.max(60), text: text.max(300) })).length(5),
   }),
   membership: z.object({
     title: text.max(80),
@@ -46,6 +51,9 @@ export const contentSchemas = {
   }),
   portrait: z.object({
     key: text.max(200),
+  }),
+  features: z.object({
+    membership: z.boolean(),
   }),
 } as const;
 

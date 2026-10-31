@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getMember } from "@/server/auth";
+import { requireMembershipEnabled } from "@/server/features";
 import { getMembership } from "@/server/members";
 import { getContent } from "@/server/content";
 import { listPlans } from "@/server/plans";
@@ -11,11 +12,12 @@ import { PlanCard } from "@/components/site/PlanCard";
 
 export const metadata: Metadata = {
   title: "Membresía",
-  description: "Unite a la manada: videos exclusivos de adiestramiento y contenido que apoya rescates y campañas.",
+  description: "Contenido exclusivo en video para miembros.",
 };
 export const dynamic = "force-dynamic";
 
 export default async function MembershipPage() {
+  await requireMembershipEnabled();
   const [m, plans, member] = await Promise.all([getContent("membership"), listPlans(), getMember()]);
   const membership = await getMembership(member);
   const monthly = plans.find((p) => p.code === "MONTHLY");

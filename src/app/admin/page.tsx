@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireAdmin } from "@/server/auth";
 import { getDashboardStats } from "@/server/stats";
+import { isMembershipEnabled } from "@/server/features";
 import { formatCRC } from "@/lib/membership/subscription";
 import { formatDate, formatViews } from "@/lib/format";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
@@ -12,20 +13,21 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminHomePage() {
   await requireAdmin();
-  const s = await getDashboardStats();
+  const [s, membershipOn] = await Promise.all([getDashboardStats(), isMembershipEnabled()]);
   const monthName = new Intl.DateTimeFormat("es-CR", { month: "long" }).format(new Date());
 
   return (
     <>
       <AdminPageHeader title="Resumen" description="Vista general de la plataforma." />
       <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Miembros activos" value={String(s.activeMembers)} />
-        <StatCard label={`Ingresos de ${monthName}`} value={formatCRC(s.monthRevenueCRC)} hint="Pagos simulados aprobados" />
+        <StatCard label="Solicitudes nuevas" value={String(s.newQuotes)} />
+        {membershipOn && <StatCard label="Miembros activos" value={String(s.activeMembers)} />}
+        {membershipOn && <StatCard label={`Ingresos de ${monthName}`} value={formatCRC(s.monthRevenueCRC)} hint="Pagos simulados aprobados" />}
         <StatCard label="Videos publicados" value={String(s.publishedVideos)} />
         <StatCard label="Vistas totales" value={formatViews(s.totalViews)} />
       </div>
 
-      <div className="mt-10 grid gap-8 xl:grid-cols-2">
+      {membershipOn && <div className="mt-10 grid gap-8 xl:grid-cols-2">
         <section aria-labelledby="ultimos-pagos">
           <div className="mb-3 flex items-center justify-between">
             <h2 id="ultimos-pagos" className="font-display text-2xl">
@@ -70,7 +72,7 @@ export default async function AdminHomePage() {
             ]}
           />
         </section>
-      </div>
+      </div>}
     </>
   );
 }

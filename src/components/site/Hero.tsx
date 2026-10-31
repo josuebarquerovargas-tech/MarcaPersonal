@@ -49,10 +49,10 @@ export function Hero({ eyebrow, title, subtitle, ctaPrimary, ctaSecondary, portr
             {subtitle}
           </p>
           <div className="hero-in mt-9 flex flex-wrap gap-3" style={step(3)}>
-            <Link href="/videos" className={buttonClasses("primary", "lg")}>
+            <Link href="/servicios" className={buttonClasses("primary", "lg")}>
               {ctaPrimary}
             </Link>
-            <Link href="/membresia" className={buttonClasses("secondary", "lg")}>
+            <Link href="/contacto#cotizacion" className={buttonClasses("secondary", "lg")}>
               {ctaSecondary}
             </Link>
           </div>
@@ -66,7 +66,7 @@ export function Hero({ eyebrow, title, subtitle, ctaPrimary, ctaSecondary, portr
             ))}
           </div>
           <a
-            href="#videos"
+            href="#servicios"
             className="hero-in group mt-12 hidden items-center gap-3 text-xs uppercase tracking-[0.2em] text-muted transition-colors duration-200 hover:text-ink lg:inline-flex"
             style={step(5)}
           >
@@ -86,7 +86,7 @@ export function Hero({ eyebrow, title, subtitle, ctaPrimary, ctaSecondary, portr
               <Monogram initials={title.split(" ").map((w) => w[0]).join("").slice(0, 2)} />
             )}
           </div>
-          <div aria-hidden="true" className="breathe absolute -right-6 -top-6 -z-10 size-40 rounded-full bg-accent/20 blur-3xl" />
+          <div aria-hidden="true" className="breathe absolute -right-6 -top-6 -z-10 size-40 rounded-full bg-brand/25 blur-3xl" />
         </div>
       </div>
     </section>
@@ -99,12 +99,12 @@ function Monogram({ initials }: { initials: string }) {
       <svg viewBox="0 0 400 500" className="absolute inset-0 size-full" aria-hidden="true">
         <defs>
           <linearGradient id="hero-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="var(--accent)" stopOpacity="0.55" />
-            <stop offset="1" stopColor="var(--accent)" stopOpacity="0.05" />
+            <stop offset="0" stopColor="var(--brand)" stopOpacity="0.7" />
+            <stop offset="1" stopColor="var(--brand)" stopOpacity="0.08" />
           </linearGradient>
         </defs>
         <path className="drift-b" d="M60 420 C 40 300, 120 220, 200 240 S 360 330, 340 420 Z" fill="url(#hero-grad)" />
-        <circle className="drift-a" cx="290" cy="130" r="70" fill="var(--accent)" opacity="0.18" />
+        <circle className="drift-a" cx="290" cy="130" r="70" fill="var(--brand)" opacity="0.3" />
         <path d="M40 80 Q 200 20 360 90" stroke="var(--line)" strokeWidth="1.5" fill="none" />
       </svg>
       <span className="font-display relative text-[clamp(96px,22vw,180px)] leading-none tracking-[-0.06em] text-ink/85">{initials}</span>

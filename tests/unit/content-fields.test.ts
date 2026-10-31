@@ -4,7 +4,7 @@ import { CONTENT_KEYS } from "@/lib/content/keys";
 
 test("toda clave editable tiene descriptores de campos", () => {
   for (const key of CONTENT_KEYS) {
-    if (key === "portrait") continue; // se edita en Ajustes
+    if (key === "portrait" || key === "features") continue; // se editan en Ajustes
     expect(contentFields[key].length, key).toBeGreaterThan(0);
   }
 });

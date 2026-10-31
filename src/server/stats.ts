@@ -3,6 +3,7 @@ import type { Member, Payment, Subscription, Plan } from "@prisma/client";
 import { db } from "@/server/db";
 
 export type DashboardStats = {
+  newQuotes: number;
   activeMembers: number;
   monthRevenueCRC: number;
   publishedVideos: number;
@@ -13,7 +14,8 @@ export type DashboardStats = {
 
 export async function getDashboardStats(now: Date = new Date()): Promise<DashboardStats> {
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-  const [activeMembers, revenue, publishedVideos, views, recentPayments, recentMembers] = await Promise.all([
+  const [newQuotes, activeMembers, revenue, publishedVideos, views, recentPayments, recentMembers] = await Promise.all([
+    db.quoteRequest.count({ where: { status: "NEW" } }),
     db.subscription.count({
       where: { status: { in: ["ACTIVE", "CANCELED"] }, currentPeriodEnd: { gt: now }, member: { status: "ACTIVE" } },
     }),
@@ -28,6 +30,7 @@ export async function getDashboardStats(now: Date = new Date()): Promise<Dashboa
     db.member.findMany({ orderBy: { createdAt: "desc" }, take: 5 }),
   ]);
   return {
+    newQuotes,
     activeMembers,
     monthRevenueCRC: revenue._sum.amountCRC ?? 0,
     publishedVideos,

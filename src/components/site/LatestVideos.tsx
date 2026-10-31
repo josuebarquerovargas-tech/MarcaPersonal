@@ -13,7 +13,7 @@ export function LatestVideos({ videos }: { videos: VideoCardData[] }) {
           <SectionHeading
             eyebrow="Videos"
             title="Lo último en video"
-            text="Rescates, adiestramiento y campañas. Lo exclusivo lleva candado."
+            text="Contenido para conocer mejor cómo mostrar y hacer crecer tu marca."
             action={
               <LinkButton href="/videos" variant="secondary">
                 Ver todos los videos

@@ -1,4 +1,14 @@
 import { expect, test } from "@playwright/test";
+import { setMembership } from "./membership";
+
+test.beforeAll(async () => {
+  await setMembership(true);
+});
+
+test.afterAll(async () => {
+  await setMembership(false);
+});
+
 
 const email = `e2e-${Date.now()}@demo.cr`;
 const password = "Clave12345!";

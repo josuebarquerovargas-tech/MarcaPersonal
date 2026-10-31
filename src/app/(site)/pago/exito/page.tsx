@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
+import { requireMembershipEnabled } from "@/server/features";
 import { LinkButton } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = { title: "Pago aprobado", robots: { index: false } };
 
 export default async function CheckoutSuccessPage({ searchParams }: { searchParams: Promise<{ ref?: string }> }) {
+  await requireMembershipEnabled();
   const { ref } = await searchParams;
   return (
     <main className="py-16 sm:py-24">
@@ -16,7 +18,7 @@ export default async function CheckoutSuccessPage({ searchParams }: { searchPara
               <path d="M5 13l4 4L19 7" />
             </svg>
           </span>
-          <h1 className="font-display mt-6 text-5xl sm:text-6xl">¡Bienvenido a la manada!</h1>
+          <h1 className="font-display mt-6 text-5xl sm:text-6xl">¡Ya sos miembro!</h1>
           <p className="mt-4 text-lg text-muted">
             Tu membresía quedó activa. Ya podés ver todo el contenido exclusivo.
           </p>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
+import { requireMembershipEnabled } from "@/server/features";
 import { LinkButton } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -10,6 +11,7 @@ export default async function CheckoutErrorPage({
 }: {
   searchParams: Promise<{ motivo?: string; plan?: string }>;
 }) {
+  await requireMembershipEnabled();
   const { motivo, plan } = await searchParams;
   return (
     <main className="py-16 sm:py-24">

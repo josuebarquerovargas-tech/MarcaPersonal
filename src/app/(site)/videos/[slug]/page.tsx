@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getMember } from "@/server/auth";
 import { getMembership } from "@/server/members";
+import { isMembershipEnabled } from "@/server/features";
 import { getVideoBySlug, incrementViews, relatedVideos } from "@/server/videos";
 import { storage } from "@/lib/storage/storage";
 import { canWatch } from "@/lib/videos/access";
@@ -32,6 +33,7 @@ export default async function VideoPage({ params }: Params) {
   const { slug } = await params;
   const video = await getVideoBySlug(slug);
   if (!video || video.status !== "PUBLISHED") notFound();
+  if (video.access === "MEMBERS" && !(await isMembershipEnabled())) notFound();
 
   const member = await getMember();
   const membership = await getMembership(member);

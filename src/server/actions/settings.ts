@@ -31,6 +31,13 @@ export async function uploadPortrait(_prev: SettingsState, fd: FormData): Promis
   return { ok: "Retrato actualizado" };
 }
 
+export async function saveModules(_prev: SettingsState, fd: FormData): Promise<SettingsState> {
+  await requireAdmin();
+  await setContent("features", { membership: fd.get("membership") === "on" });
+  revalidatePath("/", "layout");
+  return { ok: "Módulos actualizados" };
+}
+
 export async function removePortrait(): Promise<void> {
   await requireAdmin();
   const previous = await getContent("portrait");

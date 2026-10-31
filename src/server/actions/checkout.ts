@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { db } from "@/server/db";
+import { requireMembershipEnabled } from "@/server/features";
 import { requireMember } from "@/server/auth";
 import { getMembership } from "@/server/members";
 import { getPlanByCode } from "@/server/plans";
@@ -20,6 +21,7 @@ function str(fd: FormData, k: string): string {
 }
 
 export async function payAndSubscribe(_prev: CheckoutState, fd: FormData): Promise<CheckoutState> {
+  await requireMembershipEnabled();
   const planCode = str(fd, "plan");
   const member = await requireMember(`/pago?plan=${encodeURIComponent(planCode)}`);
 

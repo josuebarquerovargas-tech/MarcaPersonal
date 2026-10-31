@@ -2,6 +2,16 @@ import { expect, test } from "@playwright/test";
 import path from "node:path";
 import { PrismaClient } from "@prisma/client";
 import { loginAsAdmin } from "./helpers";
+import { setMembership } from "./membership";
+
+test.beforeAll(async () => {
+  await setMembership(true);
+});
+
+test.afterAll(async () => {
+  await setMembership(false);
+});
+
 
 const fixture = path.join(__dirname, "fixtures", "sample.mp4");
 
