@@ -7,6 +7,7 @@ import { SERVICES } from "@/lib/services/catalog";
  */
 /** Shown until a portrait is uploaded from the admin panel. */
 export const DEFAULT_PORTRAIT = "/images/ruben.webp";
+export const HOME_PORTRAIT = "/images/ruben-inicio.webp";
 
 export const defaults: Content = {
   hero: {
